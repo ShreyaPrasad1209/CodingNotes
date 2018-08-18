@@ -1,4 +1,4 @@
-Tries, Disjoint Sets
+Tries, Disjoint Sets, AVL Tree
 
 
 ![](res/Tree1.png)<br>

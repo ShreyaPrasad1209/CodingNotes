@@ -41,6 +41,7 @@ To differentiate between tree and graph also we can do sum of all degrees = 2(n-
 
 A bipartite graph is one whose vertices can be split into two independent groups U, V such that every edge connects between U and V. Other definations exists such as: The graph is two colourable or there is no odd length cycle.
 <br>![](res/bipartite.png)<br>
+A bipartite graph is basically divided in two branches so it's BFS traversal is more efficient.
 
 **GRAPH APPLICATIONS:**
 1) Shortest Path
@@ -79,7 +80,51 @@ Time can be O(E) for accessing link since traversal on list is required.
 
 **Edge List** in this we store the edge in a form of unordered_list with key as the node. Drawkback is again accessing is slow O(E)
 
-## 3. Algorithms:
+## 3. Traversal:
+![](res/Tree1.png)<br>
+**Postorder:** 3, 4, 1, 2, 0<br>
+**Inorder:** 3, 1, 4, 0, 2<br>
+**Preorder:** 0, 1, 3, 4, 2<br>
+
+```c++
+void print(struct Node* node)
+{
+    if (node == NULL)
+        return;
+    //Postorder
+    print(node->left);
+    print(node->right);
+    cout << node->data << " ";
+    //Inorder
+    print(node->left);
+    cout << node->data << " ";
+    print(node->right);
+    //Preorder
+    cout << node->data << " ";
+    print(node->left);
+    print(node->right);
+}
+```
+
+To construct a binary tree we need either 
+1) **Preorder + Inorder:**<br>
+   ABCDEFCGHJLK, DBFEAGCLJHK
+
+   In preorder left most is the root node. (A)<br>
+   Then see it in Inorder (DBFE) left - (GCLJHK) right
+   ![](res/Tree2.png)<br>
+   Again recursively check left most of DBFE then see it in Inorder. to solve the entire tree.
+
+2) **Postorder + Inorder:**<br>
+   Here everything will be simillar as 1) except the rightmost is the root node.
+
+3) **Preorder + Postorder:**<br>
+   ABDGHKCEF, GKHDBEFCA
+   A is root node, B is left to A<br>
+   B in post order has B-EFC-A so B is left EFC is right to A<br>
+   ![](res/Tree3.png)<br>
+
+## 4. Algorithms:
 1) **Depth First Search:** Time: O(V + E) [V is vertices E is edges] - It keeps exploring neighbours going in depth
 
 ```c++
@@ -239,11 +284,12 @@ int main()
 }
 ```
 
-7) **Shortest Path Using BFS:** Represent the given grid map in form of a graph using nodes (all the walkable cells of grid) and edges (connecting paths). Apply BFS at start position and keep traversing until end node is aquired. Keep storing the recursive path while traversing. Finally print it. **See Dungeon problem below.**
+7) **Shortest Path Using BFS:** <br>
+Represent the given grid map in form of a graph using nodes (all the walkable cells of grid) and edges (connecting paths). Apply BFS at start position and keep traversing until end node is aquired. Keep storing the recursive path while traversing. Finally print it. Time: O(V+E) <br>**See Dungeon problem below.**
 
-8) **Dijikstra Algorithm:**
+8) **Dijikstra Algorithm:** 
 
-9) **A-Star Algorithm:**
+9)  **A-Star Algorithm:**
 
 10) **Kruskal's Algorithm (for minimum spanning tree):**<br>
 <br>![](res/minspantree.png)<br>
@@ -301,7 +347,7 @@ for (int i=0; i<v; i++)
 
 16) **Dinci's algorithm (for maximum flow problem):**
 
-## 4. Problems:
+## 5. Problems:
 1) **Dungeon Problem:** 
 <br>![](res/dungeon.png)<br>
 ```c++

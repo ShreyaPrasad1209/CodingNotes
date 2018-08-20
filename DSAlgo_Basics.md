@@ -485,6 +485,8 @@ void sort(int arr[], int l, int r)
     }
 }
 ```
+Quick select algorithm is just like Quick Sort in this we partion based on pivot then we again recursively partition left side of pivot (If we want to select minimum of array) or right side of picot (If we want to select maximum of array).<br>
+Worst case senerio for both Quick select and Quick sort can be O(N<sup>2</sup>) if we choose first element as pivot and the list is already sorted.<br>To optimize it upto linear time we need to select a good pivot which should be such that it discards half or more element with each itteration. Sometimes the values are bad that we cannot rely on any pivot approximation technique in that case it will be better if we find the median and then use it as pivot.
 
 **Problem #7 (Heap Sort)**
 In heap sort the algorithm idea is to take array and build heap out of it.
@@ -1060,7 +1062,9 @@ In map one value for a key wheras multimap can have many values for a key<br>
 Unordered map are stored as hash map whearas map are balanced binary tree. A multimap can store multiple values for a key.<br>
 Hash tables suffer from O(n) worst time complexity due to two reasons:<br>
 If too many elements were hashed into the same key: looking inside this key may take O(n) time.
-Once a hash table has passed its load balance - it has to rehash [create a new bigger table, and re-insert each element to the table].
+Once a hash table has passed its load balance - it has to rehash [create a new bigger table, and re-insert each element to the table].<br>
+A hashmap maps giving direct access by hashing the key to a value now two keys may have same hash in that case collision happens. In that case a linked list will be maintain and then ittiration through linked list will be done.<br>
+There is also Load Factor which tells how full is our array which stores hashtable. Now we don't want it too low because that will mean our space getting waste and also we don't want it too hight because that will mean that collision will happen more. 
 <center>
 
 | Task              | Map           | Unordered_Map  |

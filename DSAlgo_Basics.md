@@ -46,7 +46,7 @@ Dividing problem in sub problems and make a function call recursively to solve i
 ```c++
 void head(int n)
 {
-    //Recursion stack: 5, 4, 3, 2, 1, cout 1, cout 2, cout3, cout 4, cout 5
+    //Recursion stack: 5, 4, 3, 2, 1, cout 2, cout3, cout 4, cout 5
     if (n == 1)
         return;
     head(n-1);
@@ -56,7 +56,7 @@ void head(int n)
 ```c++
 void tail(int n)
 {
-    //Recursion stack: cout 5, cout 4, cout 3, cout 2, cout 1
+    //Recursion stack: cout 5, cout 4, cout 3, cout 2
     if (n == 1)
         return;
     cout << n << endl;
@@ -65,37 +65,13 @@ void tail(int n)
 ```
 Every itteration can be transformed to recursion and vice versa. Recursion is time costlier than itteration.
 
-**Problem #1 (Factorial Problem)**
-```c++
-int factorial(int n)
-{
-    //Recursion stack: 5 * fac(4), 4 * fac(3), 3 * fac(2), 2 * fac(1), 1, 2, 6, 24, 120
-    if (n==1)
-        return 1;
-    return n * factorial(n-1);
-}
-```
-```c++
-int factorial(int accumulator, int n)
-{
-    //Recursion stack: fac(5, 4), fac(20, 3), fac(60, 2), fac(120, 1), 120
-    if (n==1)
-        return accumulator;
-    return factorial(accumulator * n, n-1);
-}
-int calculateFactorial(int n)
-{
-    factorial(1, n);
-}
-```
-
-**Problem #2 (GCD Problem)**
+**Problem #1 (GCD Problem)**
 ```c++
 int gcdItter(int a, int b)
 {
     while (b != 0)
     {
-        int temp = a;
+        int temp = b;
         b = a % b;
         a = temp;
     }
@@ -111,7 +87,7 @@ int gcdRecur(int a, b)
 }
 ```
 
-**Problem #3 (Hanoi Problem)**
+**Problem #2 (Hanoi Problem)**
 ```c++
 void solveHanoi(int n, char rodFrom, char rodMiddle, char rodTo)
 {
@@ -126,6 +102,73 @@ void solveHanoi(int n, char rodFrom, char rodMiddle, char rodTo)
 }
 
 //solveHanoi(3, 'A', 'B', 'C');
+```
+
+**<u>Solving Linear Recurrences:</u>**<br>
+1) Determing K:<br>
+f(i-1) + f(i-2) **K = 2**<br>
+2f(i-2) + f(i-4) = 0f(i-1) + 2f(i-2) + 0f(i-3) + 1f(i-4) **K = 4**<br>
+K is on how many terms relation depends on
+2) Determine initial values:<br>
+First K terms should be initialized in a Kx1 matrix F<sub>i</sub>
+3) Determing transformation matrix<br>
+A matrix with last row as reverse of matrix initialized above. Rest diagonals above element are 1 rest are 0.
+<br>![](res/transformationmat.png)<br>
+4) Now finally:<br>
+F<sub>2</sub> = TF<sub>1</sub><br>
+F<sub>3</sub> = TF<sub>2</sub> = T<sup>2</sup>F<sub>1</sub><br>
+F<sub>n</sub> = T<sup>n-1</sup>F<sub>1</sub><br>
+Use fast exponention algorithm to calculate power in O(logn) instead of brute force O(n) multiplying.
+```c++
+//pow(a, b) of math library uses fast exponention
+int expo(int a, int b)
+{
+    if (b==1) return a;
+    if (b==2) return a*a;
+
+    if (b%2==0)
+        return expo(expo(a,b/2),2);
+    else
+        return a*expo(expo(a,(b-1)/2),2);
+}
+```
+Fibonacci Series Solve
+<br>![](res/linrec1.png)<br>
+https://www.spoj.com/problems/SEQ/
+<br>![](res/linrec2.png)<br>
+In case of some constant in relation
+<br>![](res/linrec3.png)<br>
+
+### Common Problems:
+**1 ) LCM & GCD:**<br>
+a x b = LCM(a, b) * GCD(a, b)<br>
+LCM(a, b) = (a x b) / GCD(a, b)
+
+```c++
+int gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+```
+LCM(a, b, c) ≠ (a x b x c) / GCD(a, b, c)<br>
+GCD(a, b, c) = GCD(a, gcd(b, c))
+```c++
+long long findlcm(int arr[], int n)
+{
+    long long ans = arr[0];
+ 
+    for (int i = 1; i < n; i++)
+        ans = (((arr[i] * ans)) / (gcd(arr[i], ans)));
+ 
+    return ans;
+}
 ```
 
 ## 4. Searching:
@@ -290,7 +333,16 @@ std::rotate(vec.begin(), vec.begin() + vec.size() - 4, vec.end());<br>
 
 std::lower_bound(vec.begin(), vec.end(), 5) will return an itterator to the first occurence of 5 in vector like wise there is std::upper_bound
 
-unbounded binary search, two pointers
+Lexiographic order is alphabetical order: 0, 1, 10, 2, 21, 3
+
+```c++
+//compare function: Descending order
+sort(ar.begin(), ar.end(), [](const class& a, const class& b) -> bool
+{
+    return a.x > b.x;
+});
+```
+>>> TODO: unbounded binary search, two pointers
 
 ## 5. Sorting:
 **Problem #1 (Selection Sort)**
@@ -827,220 +879,32 @@ int main()
 (FIFO) First In First Out<br>
 Push (Insert at the entry of stack), Pop (Remove from entery) & Top (Gets entry element)<br>
 All stack operations are performed in constant time<br>
-Applications: Undo operation, paranthesis are balanced by compiler using stack
-```c++
-#include <iostream>
-#include <stack>
-#include <string>
+Applications: Undo operation, paranthesis are balanced by compiler using stack, Recurssion stack.
+```java
+//Infix to postfix
+> Push left paranthesis on stack, add right paranthesis to expression.
+> Scan left to right and repeat.
+> If operand then append in postfix expression otherwise push it on stack.
+> If an operator with higher precidence (BODMAS) is already present in stack when pushing above then pop it and append to expression. If paranthesis close then pop and append insides.
 
-using namespace std;
+//Infix to prefix
+> Scan right to left. In the end reverse the expression.
 
-void Reversing()
-{
-    stack<char> words;
-    string word;
-    getline(cin, word);
-    for(int i=0; i<word.size(); i++)
-        words.push(word[i]);
+//Prefix to infix
+> Scan right to left.
+> If operand push on stack otherwise s1 = pop s2 = pop push (s1 operator s2) on the stack again.
 
-    int n = words.size();
-    for(int i = 0; i < n; i++)
-    {
-        cout << words.top();
-        words.pop();
-    }
-    cout << endl;
-}
+//Postfix to prefix
+> Scan left to right.
+> If operand push on stack otherwise s1 = pop s2 = pop push (operator s2 s1) on the stack again.
 
-void BalancingParanthesis()
-{
-    string expression;
-    getline(cin, expression);
-    stack<int> paranthesis;
-    for(int i = 0; i < expression.size(); i++)
-    {
-        switch (expression[i])
-        {
-            case '(':
-                paranthesis.push(0);
-                break;
-            case '{':
-                paranthesis.push(1);
-                break;
-            case '[':
-                paranthesis.push(2);
-                break;
-            case ')':
-            {
-                if (paranthesis.top() == 0)
-                    paranthesis.pop();
-                else
-                {
-                    cout << "Not Balanced!" << endl;
-                    return;
-                }
-                break;
-            }
-            case '}':
-            {
-                if (paranthesis.top() == 1)
-                    paranthesis.pop();
-                else
-                {
-                    cout << "Not Balanced!" << endl;
-                    return;
-                }
-                break;
-            }
-            case ']':
-            {
-                if (paranthesis.top() == 2)
-                    paranthesis.pop();
-                else
-                {
-                    cout << "Not Balanced!" << endl;
-                    return;
-                }
-                break;
-            }
-        }
-    }
+//Prefix to postfix
+> Scan right to left.
+> If operand push on stack otherwise s1 = pop s2 = pop push (s1 s2 operator) on the stack again.
 
-    cout << "Balanced!" << endl;
-}
-
-//BODMAS
-int getOperatorRank(char oper)
-{
-    switch(oper)
-    {
-        case '+':
-            return 2;
-        case '-':
-            return 1;
-        case '*':
-            return 3;
-        case '/':
-            return 4;
-    }
-}
-
-char getOperatorChar(int rank)
-{
-    switch(rank)
-    {
-        case 2:
-            return '+';
-        case 1:
-            return '-';
-        case 3:
-            return '*';
-        case 4:
-            return '/';
-    }
-}
-
-void PostfixToCalculation()
-{
-    //Infix notation
-    //Operand-Operator-Operand
-    //A+B or A+B*C
-    //Prefix notation
-    //Operator-Operand-Operand
-    //+AB or +A*BC
-    //Postfix notation
-    //AB+ or ABC*+
-    //These notation helps in parsing algebric expressions
-
-    //example: A * B + C + D - E = {(A * B) + (C * D)} - E
-    //{(AB*) + (CD+)} - E = {(AB*)(CD*)+} - E = {(AB*)(CD*)+}E- = AB*CD*+E-
-    string problem;
-    string expression = "";
-    stack<int> operStack;
-    getline(cin, problem);
-    for(int i=0; i<problem.size(); i++)
-    {
-        char oper = problem[i];
-        if(oper == '+' || oper == '-' || oper == '*' || oper == '/')
-        {
-            expression.erase(expression.find_last_not_of(" ") + 1);
-            int stackVal = getOperatorRank(oper);
-            while (!operStack.empty())
-            {
-                if(operStack.top() >= stackVal)
-                {
-                    expression = expression + " " + getOperatorChar(operStack.top());
-                    operStack.pop();
-                }
-                else
-                    break;
-            }
-            operStack.push(stackVal);
-        }
-        else
-            expression = expression + oper;
-    }
-
-    while (!operStack.empty())
-    {
-        expression = expression + " " + getOperatorChar(operStack.top());
-        operStack.pop();
-    }
-
-    //Code to exaluate postfix notation
-    stack<int> valStack;    
-    string tempVal = "";
-    for(int i = 0; i < expression.size(); i++)
-    {
-        char oper = expression[i];
-        int a, b = 0;
-        if(oper == '+' || oper == '-' || oper == '*' || oper == '/')
-        {
-            a = valStack.top();
-            valStack.pop();
-            b = valStack.top();
-            valStack.pop();
-
-            switch(oper)
-            {
-                case '+':
-                    valStack.push(b + a);
-                    break;
-                case '-':
-                    valStack.push(b - a);
-                    break;
-                case '*':
-                    valStack.push(b * a);
-                    break;
-                case '/':
-                    valStack.push(b / a);
-                    break;
-            }
-        }
-        else if (oper == ' ')
-        {
-            try
-            {
-                valStack.push(stoi(tempVal));
-                tempVal = "";
-            }
-            catch (...) { }
-        }
-        else
-            tempVal += expression[i];
-    }
-
-    cout << valStack.top() << endl;
-}
-
-int main()
-{
-    Reversing();
-    BalancingParanthesis();
-    PostfixToCalculation();
-    
-    return 0;
-}
+//Evaluation of postfix
+> Scan left to right
+> If operand push on stack otherwise s1 = pop s2 = pop push evaluation of (s2 operator s1) on the stack again.
 ```
 
 4) Queues
@@ -1052,7 +916,11 @@ Applications of Priority Queue - CPU Scheduling, Graph Algorithms like Dijikstra
 In a queue there's one disadvantage that if we do deletion it will happen in front shifting all elements taking O(n). This can be avoided by using circular queue.
 <br>![](res/circularqueue.png)<br>
 
-5) Maps
+5) Sets
+<br>
+Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as BST. A multiset allows storage of multiple elements.
+
+6) Maps
 <br>
 Map, Multimap, Unordered map, Unordered multimap<br>
 In a hashmap or unordered_map the data input (key) is hashed to convert in some hash value which modulo is then taken<br>
@@ -1077,10 +945,10 @@ There is also Load Factor which tells how full is our array which stores hashtab
 
 </center>
 
-6) Trees
-7) Graphs
-8)  Heaps
-9)   Disjoint Sets<br>
+7) Trees
+8) Graphs
+9)  Heaps
+10)   Disjoint Sets<br>
 Disjoint sets are seperate sets which are represented by 1 identity. Example - 1, 2, 3, 4 initially all 4 are dijoint sets. If we apply make union to 1 & 2 we get (1 2), 3, 4 in (1 2) the identity of both 1 & 2 on calling findSet will be same.
 
 ```c++
@@ -1135,4 +1003,59 @@ public:
 };
 ```
 
-1)     Tries
+11) Tries<br>
+It's an information retrieval data structure also known as radix/prefix tree.
+<br>![](res/trie.jpg)<br>
+```c++
+struct node
+{
+    char data;
+    unordered_map<char, node*> next;
+    bool isTerminal;
+    node(char d)
+    {
+        data = d;
+        isTerminal = false;
+    }
+};
+
+class Trie
+{
+    node* root;
+public:
+    Trie()
+    {
+        root = new node('\0');
+    }
+    void addWord(string word)
+    {
+        node* temp = root;
+        for (int i = 0; word[i] != '\0'; i++)
+        {
+            char ch = word[i];
+            if (temp -> next.count(ch) == 0)
+            {
+                node* child = new node(ch);
+                temp -> next[ch] = child;
+                temp = child;
+            }
+            else
+                temp = temp -> next[ch];
+        }
+        temp->isTerminal = true;
+    }
+    bool search(string word)
+    {
+        node* temp = root;
+        for (int i = 0; word[i] != '\0'; i++)
+        {
+            char ch = word[i];
+            if (temp -> next.count(ch))
+                temp = temp -> next[ch];
+            else
+                return false;
+        }
+        return temp -> isTerminal;
+    }
+};
+```

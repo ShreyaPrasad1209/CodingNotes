@@ -1,7 +1,101 @@
 # C++ Important Concepts
 
 ## 1. Introduction:
-Using C++ we can literally control any instruction of CPU. Other languages like C# and Java differs because they run on a virtual machine that's why many platforms applications can be developed through C++. It's native so it's fast but a bad C++ code will be slower whears in C# and Java there are optimizations done by their compilers which makes them handle fast without worrying much about code.
+Using C++ we can literally control any instruction of CPU. Other languages like C# and Java differs because they run on a virtual machine that's why many platforms applications can be developed through C++. It's native so it's
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ fast but a bad C++ code will be slower whears in C# and Java there are optimizations done by their compilers which makes them handle fast without worrying much about code.
 
 **#statements** is a pre processor statement it preprocesses before the actual process. main function is the entry point. Even though int main we don't need to return any value for it. it assumes that we are returning value 0.<br><br>
 Header files are not compiled they are included C++ files are compiled only. Every C++ file gets compiled individually and converted to an object file. Linker takes all obj files of c++ and makes an executable.<br><br>

@@ -292,3 +292,41 @@ int main()
 }
 ```
 DP relation will be: Max Cost of rod = (Cost of 1 Rod + Max cost of remaining rod) + (Cost of 2 Rod + Max cost of remaining rod) + ...
+
+4) **Maximum Subset Problem:**
+Here the return function two operation will give entire possibilities for the recurssion.
+```c++
+bool isSubsetSum(ull n, ull arr[], ull sum)
+{
+    if (sum == 0)
+        return true;
+    if (n == 0 && sum != 0)
+        return false;
+    if (arr[n - 1] > sum)
+        return isSubsetSum(n-1, arr, sum);
+    
+    return isSubsetSum(n-1, arr, sum) || isSubsetSum(n-1, arr, sum-arr[n-1]);
+}
+```
+<br>![](res/subsetsum.png)<br>
+```c++
+bool isSubsetSum(int n, int arr[], int sum)
+{
+    bool m[n][sum + 1];
+    for (int i = 0; i < n; i++)
+        m[i][0] = true;
+    for (int i = 1; i < sum + 1; i++)
+        m[0][i] = (arr[0] == i) ? true : false;
+    for (int j = 1; j < sum + 1; j++)
+    {
+        for (int i = 1; i < n; i++)
+        {
+            if (j - arr[i] > 0)
+                m[i][j] = m[i-1][j] || m[i-1][j-arr[i]];
+            else
+                m[i][j] = m[i-1][j];
+        }
+    }
+    return m[n-1][sum];
+}
+```

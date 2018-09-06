@@ -103,7 +103,7 @@ void print(struct Node* node)
     cout << node->data << " ";
     print(node->left);
     print(node->right);
-}
+}-
 ```
 
 To construct a binary tree we need either 
@@ -112,7 +112,7 @@ To construct a binary tree we need either
 
    In preorder left most is the root node. (A)<br>
    Then see it in Inorder (DBFE) left - (GCLJHK) right
-   ![](res/Tree2.png)<br>
+   <br>![](res/Tree2.png)<br>
    Again recursively check left most of DBFE then see it in Inorder. to solve the entire tree.
 
 2) **Postorder + Inorder:**<br>

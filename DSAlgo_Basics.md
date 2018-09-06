@@ -138,6 +138,8 @@ https://www.spoj.com/problems/SEQ/
 <br>![](res/linrec2.png)<br>
 In case of some constant in relation
 <br>![](res/linrec3.png)<br>
+For generalized (better) approach:
+<br>![](res/recurRel.png)<br>
 
 ### Common Problems:
 **1 ) LCM & GCD:**<br>

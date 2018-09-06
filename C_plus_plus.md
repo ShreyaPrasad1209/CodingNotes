@@ -1,101 +1,7 @@
 # C++ Important Concepts
 
 ## 1. Introduction:
-Using C++ we can literally control any instruction of CPU. Other languages like C# and Java differs because they run on a virtual machine that's why many platforms applications can be developed through C++. It's native so it's
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- fast but a bad C++ code will be slower whears in C# and Java there are optimizations done by their compilers which makes them handle fast without worrying much about code.
+Using C++ we can literally control any instruction of CPU. Other languages like C# and Java differs because they run on a virtual machine that's why many platforms applications can be developed through C++. It's native so it's fast but a bad C++ code will be slower whears in C# and Java there are optimizations done by their compilers which makes them handle fast without worrying much about code.
 
 **#statements** is a pre processor statement it preprocesses before the actual process. main function is the entry point. Even though int main we don't need to return any value for it. it assumes that we are returning value 0.<br><br>
 Header files are not compiled they are included C++ files are compiled only. Every C++ file gets compiled individually and converted to an object file. Linker takes all obj files of c++ and makes an executable.<br><br>
@@ -160,20 +66,6 @@ Constant folding: During debug mode it doesn't happen but in release mode when c
 Compiler also improves many operations such as one given below to bitshift operations which are faster in performance.
 
 There are some compiler centric definations like #if _DEBUG in Visual Studio means the debug configuration condition of the program.
-
-```c++
-// Multiplication
-i * 8; // normal
-i << 3; // bitwise [8 = 2^3, so use 3]
- 
-// Division
-i / 16; // normal
-i >> 4; // bitwise [16 = 2^4, so use 4]
- 
-// Modulus
-i % 4; // normal
-i & 3; // bitwise [4 = 1 << 2, apply ((1 << 2) - 1), so use 3]
-```
 
 In a class 'this' keyword is used to reference current instance of the class
 ```c++

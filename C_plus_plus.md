@@ -126,6 +126,13 @@ delete[] another;
 ```
 normal array is created on stack and hence will get removed once memory is free by moving out of function heap created will be alive and need to be manually deleted.
 
+Arrays occupies on contiguous block of memory.
+<br>![](res/arrayalloc.png)<br>
+A 2D array is also stored linearly. i.e. (0,n) & (1,0) will have address gap of 4 bytes aswell.
+<br>![](res/2-dim-memory.jpg)<br>
+This type of memory allocation in 2D array where (0, n) & (1, 0) have a gap of 4 bytes is called row major. There is column major form aswell in which (n, 0) & (0, 1) will have a gap of 4 bytes.<br>
+2D Arrays can also be used to evaluate polynomial expressions by creating matrix and solving equations.
+
 New object will be created in heap so it will be stored unless manually deleted
 stacks are used basically in heap we can have memory leaks if we forget to free memory so heaps are used when we need to extend visibility of objects.
 smart pointers are something which can be created on heap and also deleted.
@@ -677,6 +684,15 @@ offset is 8 for z 4 for y 0 for x
 Standard Template Library (STL) is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms and iterators. It is a generalized library and so, its components are parameterized.
 
 It containts - Sorting, Searching, reversing, max element, min element, accumulate which is sum of elements of an itterator, count in itterator, find, binary_search, lower_bound which is the itterator, first or lower occurence of the element in the itterator, upper_bound, erase, distance which is distance between two iterators, next_permutation, prev_permutation.
+
+```c++
+int myints[] = {1,2,3};
+do
+{
+    std::cout << myints[0] << ' ' << myints[1] << ' ' << myints[2] << '\n';
+}
+while (next_permutation(myints,myints+3));
+```
 
 5 10 15 20 20 23 42 45 <br>
 Vector after performing next permutation:<br>

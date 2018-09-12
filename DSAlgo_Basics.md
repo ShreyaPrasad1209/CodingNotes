@@ -23,7 +23,7 @@ It talks about the time and space complexity. However in this we ignore constant
    <br>
    f(n) ≥ c * g(n)
 
-3) Big-Theta Notation (Ω) : Average Case
+3) Big-Theta Notation (θ) : Average Case
    <br>
    c<sub>1</sub> * g(n) ≤ f(n) ≤ c<sub>2</sub> * g(n)
 
@@ -40,6 +40,55 @@ The condition i < n & j < n will execute (n + 1)<sup>2</sup> times <br>
 Next all c[i][j] operation will execute (n)<sup>2</sup> times<br>
 And 2 * 4 bytes for storing int<br>
 Which equals to 2n<sup>2</sup> + 2n + 2
+
+> Asymptotic notations are for rationalization. It's a tool for saying which algorithms scale better, not which ones are absolutely faster. so θ(2n) becomes O(n) because, roughly speaking, for large enough inputs, doubling the input size will no more than double the number of steps taken.<br>
+To conclude Big O only measures relative performance not absolute.
+
+```c++
+//Matrix multiplication example
+#include<iostream>
+ 
+using namespace std;
+ 
+int main()
+{
+    int a[5][5],b[5][5],c[5][5],m,n,p,q,i,j,k;
+    cout<<"Enter rows and columns of first matrix:";
+    cin>>m>>n;
+    cout<<"Enter rows and columns of second matrix:";
+    cin>>p>>q;
+ 
+    if(n==p)
+    {
+        cout<<"\nEnter first matrix:\n";
+        for(i=0;i<m;++i)
+            for(j=0;j<n;++j)
+                cin>>a[i][j];
+ 
+        cout<<"\nEnter second matrix:\n";
+        for(i=0;i<p;++i)
+            for(j=0;j<q;++j)
+                cin>>b[i][j];
+ 
+        cout<<"\nThe new matrix is:\n";
+        for(i=0;i<m;++i)
+        {
+            for(j=0;j<q;++j)
+            {
+                c[i][j]=0;
+                for(k=0;k<n;++k)
+                    c[i][j]=c[i][j]+(a[i][k]*b[k][j]);
+                cout<<c[i][j]<<" ";
+        }
+            cout<<"\n";
+        }
+    }
+    else
+        cout<<"\nSorry!!!! Matrix multiplication can't be done";
+ 
+    return 0;
+}
+```
 
 ## 3. Recursion:
 Dividing problem in sub problems and make a function call recursively to solve it. There will be a base case to terminate the infinite recursion. Recursion can be visualized through stack. There are two types of recursion -
@@ -241,7 +290,7 @@ int search(int arr[], int n, int x)
 ```
 
 **Problem #4 (Interpolation Search)**
-<br>An Interpolation Search is a type of searching algorithm. An Interpolation Search is an improvement over Binary Search for scenarios where the values in a sorted array are uniformly distributed.
+<br>An Interpolation Search is an improvement over Binary Search for scenarios where the values in a sorted array are uniformly distributed.
 
 Binary Search goes to the middle element to check. On the other hand, Interpolation Search may go to different locations according to the value of the key being searched.
 
@@ -281,52 +330,6 @@ int search(int arr[], int n, int x)
 }
 ```
 
-**Problem #6 (Fibonacci Search)**
-<br>In fibonacci Search, the idea is like Binary search (sorted) to divide the array but not by 2 instead we find the fibonacci number which is just greater or equal to length of array. We use (m-2)’th Fibonacci number as index let i. we compare arr[i] with x, if x is same, we return i. Else if x is greater, we recur for subarray after i, else we recur for subarray before i.<br>
-Time: O(logn)
-```c++
-int search(int arr[], int n, int x)
-{
-    int fibMMm2 = 0;
-    int fibMMm1 = 1;
-    int fibM = fibMMm2 + fibMMm1;
-
-    while (fibM < n)
-    {
-        fibMMm2 = fibMMm1;
-        fibMMm2 = fibM;
-        fibM = fibMMm2 + fibMMm1;
-    }
-
-    //Offset is the eliminated range
-    int offset = -1;
-
-    while (fibM > 1)
-    {
-        int i = min(offset + fibMMm2, n-1);
-        if (arr[i] < x)
-        {
-            fibM  = fibMMm1;
-            fibMMm1 = fibMMm2;
-            fibMMm2 = fibM - fibMMm1;
-            offset = i;
-        }
-        else if (arr[i] > x)
-        {
-            fibM  = fibMMm2;
-            fibMMm1 = fibMMm1 - fibMMm2;
-            fibMMm2 = fibM - fibMMm1;
-        }
-        else return i;
-    }
- 
-    if(fibMMm1 && arr[offset+1]==x)
-        return offset+1;
- 
-    return -1;
-}
-```
-
 **Other important things**<br>
 std::rotate (in algorithm): 1 2 3 4 5 6 7 8 9 -> 4 5 6 7 8 9 1 2 3 <br>
 std::rotate(vec.begin(), vec.begin() + 3, vec.end());<br>
@@ -338,13 +341,41 @@ std::lower_bound(vec.begin(), vec.end(), 5) will return an itterator to the firs
 Lexiographic order is alphabetical order: 0, 1, 10, 2, 21, 3
 
 ```c++
-//compare function: Descending order
+//compare function: Descending order. By default sort function will sort in ascending order.
 sort(ar.begin(), ar.end(), [](const class& a, const class& b) -> bool
 {
     return a.x > b.x;
 });
+
+//We also need a compare function for senerios like sorting a class on the bases of it's some member variable
 ```
->>> TODO: unbounded binary search, two pointers
+
+### Unbounded Binary Search:
+Consider that there's a monotonically increasing function f(x) with f(0) some negative value we need to find some value n for which f(n) will be the first non negative number of the function.<br>
+Naive approach is linearly searching till we get number greater than 0, it will take O(n)<br>
+Other approach is using Unbounded Binary Search. The idea is to proceed with f(0) then f(1) f(2) f(4) f(8) f(16) ... till f(x) every other is x2 of previous. Now f(x) is first non negative in the above exponentiated series. Now we need to apply binary search from O(x/2) to O(x) x/2 is previous term of the series.
+This will give a time complexity of O(logn)
+
+### Two pointers Technique:
+Consider we are given an array and we need to find what all pairs with given sum exists in it.<br>
+Naive approach is by using two itterations and checking sum. This is brute force and has complexity O(N<sup>2</sup>)<br>
+The array should be sorted. Two pointers approach is by having two pointers in the itteration one at head other at tail of the array and matching pairs. Time: O(n)
+
+```c++
+bool isPairSum(A[], N, X)
+{
+    int i = 0;
+    int j = N - 1;
+ 
+    while (i < j)
+    {
+        if (A[i] + A[j] == X) return true;
+        else if (A[i] + A[j] < X) i++;
+        else j--;
+    }
+    return false;
+}
+```
 
 ## 5. Sorting:
 **Problem #1 (Selection Sort)**
@@ -383,7 +414,7 @@ void sort(int arr[], int n)
 }
 ```
 
-There's unstable & stable sorting: eg: 5 9 3 9 8 4 here there are duplicate item (9s) if we sort in an unstable sorting the second 9 will not come after the first 9. The relative ordering will change.
+There's unstable & stable sorting: eg: 5 9 3 9 8 4 here there are duplicate item (9s) if we sort in an unstable sorting the second 9 will not come after the first 9. The relative ordering will change. **Bubble sort is stable.**
 
 **Problem #3 (Insertion Sort)**
 <br>In insertion sort we keep a partion of sorted and unsorted parts of array. initially first element is sorted and rest are unsorted. Then we take element from unsorted and insert it on sorted by traversing from right to left.
@@ -605,7 +636,8 @@ ADT (Abstract Data Type) It tells about the behaviour (interface)
 1) List:
 <br>
 Dynamic list will create an array reserved with some initial blocks if we add an element and the array is full another array of double block will be created.
-<br>In java both ArrayList and Vector provide this functionality however vector is thread safe. Means that it is safe (no conflicts) to access or modify a vector from different threads at same time. Vectors came first though but arraylist kind of implementation is still required. ArrayList is hence faster as well.
+<br>
+> In java both ArrayList and Vector provide this functionality however vector is thread safe. Means that it is safe (no conflicts) to access or modify a vector from different threads at same time. Vectors came first though but arraylist kind of implementation is still required. ArrayList is hence faster as well.
 
 2) Linked List
 <br>It's a dynamic list in which each entity is stored in nodes connected to one another. There are two types of linked list - Singly Linked List (value + head) or Doubly Linked List (value + head + tail)
@@ -878,10 +910,84 @@ int main()
 
 3) Stacks
 <br>
-(FIFO) First In First Out<br>
+(LIFO) Last In First Out<br>
 Push (Insert at the entry of stack), Pop (Remove from entery) & Top (Gets entry element)<br>
 All stack operations are performed in constant time<br>
 Applications: Undo operation, paranthesis are balanced by compiler using stack, Recurssion stack.
+```c++
+#include <iostream>
+using namespace std;
+#define SIZE 10
+
+//Stack can be created using array as well as linked list
+template<typename T>
+class stack
+{
+    T* arr;
+    int top;
+    int capacity;
+
+public:
+    stack(int size = SIZE)
+    {
+        arr = new T[size];
+        capacity = size;
+        top = -1;
+    }
+    bool isEmpty() const
+    {
+        return (top == -1);
+    }
+    bool isFull() const
+    {
+        return (top == capacity - 1);
+    }
+    void push(T x)
+    {
+        if (isFull())
+        {
+            cout << "overflow termination" << endl;
+            return;
+        }
+        arr[++top] = x;
+    }
+    void pop()
+    {
+        if (isEmpty())
+        {
+            cout << "underflow termination" << endl;
+            return;
+        }
+        top--;
+    }
+    T peek() const
+    {
+        if (!isEmpty()) return arr[top];
+        else cout << "underflow termination" << endl;
+    }
+    int size() const
+    {
+        return top+1;
+    }
+};
+
+int main()
+{
+    stack<char> st;
+    st.push('A');
+    st.push('N');
+    st.push('K');
+    st.push('I');
+    st.push('T');
+    while(st.size() > 0)
+    {
+        cout << st.peek();
+        st.pop();
+    }
+
+    return 0;
+}
+```
 ```java
 //Infix to postfix
 > Push left paranthesis on stack, add right paranthesis to expression.
@@ -890,11 +996,17 @@ Applications: Undo operation, paranthesis are balanced by compiler using stack, 
 > If an operator with higher precidence (BODMAS) is already present in stack when pushing above then pop it and append to expression. If paranthesis close then pop and append insides.
 
 //Infix to prefix
-> Scan right to left. In the end reverse the expression.
+> Scan right to left. In the end reverse the expression. The behavior of paranthesis will also change. () will become )( during traversal
 
 //Prefix to infix
 > Scan right to left.
 > If operand push on stack otherwise s1 = pop s2 = pop push (s1 operator s2) on the stack again.
+> Pop the stack to get the output
+
+//Postfix to infix
+> Scan left to right.
+> If operand push on stack otherwise s1 = pop s2 = pop push (s1 operator s2) on the stack again.
+> Pop the stack and reverse it to get output
 
 //Postfix to prefix
 > Scan left to right.
@@ -908,19 +1020,278 @@ Applications: Undo operation, paranthesis are balanced by compiler using stack, 
 > Scan left to right
 > If operand push on stack otherwise s1 = pop s2 = pop push evaluation of (s2 operator s1) on the stack again.
 ```
+```c++
+#include <iostream>
+#include <stack>
+#include <algorithm>        //For reverse
+#include <math.h>           //For pow
+using namespace std;
+
+int getOperatorRank(char oper)
+{
+    switch(oper)
+    {
+        case '^' : return 5;
+        case '/' : return 4;
+        case '*' : return 3;
+        case '+' : return 2;
+        case '-' : return 1;
+    }
+    return -1;
+}
+
+double evaluate(double a, double b, char oper)
+{
+    switch(oper)
+    {
+        // Everything in reverse b/a b^a b-a because it's postfix
+        case '^' : return pow(b, a);
+        case '/' : return b/a;
+        case '*' : return b*a;
+        case '+' : return b+a;
+        case '-' : return b-a;
+    }
+    return 0;
+}
+
+int main()
+{
+    //Infix
+    string expression = "5+(6*7-(7/8-9)*4)*3";
+    expression = "(" + expression + ")";
+
+    //INFIX TO POSTFIX
+    stack<char> postfixStack;
+    string postfix = "";
+    for (int i = 0; i < expression.size(); i++)
+    {
+        char cur = expression[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            while (getOperatorRank(postfixStack.top()) > getOperatorRank(cur))
+            {
+                postfix += postfixStack.top();
+                postfixStack.pop();
+            }
+            postfixStack.push(cur);
+        }
+        else if (cur == ')')
+        {
+            while (postfixStack.top() != '(')
+            {
+                postfix += postfixStack.top();
+                postfixStack.pop();
+            }
+            postfixStack.pop();
+        }
+        else if (cur == '(') postfixStack.push(cur);
+        else if (cur != ' ') postfix += cur;
+    }
+    cout << "postfix: " << postfix << endl;
+
+    //INFIX TO PREFIX
+    stack<char> prefixStack;
+    string prefix = "";
+    for (int i = expression.size()-1; i >= 0; i--)
+    {
+        char cur = expression[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            while (getOperatorRank(prefixStack.top()) > getOperatorRank(cur))
+            {
+                prefix += prefixStack.top();
+                prefixStack.pop();
+            }
+            prefixStack.push(cur);
+        }
+        else if (cur == '(')
+        {
+            while (prefixStack.top() != ')')
+            {
+                prefix += prefixStack.top();
+                prefixStack.pop();
+            }
+            prefixStack.pop();
+        }
+        else if (cur == ')') prefixStack.push(cur);
+        else if (cur != ' ') prefix += cur;
+    }
+    reverse(prefix.begin(), prefix.end());
+    cout << "prefix: " << prefix << endl;
+
+    //PREFIX TO INFIX
+    stack<string> pre2inStack;
+    string pre2in = "";
+    for (int i = prefix.size()-1; i >= 0; i--)
+    {
+        char cur = prefix[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            string a = pre2inStack.top();
+            pre2inStack.pop();
+            string b = pre2inStack.top();
+            pre2inStack.pop();
+            pre2inStack.push(a + string(1, cur) + b);
+        }
+        else if (cur != ' ') pre2inStack.push(string(1, cur));
+    }
+    pre2in = pre2inStack.top();
+    cout << "prefix to infix: " << pre2in << endl;
+
+    //POSTFIX TO INFIX
+    stack<string> post2inStack;
+    string post2in = "";
+    for (int i = 0; i < postfix.size(); i++)
+    {
+        char cur = postfix[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            string a = post2inStack.top();
+            post2inStack.pop();
+            string b = post2inStack.top();
+            post2inStack.pop();
+            post2inStack.push(a + string(1, cur) + b);
+        }
+        else if (cur != ' ') post2inStack.push(string(1, cur));
+    }
+    post2in = post2inStack.top();
+    reverse(post2in.begin(), post2in.end());
+    cout << "postfix to infix: " << post2in << endl;
+
+    //POSTFIX TO PREFIX
+    stack<string> post2preStack;
+    string post2pre = "";
+    for (int i = 0; i < postfix.size(); i++)
+    {
+        char cur = postfix[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            string a = post2preStack.top();
+            post2preStack.pop();
+            string b = post2preStack.top();
+            post2preStack.pop();
+            post2preStack.push(string(1, cur) + b + a);
+        }
+        else if (cur != ' ') post2preStack.push(string(1, cur));
+    }
+    post2pre = post2preStack.top();
+    cout << "postfix to prefix: " << post2pre << endl;
+
+    //PREFIX TO POSTFIX
+    stack<string> pre2postStack;
+    string pre2post = "";
+    for (int i = prefix.size()-1; i >= 0; i--)
+    {
+        char cur = prefix[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            string a = pre2postStack.top();
+            pre2postStack.pop();
+            string b = pre2postStack.top();
+            pre2postStack.pop();
+            pre2postStack.push(a + b + string(1, cur));
+        }
+        else if (cur != ' ') pre2postStack.push(string(1, cur));
+    }
+    pre2post = pre2postStack.top();
+    cout << "prefix to postfix: " << pre2post << endl;
+
+    //EVALUATION OF POSTFIX
+    stack<double> evaluateStack;
+    double solution = 0;
+    for (int i = 0; i < postfix.size(); i++)
+    {
+        char cur = postfix[i];
+        if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
+        {
+            double a = evaluateStack.top();
+            evaluateStack.pop();
+            double b = evaluateStack.top();
+            evaluateStack.pop();
+            evaluateStack.push(evaluate(a, b, cur));
+        }
+        else if (cur != ' ') evaluateStack.push(cur - '0');
+    }
+    solution = evaluateStack.top();
+    cout << "Solution: " << solution << endl;
+    return 0;
+}
+```
 
 4) Queues
 <br>
-(LIFO) Last In First Out<br>
+(FIFO) First In First Out<br>
 Used in case where requests are sent like to a printer for print requests.<br><br>
 Priority Queue is in which there is a priority assosiated with every value. It can be implemented through Binary Heap.<br>
 Applications of Priority Queue - CPU Scheduling, Graph Algorithms like Dijikstra, Prim's Minimum Spanning Tree.<br><br>
+Naive Implementation Of Priority Queue can be done using an array storing priority integer for every node. Everytime dequeing will look through the entire queue and dequeue the smallest (min priority queue) or larget (max priority queue)<br><br>
 In a queue there's one disadvantage that if we do deletion it will happen in front shifting all elements taking O(n). This can be avoided by using circular queue.
 <br>![](res/circularqueue.png)<br>
+```c++
+//Queue can be created using array as well as linked list
+
+template<typename T>
+class queue
+{
+    T* arr;
+    int rear, front;
+    int capacity;
+
+public:
+    stack(int size = SIZE)
+    {
+        arr = new T[size];
+        capacity = size;
+        rear = -1;
+        front = -1;
+    }
+    bool isEmpty() const
+    {
+        return (rear == -1 && front == -1);
+    }
+    bool isFull() const
+    {
+        return (rear == capacity - 1);
+    }
+    void push(T x)
+    {
+        if (isFull())
+        {
+            cout << "overflow termination" << endl;
+            return;
+        }
+        if (front == -1) front = 0;
+        arr[++rear] = x;
+    }
+    void pop()
+    {
+        if (isEmpty())
+        {
+            cout << "underflow termination" << endl;
+            return;
+        }
+        front++;
+    }
+    T peek() const
+    {
+        if (!isEmpty()) return arr[front];
+        else cout << "underflow termination" << endl;
+    }
+    int size() const
+    {
+        if (!isEmpty()) return 0;
+        return rear-front+1;
+    }
+};
+
+//In case of circular queue at pop instead of ++rear add this line before that rear = (rear + 1) % capacity.
+
+//In preiority queue just assign a struct and dynamiccally allocate it's object created as array of struct. every pop time just traverse entire array and select minimum priority or max priority at traversal. set that struct node to null.
+```
 
 5) Sets
 <br>
-Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as BST. A multiset allows storage of multiple elements.
+Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as Binary Search Tree. A multiset allows storage of multiple elements. <u>**More in Graph Theory.**</u>
 
 6) Maps
 <br>
@@ -947,9 +1318,9 @@ There is also Load Factor which tells how full is our array which stores hashtab
 
 </center>
 
-7) Trees
-8) Graphs
-9)  Heaps
+7) Trees - <u>**Graph Theory.**</u>
+8) Graphs - <u>**Graph Theory.**</u>
+9)  Heaps - <u>**Graph Theory.**</u>
 10)   Disjoint Sets<br>
 Disjoint sets are seperate sets which are represented by 1 identity. Example - 1, 2, 3, 4 initially all 4 are dijoint sets. If we apply make union to 1 & 2 we get (1 2), 3, 4 in (1 2) the identity of both 1 & 2 on calling findSet will be same.
 

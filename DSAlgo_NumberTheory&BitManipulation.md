@@ -1,4 +1,4 @@
-# DS Algorithms - Others
+# DS Algorithms - Number Theory & Bit Manipulation
 ## 1. Number Theory:
 **<u>Bernauli Trial:</u>** A dice thrown n times and we want probability for 6 exactly x times. so: <sup>n</sup>C<sub>x</sub> (1/6)<sup>x</sup> (5/6)<sup>n - x</sup>
 

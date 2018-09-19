@@ -60,7 +60,7 @@ In simulation, we use a computer to evaluate a model numerically and the data ar
 ## 3. Discrete Event System
 
 ### Time Advance Mechanism:
-DES models are dynamic in nature hence track of the current value of simulatedtimes has to be kept as the simulation proceeds.<br>
+DES models are dynamic in nature hence track of the current value of simulated times has to be kept as the simulation proceeds.<br>
 Time advance mechanism advances simulated time from one value to another.<br>
 Simulation clock gives the current value of simulated time.
 There are two principle approaches - Next event time advance  Fixed increment time advance.
@@ -71,7 +71,7 @@ There are two principle approaches - Next event time advance  Fixed increment ti
 ### Components Of Discrete Event System Model:
 DES models shares a number of common components. There is a logical organisation for these components towards making a computer program.
 
-The components that are found in mst DES models using the next event time advanced approach are:
+The components that are found in most DES models using the next event time advanced approach are:
 1) **System state:** The collection of state variables necessary to describe the system at a particular time.
 2) **Simulation clock:** A variable giving the current value of simulated time.
 3) **Event list:** A list contatining the event, an instantaneous occurence that changes the state of the system. 
@@ -93,3 +93,140 @@ The components that are found in mst DES models using the next event time advanc
 7) After all processing has been completed, a check is made to determine if the simulation should now be terminated.
 8) If yes, the report generated is invoked from the main program to compute estimates of the desired measures of performance and to produce a report.
 9) If not, control is passed back to the main program and the main program -> timing routing -> main program -> event routine -> termination check. Cycle is repeated until the stopping condition is eventually satisfied.<br>![](res/SIM.png)<br><br>![](res/SIM2.png)
+
+## 4. Queuing System
+Que - At a grocery store with one counter, customer arrive at random from 1 to 8 minutes apart (each inter-arrival time has the same probability of occurence) The service times varies from 1 to 6 minutes with the probabilities as 0.10, 0.20, 0.30, 0.25, 0.10, 0.05 respectively. Analyze the system by simulating the arrival and service of 20 customers.
+
+| Inter-Arrival Time(mins) | Probability | Random No. (For inter arrival time)  | Service Time | Probability (%) | Random No. (for service time) |
+| ------------------------ |:--------:|:--------:|:--------:|:--------:| -----:|
+| 1      | 0.125 | 001 - 125 | 1 | 10 | 01 - 10 |
+| 2      | 0.125 | 126 - 250 | 2 | 20 | 11 - 30 |
+| 3      | 0.125 | 251 - 375 | 3 | 30 | 31 - 60 |
+| 4      | 0.125 | 376 - 500 | 4 | 25 | 61 - 85 |
+| 5      | 0.125 | 501 - 625 | 5 | 10 | 86 - 95 |
+| 6      | 0.125 | 626 - 750 | 6 | 05 | 96 - 00 |
+| 7      | 0.125 | 751 - 875 |   |    |         |
+| 8      | 0.125 | 876 - 000 |   |    |         |
+
+<br>
+
+| Customer No. | Random digits (for inter arrival time) | Inter arrival time | Random digits (for service time) | Service time |
+| ------------------------ |:--------:|:--------:|:--------:| -----:|
+| 1      |       |    | 84 | 4 |
+| 2      | 913   | 8  | 10 | 1 |
+| 3      | 727   | 6  | 74 | 4 |
+| 4      | 015   | 1  | 53 | 3 |
+| 5      | 948   | 8  | 17 | 2 |
+| 6      | 309   | 3  | 79 | 4 |
+| 7      | 922   | 8  | 91 | 5 |
+| 8      | 753   | 7  | 67 | 4 |
+| 9      | 235   | 2  | 84 | 5 |
+| 10     | 302   | 3  | 38 | 3 |
+| 11     | 109   | 1  | 32 | 3 |
+| 12     | 093   | 1  | 94 | 5 |
+| 13     | 607   | 5  | 79 | 4 |
+| 14     | 738   | 6  | 05 | 1 |
+| 15     | 359   | 3  | 79 | 4 |
+| 16     | 886   | 8  | 84 | 4 |
+| 17     | 106   | 1  | 52 | 3 |
+| 18     | 212   | 2  | 55 | 3 |
+| 19     | 493   | 4  | 30 | 2 |
+| 20     | 535   | 5  | 50 | 3 |
+
+<br>
+
+| Customer No. | Inter Arrival Time | Time at which customer arrives | Service Time | Time service begin | Waiting time in queue | Time service ends | Time customer spends in the system | Idle time of server |
+| ------------------------ |:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:| -----:|
+| 1  |    | 0  | 4  | 0  | 0  | 4  | 4  | 0 |
+| 2  | 8  | 8  | 1  | 8  | 0  | 9  | 1  | 4 |
+| 3  | 6  | 14 | 4  | 14 | 0  | 18 | 4  | 5 |
+| 4  | 1  | 15 | 3  | 18 | 3  | 21 | 6  | 0 |
+| 5  | 8  | 23 | 2  | 23 | 0  | 25 | 2  | 2 |
+| 6  | 3  | 26 | 4  | 26 | 0  | 30 | 4  | 1 |
+| 7  | 8  | 34 | 5  | 34 | 0  | 39 | 5  | 4 |
+| 8  | 7  | 41 | 4  | 41 | 0  | 45 | 4  | 2 |
+| 9  | 2  | 43 | 5  | 45 | 2  | 50 | 7  | 0 |
+| 10 | 3  | 46 | 3  | 50 | 4  | 53 | 7  | 0 |
+| 11 | 1  | 47 | 3  | 53 | 6  | 56 | 9  | 0 |
+| 12 | 1  | 48 | 5  | 56 | 8  | 61 | 13 | 0 |
+| 13 | 5  | 53 | 4  | 61 | 8  | 65 | 12 | 0 |
+| 14 | 6  | 59 | 1  | 65 | 6  | 66 | 7  | 0 |
+| 15 | 3  | 62 | 4  | 66 | 4  | 70 | 8  | 0 |
+| 16 | 8  | 70 | 4  | 70 | 0  | 74 | 4  | 0 |
+| 17 | 1  | 71 | 3  | 74 | 3  | 77 | 6  | 0 |
+| 18 | 2  | 73 | 3  | 77 | 4  | 81 | 7  | 0 |
+| 19 | 4  | 77 | 2  | 81 | 4  | 85 | 6  | 0 |
+| 20 | 5  | 83 | 3  | 85 | 3  | 88 | 6  | 0 |
+
+<br>
+Total Service Time = 67<br>
+Total Waiting Time in Queue = 51<br>
+Total Time Customer Spend On System = 118<br>
+Total Ideal Time Of Server = 18<br>
+Average Waiting Time For Customer = 51/20<br>
+Probability that a customer has to wait in the queue = Total customer who wait/20 = 11/20<br>
+Probability of ideal time of server = total ideal time / total run time = 18/85<br>
+Average Service time = 67/20<br>
+Average time between arrival = Sum of time between arrival / (No. of arrivals - 1) because 1st has no arrival<br>
+Average waiting time of those who wait = 51/11<br>
+Average time a customer spends in the system = 118/20<br>
+
+## 4. Turing System
+### Key Element:
+1) **Customer:** It refers to anything that arrives at a facility and requires service e.g. people, trucks, airplanes, packets.
+2) **Server:** It refers to any resource that provides the requested service. e.g. runways, routers, machines, etc.<br>![](res/SER.png)
+3) **Calling polulation:** Population comming into server. can be finite or infinite.
+4) **System capacity:** Maximum number of customers allowed in the system is known as system capacity
+5) Arrival process: Arrival may occur at scheduled arrivals such as patients to a doctor's office, airline flight arrives at an airport. The inter-arrival time may be constant or constant with small random fluctuation.
+
+### Queue Behaviour:
+It means actions of customers while in a queue, waiting for service to begin.
+1) **Balking:** Customer leave when they see that the line is too long.
+2) **Reneging:** Customer leave after after being in line assuming that it is moving too slowly.
+3) **Jockeying:** Customer move from one queue to another if they think they have chosen a slow line.
+
+### Queue Discipline:
+The logical ordering of customers in a queue for deciding which of the customers to be chosen for service (when a server becomes free)
+1) FIFO - First In First Out
+2) LIFO - Last In First Out
+3) SIRO - Service In Random Order
+4) SPTF - Shortest Processing Time First
+5) VIP - Service according to priority
+6) RR - Round Robin
+
+## 5. Simulation Of Single Server Queuing System
+In this we will find the measures of performance and how they are basically represented in the graphical terms.<br>
+Consider a single server queuing system for which inter arrival time and service time are given.
+
+A<sub>i</sub> values are: 0.4, 1.2, 0.5, 1.7, 1.6, 0.2, 1.4
+S<sub>i</sub> values are: 2.0, 0.7, 0.2, 1.1, 3.7, 0.6
+Stopping condition: n=6 delays in queue<br>
+> When there are 6 delays in the queue mean when 5 services are over and the sizth customer comes into the queue.
+
+Arrivals occur at time: 0.4, 1.6, 2.1, 3.8, 4.0, 5.6, 5.8, 7.2<br>
+Departure occur at time: 2.4, 3.1, 3.3, 4.9, 8.6
+<br>![](res/PROB2.png)<br>
+Average No. of Customer In Queue = [1(0.5 + 0.7 + 0.9 + 0.2) + 2(0.3 + 1.4) + 3(1.4)] / 8.6<br>
+% Utilization of server = It is calculated by a busy time function B(t)<br>![](res/BUSY.png)<br>
+Average delay in queue of n customers = All delay sum / 6<br>
+
+## 6. Computer Representation
+
+
+## 7. Generation Of Random Numbers
+### Early Methods:
+1) Physical
+2) Lotteries
+3) Mechanical - use of spinning disks
+4) Use of electrical circuit based on randomly pulsated vacuum tubes ERNI (Electronic Random Number Indication)
+5) Picking numbers randomly out of phone book
+
+### Challenges in generation of random numbers:
+1) Many methods cannot reproduce previously generated streams exactly.
+2) Large memory requirement or a lot of time consumption.
+
+### Arithemetic Methods:
+These methods are sequential and the next random number is determined by one of several of it's predeccessor according to a fixed mathematical formula.<br>
+The first search arithemetic generator was mid-square method<br>
+Steps in mid-square method:
+1)  Start with Z<sub>o</sub> = 4 digit +ve integer Z<sub>1</sub> = middle 4 digit of 

@@ -1,7 +1,49 @@
 # C++ Important Concepts
+## 1. Object Oriented Language:
+Data representation in programming should have - correctness, maintainability, reusability, openness and interoprability, portability, security, integrity and user friendliness.
 
-## 1. Introduction:
+Softwares have evolved from - Machine Language (01), Assembly Language (CPU instructions MOV - move instruction, LSR - logical shift right, ROR - rotate right), Procedure orientate (C - function based), Object oriented.
+
+**In procedure orientated langage:**
+1) Emphasis is on doing things (algorithms)
+2) Large programs are divided into smaller programs known as functions.
+3) Most of the function share global data.
+4) Data move openly around the system from function to function.
+5) Function transform data from one form to another.
+6) Employs top-down approach in program design.
+   
+**However, in Object Oriented language:**
+1) Emphasis is on data rather than procedure.
+2) Programs are divided into what known as objects.
+3) Data structure is designed such as they categorize the objects.
+4) Functions that operate on data of an object are tied together in the data structure.
+5) Data is hidden and cannot be accessed from external source.
+6) Object may communicate with each other through functions.
+7) New data and functions can be easily added whenever necessary
+8) Employs bottom-up approach in program design.
+
+bottom up means we analyze objects which are entities (lower part) then that performs task assosiated linked in object class. In top down it's a simple function performing lineraly.
+
+Basic concepts of OOPS- Objects, Classes, Data abstraction (abstracting or summarising data which are required only) and encapsulation (setting getter and setter for private variables providing data protection - encapsulation from outside), Inheritence (using members from some other parent class), Polymorphism (ability to display in more than one form like function, operator overloading or function overriding - overriding is using function from parent class), Dynamic binding or Dynamic Dispatch (It is also known as late binding it basically binds data or object with methods or implementation defined in it at runtime examples are virtual functions), Message passing
+
+**Benefits Of OOPS:**<br>
+1) Elimination of redundant and duplicate code through inheritence.
+2) We can build programs from the standard working module which will communicate with one another in order of task completion. In this way debugging any operation will also get easier.
+3) Data encapsulation provides unenesessary data editing.
+4) Software complexity can be easily managed.
+5) Upgradation of system can be easilty done.
+
+## 2. Introduction To C++:
 Using C++ we can literally control any instruction of CPU. Other languages like C# and Java differs because they run on a virtual machine that's why many platforms applications can be developed through C++. It's native so it's fast but a bad C++ code will be slower whears in C# and Java there are optimizations done by their compilers which makes them handle fast without worrying much about code.
+
+**Tokens**<br>
+Smallest individual units in a program are known as token. C++ has
+- Keywords (asm, auto, break, case, catch, char, const, continue, default, delete, do, double, else, enum, extern, float, for, friend, goto, if, inline, int, long, new, operator, private, protected, public, register, return, short, signed, sizeof, static, struct, switch, template, this, throw, typedef, union, unsigned, virtual, void, volatile, while, bool, const_char, dynamic_cast, explicit, export, false, mutable, namespace, reinterpret_cast, static_cast, true, typeid, typename, using, wchar_t)
+- Identifiers (Name of the variables, functions, array, classes, etc.)
+- Constants
+- Strings
+- Operators
+
 
 **#statements** is a pre processor statement it preprocesses before the actual process. main function is the entry point. Even though int main we don't need to return any value for it. it assumes that we are returning value 0.<br><br>
 Header files are not compiled they are included C++ files are compiled only. Every C++ file gets compiled individually and converted to an object file. Linker takes all obj files of c++ and makes an executable.<br><br>
@@ -24,7 +66,7 @@ To call a function from other c++ file just add declaration. While compiling com
 **#define** find and replaces<br>
 **#if** for conditions
 
-## 2. Compilation:
+## 3. Compilation:
 Functions linking done through linker even if it's a project of one c++ file linker job is to define the entry point. If a file with no main function only present no compiler error but linker error.
 functions have signatures which are used for linking.
 
@@ -81,7 +123,7 @@ public:
 };
 ```
 
-## 3. Memory Allocation:
+## 4. Memory Allocation:
 
 Dynamic Allocation is allocation at runtime<br>
 Stack Allocation is allocation at compiletime
@@ -147,7 +189,7 @@ int* temp = (int*) malloc(sizeof(int));
 int* temp = new int;
 ```
 
-## 4. Derrived Data Types:
+## 5. Derrived Data Types:
 
 ```c++
 class Player
@@ -256,6 +298,7 @@ struct MyException : public exception
         return "C++ Exception";
     }
 };
+//Fun fact the default return type of a function in c++ is int so instead of int main() we can have just main() however this might give a warning.
 ```
 
 ```c++
@@ -263,6 +306,7 @@ enum level
 {
     A, B, C
 };
+level cur = A;
 ```
 
 Here A=0, B=1, C=2<br>
@@ -336,6 +380,7 @@ int main()
     Entity* e = new Entity();
     std::cout << e->GetName() << std::endl;
 }
+//cout << something << something_else; this appending to stream is called cascading
 ```
 Virtual functions do something called dynamic dispatch it is implemented by v table. V table is a table that contains mapping for all the virtual tables.
 
@@ -503,7 +548,7 @@ int main()
 }
 ```
 
-## 5. Advanced Pointers Concepts:
+## 6. Advanced Pointers Concepts:
 
 Smart pointer is allocated on heap but it gets automatically deleted after specific time.
 

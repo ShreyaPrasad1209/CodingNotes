@@ -1226,7 +1226,9 @@ Priority Queue is in which there is a priority assosiated with every value. It c
 Applications of Priority Queue - CPU Scheduling, Graph Algorithms like Dijikstra, Prim's Minimum Spanning Tree.<br><br>
 Naive Implementation Of Priority Queue can be done using an array storing priority integer for every node. Everytime dequeing will look through the entire queue and dequeue the smallest (min priority queue) or larget (max priority queue)<br><br>
 In a queue there's one disadvantage that if we do deletion it will happen in front shifting all elements taking O(n). This can be avoided by using circular queue.
+
 <br>![](res/circularqueue.png)<br>
+
 ```c++
 //Queue can be created using array as well as linked list
 

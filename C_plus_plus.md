@@ -42,7 +42,7 @@ Smallest individual units in a program are known as token. C++ has
 - Identifiers (Name of the variables, functions, array, classes, etc.)
 - Constants
 - Strings
-- Operators
+- Operators (:: Scope resolution operator, ::* Pointer-to-member declaration, -> Pointer-to-member operator, .* pointer-to-member operator, delete, endl, new, setw, <<, >>)
 
 
 **#statements** is a pre processor statement it preprocesses before the actual process. main function is the entry point. Even though int main we don't need to return any value for it. it assumes that we are returning value 0.<br><br>
@@ -66,12 +66,35 @@ To call a function from other c++ file just add declaration. While compiling com
 **#define** find and replaces<br>
 **#if** for conditions
 
+```c++
+//setw
+cout << setw(10) << "Basic:" << setw(10) << basic << endl;
+cout << setw(10) << "Allowance:" << setw(10) << allowance << endl;
+cout << setw(10) << "Total:" << setw(10) << total << endl;
+
+//output
+//    Basic     940
+//Allowance      50
+//    Total      12
+```
+
 ## 3. Compilation:
 Functions linking done through linker even if it's a project of one c++ file linker job is to define the entry point. If a file with no main function only present no compiler error but linker error.
 functions have signatures which are used for linking.
 
 Static are called only for that file and if it is included in some other file then it won't work.
 Inline makes the compiler replace the code block into a line where it is used so making execution time faster.
+```c++
+class Item
+{
+public:
+    void getData(int a, int b);
+};
+inline void Item::getData(int a, int b)
+{
+    ...
+}
+```
 
 **int** 2 bytes (32 bit) 4 bytes (64 bytes) compiler based<br>
 1 bit is for sign 2^31 maximum number that can be stored.<br>
@@ -122,6 +145,10 @@ public:
 	}
 };
 ```
+![](res/OperP.png)
+
+**Function Prototyping:** declaring a function like the way headers do<br>
+void func(int a, int b = 5) this function can also be called with a value only. This is called default argument.
 
 ## 4. Memory Allocation:
 
@@ -159,7 +186,8 @@ int& ref = a;
 ref = b;
 ```
 
-In this case ref will not become b but a's value will get to b
+In this case ref will not become b but a's value will get to b<br>
+> A pointer can be re-assigned whereas a reference cannot be reassigned. A pointer has it's own memory address and size on stack whereas reference shares same memory address but new size on stack. Pointers can be null pointers.
 
 Array created through heap -
 ```c++
@@ -184,6 +212,8 @@ finding memory allocation in memory say when we declare an int 4 bytes of memory
 ```c++
 malloc(bytes of memory)
 //returns a pointer of heap memory it is simmilar to new keyword of C++
+calloc(elementsCount, sizeOfEachElement)
+//Systax is different in calloc but it also returns a pointer to heam memory however it also initializes it to ZERO
 
 int* temp = (int*) malloc(sizeof(int));
 int* temp = new int;
@@ -331,17 +361,81 @@ public:
 There's a default constructor in C++ if we have
 
 ```c++
-Entity() = delete;
+class Foo
+{ 
+public:
+    Foo() = delete; 
+};
 ```
 
-that constructor is also deleted meaning we cannot create instance of the method.
+that constructor is also deleted meaning we cannot create instance of the method however we can still do it from the class's member function:
+```c++
+class Foo
+{ 
+  private: 
+    Foo() {}     
+  public:
+    static void foo();
+};
+
+void Foo::foo()
+{
+   Foo f;    //legal
+}
+```
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+class MyClass
+{
+public:
+    MyClass() = delete;
+    MyClass(int a)
+    {
+        cout << a << endl;
+    }
+};
+
+int main()
+{
+    MyClass test(5);
+    return 0;
+}
+```
 
 If we throw an exception inside a constructor then the constructor won't call hence desrupting the creation of the object. Exceptions are used to signal the occurence of an error.
-
 ```c++
 throw "Incorrect parameter exception";
 ```
 
+**Copy Constructor** It initializes an object with the constructor parameters of some other object.
+
+```c++
+class Point 
+{ 
+private: 
+    int x, y; 
+public: 
+    Point(int x1, int y1) { x = x1; y = y1; } 
+  
+    // Copy constructor 
+    Point(const Point &p2) {x = p2.x; y = p2.y; } 
+  
+    int getX()            {  return x; } 
+    int getY()            {  return y; } 
+};
+int main() 
+{ 
+    Point p1(10, 15); // Normal constructor is called here 
+    Point p2 = p1; // Copy constructor is called here 
+    return 0;
+}
+```
+A constructor which assigns memory dynamically at runtime using new/calloc/malloc that constructor is called Dynamic Constructor.
+
+
+A destructor method will call after the object will destroy.
 ```c++
 ~Entity()
 {
@@ -349,7 +443,6 @@ throw "Incorrect parameter exception";
     y=0;
 }
 ```
-A destructor method will call after the object will destroy.
 
 ```c++
 int main()
@@ -550,6 +643,50 @@ int main()
 
 ## 6. Advanced Pointers Concepts:
 
+Member Function Pointers:
+```c++
+int main()
+{
+    CPoint p1(6.0, 5.0);
+    CPoint p2(2.0, 2.0);
+    cout << p1.distance(p2) << endl;
+    
+    //Another way using member pointer
+    double (CPoint::*pDistance)(CPoint&);
+    pDistance = &Cpoint::distance;
+    cout << p1.*pDistance(p2) << endl;
+    return 0;
+}
+```
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+class CMessage
+{
+public:
+    CMessage() {}
+    void Print1() { cout << "#1"; }
+    void Print2() { cout << "#2"; }
+    void Print3() { cout << "#3"; }
+};
+
+int main()
+{
+    void (CMessage::*pfnArray[3])();
+    pfnArray[0] = &CMessage::Print1;
+    pfnArray[1] = &CMessage::Print2;
+    pfnArray[2] = &CMessage::Print3;
+
+    CMessage func;
+    for (int i = 0; i < 3; i++)
+        (func.*pfnArray[i])();
+    return 0;
+}
+
+//Output: #1#2#3
+```
+
 Smart pointer is allocated on heap but it gets automatically deleted after specific time.
 
 1) Unique pointer :
@@ -707,6 +844,99 @@ String(const String& other) : m_Size(other.m_Size)
 {
     m_Buffer = new char[m_Size + 1];
     memcpy(m_Buffer, other.m_Buffer, m_Size + 1);
+}
+```
+
+Usages Of Friend Functions & Friend Class:
+```c++
+class XYZ
+{
+private:
+    int data;
+public:
+    void setVal(int val)
+    {
+        data = val;
+    }
+    friend void show(XYZ);
+};
+void show(XYZ xyz)
+{
+    cout << xyz.data << endl;
+}
+```
+```c++
+class ABC;
+class XYZ
+{
+private:
+    int data;
+public:
+    void setVal(int val)
+    {
+        data = val;
+    }
+    friend void add(XYZ, ABC);
+};
+class ABC
+{
+private:
+    int data;
+public:
+    void setVal(int val)
+    {
+        data = val;
+    }
+    friend void add(XYZ, ABC);
+};
+void show(XYZ xyz, ABC abc)
+{
+    cout << (xyz.data + abc.data) << endl;
+}
+```
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+ 
+class ABC;
+ 
+class XYZ
+{
+private:
+    int data;
+public:
+    void setValue(int value)
+    {
+        data = value;
+    }
+    friend class ABC;
+    friend void getXYZData(XYZ);
+};
+ 
+class ABC
+{
+public:
+    int data;
+    void setValue(int value, XYZ xyz)
+    {
+        data = value + xyz.data;
+    }
+};
+ 
+void getXYZData(XYZ xyz)
+{
+    cout << xyz.data << endl;
+}
+ 
+int main()
+{
+    XYZ x;
+    ABC a;
+    x.setValue(5);
+    a.setValue(4, x);
+    getXYZData(x);
+    cout << a.data << endl;
+    return 0;
 }
 ```
 

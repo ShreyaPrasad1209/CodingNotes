@@ -224,12 +224,16 @@ Consider a computer technical support center where personel take calls and provi
 | ---------------------------- |:-----:|:-----:|:-----:|:-----:|
 | Probability                  | 0.25  | 0.40  | 0.20  | 0.15  |
 
+
 (For Able)<br>
+
 | Service Time         | 2     | 3     | 4     | 5     |
 | -------------------- |:-----:|:-----:|:-----:|:-----:|
 | Probability          | 0.30  | 0.28  | 0.25  | 0.17  |
 
+
 (For Baker)<br>
+
 | Service Time         | 3     | 4     | 5     | 6     |
 | -------------------- |:-----:|:-----:|:-----:|:-----:|
 | Probability          | 0.35  | 0.25  | 0.20  | 0.20  |
@@ -249,7 +253,9 @@ Random Digits for service time - 95, 21, 51, 92, 89, 38
 | 3                            | 0.20            | 66 - 85           |
 | 4                            | 0.15            | 86 - 00           |
 
+
 (For Able)<br>
+
 | Service Time                 | Probability     | Random Number     |
 | ---------------------------- |:---------------:|:-----------------:|
 | 2                            | 0.30            | 01 - 30           |
@@ -257,7 +263,9 @@ Random Digits for service time - 95, 21, 51, 92, 89, 38
 | 4                            | 0.25            | 59 - 83           |
 | 5                            | 0.17            | 84 - 00           |
 
+
 (For Baker)<br>
+
 | Service Time                 | Probability     | Random Number     |
 | ---------------------------- |:---------------:|:-----------------:|
 | 3                            | 0.35            | 01 - 35           |
@@ -295,9 +303,11 @@ Area Under B(t) [Previous B(t) + TimeGap * Previous Server Status]<br>
 
 ## 8. Inventory System
 Perform Simulation of inventory system given daily demand is represented by random nos - 4, 3, 8, 2, 5, and the demand probability. Also given initially inventory has 4 items.<br>
+
 | Demand         | 0     | 1     | 2     |
 | -------------- |:-----:|:-----:|:-----:|
 | Probability    | 0.2   | 0.5   | 0.3   |
+
 
 >RDA = Random Digit Assignment
 
@@ -317,6 +327,7 @@ Perform Simulation of inventory system given daily demand is represented by rand
 | 5           | 0                | 5                | 1             | 0                | 1            |
 
 A car manufacturing company manufactures 40 cars per day. The sale of cars depends upon demand which have the following distribution.
+
 | Sales Of Cars  | Probability     | Cumulative Probability     | RDA               |
 | -------------- |:---------------:|:--------------------------:|:-----------------:|
 | 37             | 0.10            | 0.10                       | 01 - 10           |
@@ -325,6 +336,7 @@ A car manufacturing company manufactures 40 cars per day. The sale of cars depen
 | 40             | 0.35            | 0.80                       | 46 - 80           |
 | 41             | 0.15            | 0.95                       | 81 - 95           |
 | 42             | 0.05            | 1.00                       | 96 - 00           |
+
 
 The production cost and sale price of each car are 4 lacs & 5 lacs respectively. Any unsold car is to be disposed off at a loss of 2 lacs per car. There is a penalty of 1 lakh per car if the demand is not met. Estimate the profit/loss for next 10 days using the following random number - 09, 98, 64, 98, 94, 01, 78, 10, 15, 19
 

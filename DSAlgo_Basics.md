@@ -260,7 +260,10 @@ int search(int arr[], int l , int r, int x)
 ```
 Ternary Search is also there which is same as binary search except instead of dividing in 2 parts we divide it in 3 parts.
 
-Binary search is better than ternary search because in binary search: log<sub>2</sub>n complexity while in ternary search: 2log<sub>3</sub>n calculating mathematically binary search is better.
+Binary search is better than ternary search because <br>
+T(n) = T(n/2) + 2 [In Binary Search]<br>
+T(n) = T(n/3) + 4 [In Ternary Search]<br>
+in binary search: 2log<sub>2</sub>n complexity while in ternary search: 4log<sub>3</sub>n calculating mathematically binary search is better.
 
 **Problem #3 (Jump Search)**
 <br>Applies on sorted array. Performs linear search but in a form of group of √n
@@ -1240,7 +1243,7 @@ class queue
     int capacity;
 
 public:
-    stack(int size = SIZE)
+    queue(int size = SIZE)
     {
         arr = new T[size];
         capacity = size;
@@ -1288,14 +1291,16 @@ public:
 
 //In case of circular queue at pop instead of ++rear add this line before that rear = (rear + 1) % capacity.
 
-//In preiority queue just assign a struct and dynamiccally allocate it's object created as array of struct. every pop time just traverse entire array and select minimum priority or max priority at traversal. set that struct node to null.
+//In priority queue just assign a struct and dynamiccally allocate it's object created as array of struct. every pop time just traverse entire array and select minimum priority or max priority at traversal. set that struct node to null.
 ```
 
-5) Sets
+5) Double Ended Queue (Deque): It is a generalized form of Queue in which we can insert and delete at both front and back - insertFront, insertBack, deleteFront, deleteBack
+
+6) Sets
 <br>
 Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as Binary Search Tree. A multiset allows storage of multiple elements. <u>**More in Graph Theory.**</u>
 
-6) Maps
+7) Maps
 <br>
 Map, Multimap, Unordered map, Unordered multimap<br>
 In a hashmap or unordered_map the data input (key) is hashed to convert in some hash value which modulo is then taken<br>
@@ -1320,10 +1325,10 @@ There is also Load Factor which tells how full is our array which stores hashtab
 
 </center>
 
-7) Trees - <u>**Graph Theory.**</u>
-8) Graphs - <u>**Graph Theory.**</u>
-9)  Heaps - <u>**Graph Theory.**</u>
-10)   Disjoint Sets<br>
+8) Trees - <u>**Graph Theory.**</u>
+9) Graphs - <u>**Graph Theory.**</u>
+10)  Heaps - <u>**Graph Theory.**</u>
+11)   Disjoint Sets<br>
 Disjoint sets are seperate sets which are represented by 1 identity. Example - 1, 2, 3, 4 initially all 4 are dijoint sets. If we apply make union to 1 & 2 we get (1 2), 3, 4 in (1 2) the identity of both 1 & 2 on calling findSet will be same.
 
 ```c++
@@ -1378,7 +1383,7 @@ public:
 };
 ```
 
-11) Tries<br>
+12) Tries<br>
 It's an information retrieval data structure also known as radix/prefix tree.
 <br>![](res/trie.jpg)<br>
 ```c++

@@ -1,6 +1,15 @@
 # DS Algorithms - Number Theory & Bit Manipulation
 ## 1. Number Theory:
-**<u>Bernauli Trial:</u>** A dice thrown n times and we want probability for 6 exactly x times. so: <sup>n</sup>C<sub>x</sub> (1/6)<sup>x</sup> (5/6)<sup>n - x</sup>
+**<u>Bernauli Trial:</u>** A dice thrown n times and we want probability for 6 exactly x times. so: <sup>n</sup>C<sub>x</sub> (1/6)<sup>x</sup> (5/6)<sup>n - x</sup><br>
+The expected number of trials for ith success is 1/p
+
+>**Coupon Collector Problem: A certain brand of cereal always distributes a coupon in every cereal box. The coupon chosen for each box is chosen randomly from a set of n distinct coupons. A coupon collector wishes to collect all n distinct coupons. What is the expected number of cereal boxes must the coupon collector buy so that the coupon collector collects all n distinct coupons.**<br><br>
+Probability of collecting first coupon is 1 since the collector has none. Later on for P<sub>i</sub> = (n - (i-1)) / n<br>
+E(x) = 1/P we need to calculate summation of E[x]<br>
+= E(1) + E(2) + E(3) + E(4) + ... + E(n)<br>
+= n/n + n/n-1 + n/n-2 + n/n-3 + ... + + n/2 + n/1<br>
+= n (1/n + 1/n-1 + 1/n-2 + 1/n-3 + ... + 1/2 + 1)<br>
+Apply expansion
 
 In a room of 23 peoples if all of them handshakes with everyone. <sup>22</sup>C<sub>2</sub> 22 because no one will handshake to himself.
 
@@ -81,11 +90,12 @@ Now we wil select 6 ints from our list those 6 will be pigeons. So by two will l
 >**#3:** **At a buisness meeting no one shakes their own hand and no one shakes another person's hand more than once. Prove that there are 2 people who have shaken hands same number of times.**<br>
 If there are n peoples then one person can have 0 handshakes or 1, 2... n-1 since no one shakes own hand. now if there's a person with n-1 handshakes (he has shaken hands with everyone) then a person with no handshake will not exist. So there will be n-1 total cases. They are pigeonholes. so two persons will have same number of handshakes.
 
-Divisible Subset Problem (https://www.codechef.com/problems/DIVSUBS)<br>
+Divisible Subset Problem  (C4)(https://www.codechef.com/problems/DIVSUBS)<br>
 Example: 3 4 3 5 2 3<br>
 Naive approach is by exponential time finding pairs with 1 element only then 2 element only and so on.<br>
 Any such problem can be illustrated as (1+x<sup>3</sup>)(1+x<sup>4</sup>)(1+x<sup>3</sup>)(1+x<sup>5</sup>)(1+x<sup>2</sup>)(1+x<sup>3</sup>) solving this will give terms having powers of all subsets we just need to apply % N = 0.<br>
 It can be solved in O(NlogN) by Fast Fourier Transform or simply in O(N<sup>2</sup>)
+https://www.youtube.com/watch?v=QQQpOa3aXew
 ```
 Itterate all array elements and apply % N and record it in the array of vector below.
 0   1   2   3   4   5
@@ -104,6 +114,21 @@ b[]     = 0    3    1    4    3    5    2
 temp[]  =      2    6    1,4  3    5  
 This is pigeonhole senerio in every case any temp arr will have two element. end - start i.e. 4 - 1 = 3 so 3 elements that are 2nd 3rd and 4th (4 + 3 + 5) % 6 = 0
 ```
+
+### GCD using Euclid's Algorithm:<br>
+> GCD (A, B) = GCD (B, A % M) BaseCase: B gets 0
+
+> GCD (A, B) * LCM (A, B) = A * B
+
+### Extended Euclid's Algorithm:<br>
+
+
+
+
+
+
+
+
 
 **2 ) Find all prime factors:**<br>
 If a number is divisible by 2 divide it by 2 and show 2. Then loop from <u>3 to √n</u> Since n is odd (n % 2 != 0 so we can skip an element i.e. <u>i+=2</u>). Last check is if n > 2 otherwise n can be 1 then we just show.<br>
@@ -181,7 +206,7 @@ XNOR = !XOR = (A + B!).(A! + B)<br>
 NOR = !OR = A!.B!<br>
 NAND = !AND = A! + B!<br>
 
-If XOR of two numbers/string/any data is 0 then both are same.
+> If XOR of two numbers/string/any data is 0 then both are same.
 
 If between two number there's a bit difference of exactly one by XOR then it is called Gray Code. It is used in signal detection to check if there's any wrong signal.
 <center>
@@ -204,17 +229,19 @@ Different colors represent a byte (AA 1 byte). Nibble has 4 bits i.e. 2<sup>4</s
 
 Least Significant Bit (LSB) & Most Significant Bit (MSB): 99 in binary (MSB part)01100011(LSB part) so in MSB 01100011 in LSB 11000110<br>
 Endiness (Storing data in memory) : Little Endian (LSB), Big Endian (MSB)
+>We use LSB
 
 Finding i<sup>th</sup> bit:<br>
 ```c++
 X(1<<4) >> 4
 output:
 010x00
-000100
+00010x
 000x00
 x
 ```
 
+1's Complement: Toggling every bit ~<br>
 2's Complement:<br>
 -X = !X + 1<br>
 X = !(-X-1)
@@ -254,6 +281,9 @@ i >> 4; // bitwise [16 = 2^4, so use 4]
 // Modulus
 i % 4; // normal
 i & 3; // bitwise [4 = 1 << 2, apply ((1 << 2) - 1), so use 3]
+i % 2^i = n & (2^i - 1)
+
+Bitwise shifts << >> shouldn't be used on negative numbers.
 ```
 ```c
 /*

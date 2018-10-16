@@ -1,13 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MOD 1000000000
 typedef long long ll;
 typedef unsigned long long ull;
+typedef unsigned long long int ulli;
+#define flash ios_base::sync_with_stdio(false); cin.tie(NULL);
+#define mat(x, y, name) vector< vector<ll> > name (x, vector<ll>(y));
+#define printMat(name) for (int i = 0; i < name.size(); i++) {for (int j = 0; j < res[i].size(); j++) cout << res[i][j] << " "; cout << endl;}
 
-vector< vector<ull> > matMul(vector< vector<ull> > A, vector< vector<ull> > B)
+#define MOD 98765431
+
+vector< vector<ll> > matMul(vector< vector<ll> > A, vector< vector<ll> > B)
 {
-    vector< vector<ull> > C(A.size(), vector<ull>(B[0].size()));
+    vector< vector<ll> > C(A.size(), vector<ll>(B[0].size()));
     for (int i = 0; i < A.size(); i++)
     {
         for (int j = 0; j < B[0].size(); j++)
@@ -20,7 +25,7 @@ vector< vector<ull> > matMul(vector< vector<ull> > A, vector< vector<ull> > B)
     return C;
 }
 
-vector< vector<ull> > matPow(vector< vector<ull> > A, int p)
+vector< vector<ll> > matPow(vector< vector<ll> > A, int p)
 {
     if (p == 1)
         return A;
@@ -28,15 +33,14 @@ vector< vector<ull> > matPow(vector< vector<ull> > A, int p)
         return matMul(A, matPow(A, p-1));
     else
     {
-        vector< vector<ull> > C = matPow(A, p/2);
+        vector< vector<ll> > C = matPow(A, p/2);
         return matMul(C, C);
     }
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    flash;
 
     return 0;
 }

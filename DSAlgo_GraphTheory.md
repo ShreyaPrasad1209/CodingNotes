@@ -2,7 +2,7 @@
 ## 1. Introduction:
 In a tree there is n-1 edges for n node whearas in a Graph there is no such restriction.
 
-In a graph V is the vertices array then we have edges array which is the link between edges like 0-1 2-3<br>
+    In a graph V is the vertices array then we have edges array which is the link between edges like 0-1 2-3<br>
 0 < |E| < n(n-1) [Directed or Digraphs]<br>
 0 < |E| < n(n-1)/2 [Undirected]<br>
 Directed means directional. direction matters

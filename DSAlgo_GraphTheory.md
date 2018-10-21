@@ -69,7 +69,7 @@ Time is O(1) for accessing any link
 int nodes, edges;
 vector<int> adjList[nodes];
 cin >> nodes >> edges;
-for (int i = 0; i < edges; i++)
+for (int i = 0; i < edges; ++i)
 {
     int x, y;
     cin >> x >> y;
@@ -137,7 +137,7 @@ void DFS(vector<int> *adj, bool *visited, int node)
     {
         cout << node << " ";
         visited[node] = true;
-        for (int i = 0; i < adj[node].size(); i++)
+        for (int i = 0; i < adj[node].size(); ++i)
             DFS(adj, visited, adj[node][i]);
     }
 }
@@ -152,14 +152,14 @@ int main()
     vector<int> adj[n];
     bool visited[n];
     fill(visited, visited + n, false);
-    for (int i = 0; i < e; i++)
+    for (int i = 0; i < e; ++i)
     {
         int x, y;
         cin >> x >> y;
         adj[x].push_back(y);
     }
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
     {
         if (!visited[i])
             DFS(&adj[0], &visited[0], i);
@@ -178,7 +178,7 @@ void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
         cout << node << " ";
         
         visited[node] = true;
-        for (int i = 0; i < adj[node].size(); i++)
+        for (int i = 0; i < adj[node].size(); ++i)
         {
             if (!visited[adj[node][i]])
             {
@@ -212,10 +212,10 @@ int main()
     int n, e;
     cin >> n >> e;
     DisjointSet<int> ds;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
         ds.makeSet(i);
 
-    for (int i = 0; i < e; i++)
+    for (int i = 0; i < e; ++i)
     {
         int a, b;
         cin >> a >> b;
@@ -251,9 +251,9 @@ int main()
     memset(A , 0 , sizeof(A));
     
     int val;
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; ++i)
     {
-        for(int j = 0; j < n; j++)
+        for(int j = 0; j < n; ++j)
         {
             cin >> val;
             if(val)
@@ -261,21 +261,21 @@ int main()
         }            
     }
 
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; ++i)
     {    
         int len = adj[i].size(); 
-        for(int j = 0; j < len; j++)
+        for(int j = 0; j < len; ++j)
         {
-            for(int k = j+1 ; k < len ; k++)
+            for(int k = j+1 ; k < len ; ++k)
                 A[adj[i][j]][adj[i][k]]++;
         }        
     }
     
     long long ans = 0;
     //j is i+1 so as to get only top right diagonal part of the matrix
-    for(int i = 0 ; i < n ; i++)
+    for(int i = 0 ; i < n ; ++i)
     {
-        for(int j = i+1; j < n; j++)
+        for(int j = i+1; j < n; ++j)
             ans += ( (long long)A[i][j] * (long long)(A[i][j] - 1) ) / 2;
     }
 
@@ -302,12 +302,12 @@ cin >> e >> v;
 
 DisjointSet<int> ds;
 
-for (int i=0; i<e; i++)
+for (int i=0; i<e; ++i)
     ds.makeSet(i);
 
 vector<int> vertex[e];
 vector<Path> path(v);
-for (int i=0; i<v; i++)
+for (int i=0; i<v; ++i)
 {
     int a, b, c;
     cin >> a >> b >> c;
@@ -322,7 +322,7 @@ sort(path.begin(), path.end(), [](Path i, Path j){
 
 cout << "-------" << endl;
 
-for (int i=0; i<v; i++)
+for (int i=0; i<v; ++i)
 {
     int a = ds.find(path[i].nodeA);
     int b = ds.find(path[i].nodeB);
@@ -369,7 +369,7 @@ struct Path
 
 bool FindObstacle(Position pos, Position obstacles[], int obstacleCount)
 {
-    for (int i = 0; i < obstacleCount; i++)
+    for (int i = 0; i < obstacleCount; ++i)
     {
         if (obstacles[i] == pos)
             return true;
@@ -429,7 +429,7 @@ void FindPath(int xMax, int yMax, Position pos, Position end, queue<Path> &quePo
             }
         }
 
-        for (int i = 0; i < nextPosCount; i++)
+        for (int i = 0; i < nextPosCount; ++i)
             quePos.push({nextPos[i], path});
 
         while(!quePos.empty())
@@ -456,7 +456,7 @@ int main()
     int obstacleCount;
     cin >> obstacleCount;
     Position obstacles[obstacleCount];
-    for (int i = 0; i < obstacleCount; i++)
+    for (int i = 0; i < obstacleCount; ++i)
         cin >> obstacles[i].x >> obstacles[i].y;
     bool visited[xMax * yMax];
     fill(visited, visited + (xMax * yMax), false);

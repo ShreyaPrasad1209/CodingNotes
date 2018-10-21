@@ -19,19 +19,19 @@ int main()
         int n;
         cin >> n;
         int a[n];
-        for (int i = 0; i < n; i++) cin >> a[i];
+        for (int i = 0; i < n; ++i) cin >> a[i];
 
         ll b[n + 1];
         b[0] = 0;
         vector<ll> temp[n];
         temp[b[0] % n].push_back(0);
-        for(int i=1; i<=n; i++)
+        for(int i=1; i<=n; ++i)
         {
             b[i] = b[i - 1] + a[i - 1];
             temp[b[i] % n].push_back(i);
         }
         ll start, end;
-        for(int i=0; i<n; i++)
+        for(int i=0; i<n; ++i)
         {
             if(temp[i].size() >=2 )
             {
@@ -40,7 +40,7 @@ int main()
             }
         }
         cout << (end - start) << endl;
-        for(int i = start + 1; i <= end; i++)
+        for(int i = start + 1; i <= end; ++i)
             cout << i << " ";
         
         cout << endl;

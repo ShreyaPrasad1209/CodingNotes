@@ -15,14 +15,14 @@ int main()
     cin >> n >> t;
     ulli c[n];
     ulli sum = 0;
-    for (ulli i = 0; i < n; i++)
+    for (ulli i = 0; i < n; ++i)
     {
         cin >> c[i];
         sum += c[i];
     }
     while(t--)
     {
-        for (ulli i = 0; i < n; i++)
+        for (ulli i = 0; i < n; ++i)
         {
             c[i] = (sum - c[i]) % MOD;
             if (c[i] < 0) c[i] += MOD;
@@ -30,6 +30,6 @@ int main()
         sum = sum << 1;
     }
  
-    for (ulli i = 0; i < n; i++) cout << c[i] << endl;
+    for (ulli i = 0; i < n; ++i) cout << c[i] << endl;
     return 0;
 } 

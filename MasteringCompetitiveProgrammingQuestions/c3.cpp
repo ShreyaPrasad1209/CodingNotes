@@ -13,12 +13,12 @@ int MOD = 1000000000;
 vector< vector<ull> > matMul(vector< vector<ull> > A, vector< vector<ull> > B)
 {
     vector< vector<ull> > C(A.size(), vector<ull>(B[0].size()));
-    for (int i = 0; i < A.size(); i++)
+    for (int i = 0; i < A.size(); ++i)
     {
-        for (int j = 0; j < B[0].size(); j++)
+        for (int j = 0; j < B[0].size(); ++j)
         {
             C[i][j] = 0;
-            for (int k = 0; k < B.size(); k++)
+            for (int k = 0; k < B.size(); ++k)
                 C[i][j] = (C[i][j] + ((A[i][k] * B[k][j]) % MOD)) % MOD;
         }
     }
@@ -57,7 +57,7 @@ int main()
             T[x][x+1] = 1;
             x--;
         }
-        for (int i = 0; i < k; i++) cin >> F[i][0];
+        for (int i = 0; i < k; ++i) cin >> F[i][0];
         for (int i = k-1; i >= 0; i--) cin >> T[k-1][i];
         
         int n;

@@ -9,7 +9,7 @@ ll nCr (int n, int m)
 {
     if (m > n - m) m = n - m;    
     ll ans = 1;
-    for (int i = 0; i < m; i++) ans = ans * (n - i) / (i + 1);
+    for (int i = 0; i < m; ++i) ans = ans * (n - i) / (i + 1);
     return ans;
 }
 

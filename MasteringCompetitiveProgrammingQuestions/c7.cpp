@@ -23,7 +23,7 @@ int main()
         cin >> n;
         ll sum = 0;
         prefixSum[0] = 1;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; ++i)
         {
             cin >> a[i];
             sum += a[i];
@@ -32,7 +32,7 @@ int main()
             prefixSum[sum]++;
         }
         ll ans = 0;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; ++i)
         {
             ll no = prefixSum[i];
             ans += ((no) * (no-1))/2;

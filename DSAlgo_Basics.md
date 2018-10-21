@@ -28,9 +28,9 @@ It talks about the time and space complexity. However in this we ignore constant
    c<sub>1</sub> * g(n) ≤ f(n) ≤ c<sub>2</sub> * g(n)
 
 ```c++
-for (int i = 0; i < n; i++)
+for (int i = 0; i < n; ++i)
 {
-    for (int j = 0; j < n; j++)
+    for (int j = 0; j < n; ++j)
         c[i][j] = a[i][j] + b[i][j];
 }
 ```
@@ -215,7 +215,7 @@ long long findlcm(int arr[], int n)
 {
     long long ans = arr[0];
  
-    for (int i = 1; i < n; i++)
+    for (int i = 1; i < n; ++i)
         ans = (((arr[i] * ans)) / (gcd(arr[i], ans)));
  
     return ans;
@@ -229,7 +229,7 @@ long long findlcm(int arr[], int n)
 ```c++
 int search(int arr[], int n, int x)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
     {
         if (arr[i] == x)
             return i;
@@ -283,7 +283,7 @@ int search(int arr[], int n, int x)
             right = length;
     }
 
-    for (int i = left; i < right; i++)
+    for (int i = left; i < right; ++i)
     {
         if (arr[i] == x)
             return i;
@@ -373,7 +373,7 @@ bool isPairSum(A[], N, X)
     while (i < j)
     {
         if (A[i] + A[j] == X) return true;
-        else if (A[i] + A[j] < X) i++;
+        else if (A[i] + A[j] < X) ++i;
         else j--;
     }
     return false;
@@ -387,10 +387,10 @@ Time: O(n<sup>2</sup>)
 ```c++
 void sort(int arr[], int n)
 {
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n-1; ++i)
     {
         int minIndex = i;
-        for (int j = i+1; j < n; j++)
+        for (int j = i+1; j < n; ++j)
         {
             if (arr[j] < arr[minIndex])
                 minIndex = j;
@@ -406,9 +406,9 @@ Time: O(n<sup>2</sup>)
 ```c++
 void sort(int arr[], int n)
 {
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n-1; ++i)
     {
-        for (int j = 0; j < n-i-1; j++)
+        for (int j = 0; j < n-i-1; ++j)
         {
             if (arr[j] > arr[j+1])
                 swap(&arr[j], &arr[j+1]);
@@ -433,7 +433,7 @@ There's unstable & stable sorting: eg: 5 9 3 9 8 4 here there are duplicate item
 ```c++
 void sort(int arr[], int n)
 {
-    for (int i = 1; i < n; i++)
+    for (int i = 1; i < n; ++i)
     {
         int key = arr[i];
         int j = i-1;
@@ -468,7 +468,7 @@ void sort(int arr[], int n)
 {
     for (int gap = n/2; gap > 0; gap /= 2)
     {
-        for (int i = gap; i < n; i++)
+        for (int i = gap; i < n; ++i)
         {
             int temp = arr[i];
             for (int j = i; j >= gap && arr[j - gap] > temp; j -= gap)
@@ -492,9 +492,9 @@ void merge(int arr[], int l, int m, int r)
     int n1 = m - l + 1;
     int n2 =  r - m;
     int L[n1], R[n2];
-    for (i = 0; i < n1; i++)
+    for (i = 0; i < n1; ++i)
         L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
+    for (j = 0; j < n2; ++j)
         R[j] = arr[m + 1+ j];
 
     int i = 0;  //Initial index of first subarray
@@ -505,27 +505,27 @@ void merge(int arr[], int l, int m, int r)
         if (L[i] <= R[j])
         {
             arr[k] = L[i];
-            i++;
+            ++i;
         }
         else
         {
             arr[k] = R[j];
-            j++;
+            ++j;
         }
-        k++;
+        ++k;
     }
 
     while (i < n1)
     {
         arr[k] = L[i];
-        i++;
-        k++;
+        ++i;
+        ++k;
     }
     while (j < n2)
     {
         arr[k] = R[j];
-        j++;
-        k++;
+        ++j;
+        ++k;
     }
 }
 void sort(int arr[], int l, int r)
@@ -551,7 +551,7 @@ void partition(int& arr[], int l, int r)
 {
     int pivot = arr[r];
     int x = l - 1;
-    for (int i = l; i < r - 1; i++)
+    for (int i = l; i < r - 1; ++i)
     {
         if (arr[i] <= pivot)
         {
@@ -599,7 +599,7 @@ void sort(int arr[], int n)
 {
     int min = arr[0];
     int max = arr[0];
-    for (int i = 1; i < n; i++)
+    for (int i = 1; i < n; ++i)
     {
         if (max < arr[i])
             max = arr[i];
@@ -610,11 +610,11 @@ void sort(int arr[], int n)
     int m = max - min + 1;
     int count[m];
     fill(count, count + m, 0);
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
         count[arr[i] - min]++;
 
     int counter = 0;
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < m; ++i)
     {
         while (count[i] > 0)
         {
@@ -731,7 +731,7 @@ public:
                 break;
             }
 
-            i++;
+            ++i;
             curHead = curHead -> next;
         }
     }
@@ -809,7 +809,7 @@ public:
                 delete curHead;
                 break;
             }
-            i++;
+            ++i;
             curHead = curHead -> next;
         }
     }
@@ -1066,7 +1066,7 @@ int main()
     //INFIX TO POSTFIX
     stack<char> postfixStack;
     string postfix = "";
-    for (int i = 0; i < expression.size(); i++)
+    for (int i = 0; i < expression.size(); ++i)
     {
         char cur = expression[i];
         if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
@@ -1144,7 +1144,7 @@ int main()
     //POSTFIX TO INFIX
     stack<string> post2inStack;
     string post2in = "";
-    for (int i = 0; i < postfix.size(); i++)
+    for (int i = 0; i < postfix.size(); ++i)
     {
         char cur = postfix[i];
         if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
@@ -1164,7 +1164,7 @@ int main()
     //POSTFIX TO PREFIX
     stack<string> post2preStack;
     string post2pre = "";
-    for (int i = 0; i < postfix.size(); i++)
+    for (int i = 0; i < postfix.size(); ++i)
     {
         char cur = postfix[i];
         if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
@@ -1202,7 +1202,7 @@ int main()
     //EVALUATION OF POSTFIX
     stack<double> evaluateStack;
     double solution = 0;
-    for (int i = 0; i < postfix.size(); i++)
+    for (int i = 0; i < postfix.size(); ++i)
     {
         char cur = postfix[i];
         if (cur == '+' || cur == '-' || cur == '*' || cur == '/' || cur == '^')
@@ -1410,7 +1410,7 @@ public:
     void addWord(string word)
     {
         node* temp = root;
-        for (int i = 0; word[i] != '\0'; i++)
+        for (int i = 0; word[i] != '\0'; ++i)
         {
             char ch = word[i];
             if (temp -> next.count(ch) == 0)
@@ -1427,7 +1427,7 @@ public:
     bool search(string word)
     {
         node* temp = root;
-        for (int i = 0; word[i] != '\0'; i++)
+        for (int i = 0; word[i] != '\0'; ++i)
         {
             char ch = word[i];
             if (temp -> next.count(ch))

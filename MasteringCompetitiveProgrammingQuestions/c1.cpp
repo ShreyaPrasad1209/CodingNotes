@@ -7,7 +7,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef unsigned long long int ulli;
 #define mat(x, y, name) vector< vector<ull> > name (x, vector<ull>(y));
-#define printMat(name) for (int i = 0; i < name.size(); i++) {for (int j = 0; j < res[i].size(); j++) cout << res[i][j] << " "; cout << endl;}
+#define printMat(name) for (int i = 0; i < name.size(); ++i) {for (int j = 0; j < res[i].size(); ++j) cout << res[i][j] << " "; cout << endl;}
 
 int MOD = 1000000000;
 
@@ -33,7 +33,7 @@ int main()
         return a.second > b.second;
     });
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
     {
         if (emp[i].second >= x)
             cout << emp[i].first << " " << emp[i].second << endl;

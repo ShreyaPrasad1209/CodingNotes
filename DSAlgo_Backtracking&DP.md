@@ -19,7 +19,7 @@ bool isSafe(int* solution, int count)
     if (count == 0)
         return true;
     
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count; ++i)
     {
         //x = count
         //y = solution[count]
@@ -40,12 +40,12 @@ bool performNQueen(int n, int solution[], int count = 0)
 {
     if (count == n)
     {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; ++i)
             cout << solution[i] << " ";
         return true;
     }
     
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
     {
         solution[count] = i;
         if (isSafe(solution, count))
@@ -81,7 +81,7 @@ using namespace std;
 bool isSafe(vector<int> adj[], int n, int node, string solution)
 {
     int size = solution.length();
-    for (int i = 0; i < adj[node].size(); i++)
+    for (int i = 0; i < adj[node].size(); ++i)
     {
         int to = adj[node][i];
 
@@ -103,7 +103,7 @@ void coloringProblem(vector<int> adj[], int n, int c, char colors[], int node = 
         return;
     }
 
-    for (int i = 0; i < c; i++)
+    for (int i = 0; i < c; ++i)
     {
         string newSolution = solution + colors[i];
         if (isSafe(adj, n, node, newSolution))
@@ -116,7 +116,7 @@ int main()
     int n, e;
     cin >> n >> e;
     vector<int> adj[n];
-    for (int i = 0; i < e; i++)
+    for (int i = 0; i < e; ++i)
     {
         int a, b;
         cin >> a >> b;
@@ -126,7 +126,7 @@ int main()
     int c;
     cin >> c;
     char colors[c];
-    for (int i = 0; i < c; i++)
+    for (int i = 0; i < c; ++i)
         cin >> colors[i];
     
     coloringProblem(adj, n, c, colors);
@@ -168,16 +168,16 @@ bool performKnightTour(int x, int y, int count = 1)
 
     if (count == 64)
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; ++i)
         {
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; ++j)
                 cout << arr[i][j] << " ";
             cout << endl;
         }
         return true;
     }
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; ++i)
     {
         int newX = x + xMove[i];
         int newY = y + yMove[i];
@@ -197,9 +197,9 @@ int main()
 {
     int x, y;
     cin >> x >> y;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; ++i)
     {
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < 8; ++j)
             arr[i][j] = -1;
     }
     
@@ -242,10 +242,10 @@ int onTheWayHomeProblem()
 {
     int ways[m][n];
 
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < m; ++i)
         ways[i][n-1] = 1;
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
         ways[m-1][i] = 1;
     
     for (int i = m-2; i >= 0; i--)
@@ -270,9 +270,9 @@ int rodCutter(int cost[], int n)
     int maxCost[n+1];
     fill(maxCost, maxCost + n + 1, -9999);
     maxCost[0] = 0;
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; ++i)
     {
-        for (int j = 1; j <= i; j++)
+        for (int j = 1; j <= i; ++j)
             maxCost[i] = max(maxCost[i], cost[j] + maxCost[i - j]);
     }
 
@@ -284,7 +284,7 @@ int main()
     int n;
     cin >> n;
     int cost[n + 1];
-    for (int i = 0; i <= n; i++)
+    for (int i = 0; i <= n; ++i)
         cin >> cost[i];
     
     cout << rodCutter(cost, n);
@@ -313,13 +313,13 @@ bool isSubsetSum(ull n, ull arr[], ull sum)
 bool isSubsetSum(int n, int arr[], int sum)
 {
     bool m[n][sum + 1];
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
         m[i][0] = true;
-    for (int i = 1; i < sum + 1; i++)
+    for (int i = 1; i < sum + 1; ++i)
         m[0][i] = (arr[0] == i) ? true : false;
-    for (int j = 1; j < sum + 1; j++)
+    for (int j = 1; j < sum + 1; ++j)
     {
-        for (int i = 1; i < n; i++)
+        for (int i = 1; i < n; ++i)
         {
             if (j - arr[i] > 0)
                 m[i][j] = m[i-1][j] || m[i-1][j-arr[i]];

@@ -11,12 +11,12 @@ lli MOD = 1000000007;
 vector< vector<lli> > matMul(vector< vector<lli> > A, vector< vector<lli> > B)
 {
     vector< vector<lli> > C(A.size(), vector<lli>(B[0].size()));
-    for (int i = 0; i < A.size(); i++)
+    for (int i = 0; i < A.size(); ++i)
     {
-        for (int j = 0; j < B[0].size(); j++)
+        for (int j = 0; j < B[0].size(); ++j)
         {
             C[i][j] = 0;
-            for (int k = 0; k < B.size(); k++)
+            for (int k = 0; k < B.size(); ++k)
                 C[i][j] = (C[i][j] + ((A[i][k] * B[k][j]) % MOD)) % MOD;
         }
     }

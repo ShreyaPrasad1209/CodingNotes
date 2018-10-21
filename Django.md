@@ -254,3 +254,26 @@ message-show is the name assigned with url like: path('<int:my_id>/', message_de
 
 ### URL Namespacing:
 The URLs for app can be put inside it creating urls.py file. The paths will become local to the app and an app_name can be assigned for namespace which is used in model get_absolute_url rever("chat:message-show",...) like this.
+
+### Statics:
+Images, CSS, Javascripts are stored as statics:
+<br>
+settings.py
+```python
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ( os.path.join('static'), )
+```
+Then create a folder static and inside that put your files
+```html
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>Title</title>
+        <link rel="stylesheet" href="{% static "clouds.css" %}">
+    </head>
+<html>
+```

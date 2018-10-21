@@ -7,7 +7,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 typedef unsigned long long int ulli;
 #define mat(x, y, name) vector< vector<ull> > name (x, vector<ull>(y));
-#define printMat(name) for (int i = 0; i < name.size(); i++) {for (int j = 0; j < res[i].size(); j++) cout << res[i][j] << " "; cout << endl;}
+#define printMat(name) for (int i = 0; i < name.size(); ++i) {for (int j = 0; j < res[i].size(); ++j) cout << res[i][j] << " "; cout << endl;}
 
 int MOD = 1000000000;
 
@@ -16,7 +16,7 @@ void perform(vector< pair<ulli, ulli> > a[], bool visited[], ulli sol[], ulli& a
     visited[node] = true;
     sol[node] = 1;
     ulli at = a[node].size();
-    for (ulli i = 0; i < a[node].size(); i++)
+    for (ulli i = 0; i < a[node].size(); ++i)
     {
         ulli v = a[node][i].first;
         if (!visited[v])
@@ -43,7 +43,7 @@ int main()
         vector< pair<ulli, ulli> > a[n];
         bool visited[n] {};
         ulli sol[n] {};
-        for (ulli i = 0; i < n-1; i++)
+        for (ulli i = 0; i < n-1; ++i)
         {
             ulli x, y, z;
             cin >> x >> y >> z;

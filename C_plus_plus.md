@@ -291,7 +291,7 @@ void Function()
     //It will log 1 per function call
     //If it was static int i = 0 then it would have logged 1, 2, 3, 4
     int i = 0;
-    std::cout << i++ << std::endl;
+    std::cout << ++i << std::endl;
 }
 int main()
 {
@@ -679,7 +679,7 @@ int main()
     pfnArray[2] = &CMessage::Print3;
 
     CMessage func;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; ++i)
         (func.*pfnArray[i])();
     return 0;
 }
@@ -1148,27 +1148,27 @@ int main()
 
 ```c++
 int** a2d = new int*[50];
-for(int i=0; i<50; i++)
+for(int i=0; i<50; ++i)
     a2d[i] = new int[50];
 
 int*** a3d = new int**[50];
-for(int i=0; i<50; i++)
+for(int i=0; i<50; ++i)
 {
     a3d[i] = new int*[50];
-    for(int j=0; j<50; j++)
+    for(int j=0; j<50; ++j)
         a3d[i][j] = new int[50]
 }
 
 a2d[0][0] = 1;
 a3d[0][0][0] = 1;
 
-for(int i=0; i<50; i++)
+for(int i=0; i<50; ++i)
     delete[] a2d[i];
 delete[] a2d;
 
-for(int i=0; i<50; i++)
+for(int i=0; i<50; ++i)
 {
-    for(int j=0; j<50; j++)
+    for(int j=0; j<50; ++j)
         delete[] a2d[i][j];
     delete[] a2d[i];
 }

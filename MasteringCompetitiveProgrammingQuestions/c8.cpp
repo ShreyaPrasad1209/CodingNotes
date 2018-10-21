@@ -14,7 +14,7 @@ int main()
         double n;
         cin >> n;
         double ans = 0;
-        for (int i = 1; i <= n; i++) ans += (double)1/i;
+        for (int i = 1; i <= n; ++i) ans += (double)1/i;
         ans *= n;
         cout << ans << endl;
     }

@@ -42,7 +42,7 @@ res[] = {0, 9, 8, 1, 5}
 void multiply(int* a, int& n, int num)
 {
     int carry = 0;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; ++i)
     {
         int product = a[i] * num + carry;
         a[i] = product % 10;
@@ -61,7 +61,7 @@ void big_factorial(int number)
     int* a = new int[1000];
     a[0] = 1;
     int n = 1;
-    for (int i = 2; i < number; i++)
+    for (int i = 2; i < number; ++i)
         multiply(a, n, i);
     for (int i = n-1; i >= 0; i--)
         cout << a[i];
@@ -115,22 +115,78 @@ temp[]  =      2    6    1,4  3    5
 This is pigeonhole senerio in every case any temp arr will have two element. end - start i.e. 4 - 1 = 3 so 3 elements that are 2nd 3rd and 4th (4 + 3 + 5) % 6 = 0
 ```
 
+### nCr calculations (<sup>n</sup>C<sub>r</sub> % p):
+1) Using Lucas Theorem TODO
+
 ### GCD using Euclid's Algorithm:<br>
 > GCD (A, B) = GCD (B, A % M) BaseCase: B gets 0
 
 > GCD (A, B) * LCM (A, B) = A * B
 
+O(Log min(a, b))
+
 ### Extended Euclid's Algorithm:<br>
+ax + by = GCD (a,b)<br>
+Here x & y can be calculated using extended euclid's algrithm. There has to exist some x & y for all a & b to satisfy the above condition according to Bezout's Theorem.
+https://www.youtube.com/watch?v=6KmhCKxFWOs
 
+Given that GCD (a, b) is 1
+> Ax + By = 1
 
+> (A%B)x' + Ay' = 1
 
+> Comparing coeficients:<br>y = x'<br>x = y' - (b/a)x'
+```c++
+int gcdExtended(int a, int b, int *x, int *y) 
+{
+    if (a == 0)
+    {
+        *x = 0;
+        *y = 1;
+        return b;
+    }
+    int x1, y1;
+    int gcd = gcdExtended(b%a, a, &x1, &y1);
+    *x = y1 - (b/a) * x1;
+    *y = x1;
+    return gcd; 
+} 
+```
 
+### Multiplicative modulo inverse using Extended Eulidean Algorithm:
+Naive approach try all numbers from 1 to m for every check (a * x) % m is 1
+```c++
+ll modInverse(ll a, ll m) 
+{
+    a = a % m;
+    for (ll x = 1; x < m; x++)
+    {
+        if ((a * x) % m == 1)
+            return x;
+    }
+}
+```
+Other approach is Extended GCD it will work only if a & m are coprime.
+> x = 1/a (mod M)
 
+> ax = 1 (mod M)
 
+> ax - 1 = qm
 
+> ax - qm = 1
 
+Now use Extended Eucledian to find value of x & q. Here x is inverse modulo provided that a & m are co prime i.e. GCD (a, m) = 1
+```c++
+//m added to handle negative, -1 means inverse doesn't exist
+if (gcdExtended(a, m, &x, &y)) return (x%m + m) % m;
+else return -1;
+```
 
-**2 ) Find all prime factors:**<br>
+Other equally efficent approach used when only m is prime is using Fermat's Little Theorem
+
+TODO
+
+### Find all prime factors:
 If a number is divisible by 2 divide it by 2 and show 2. Then loop from <u>3 to √n</u> Since n is odd (n % 2 != 0 so we can skip an element i.e. <u>i+=2</u>). Last check is if n > 2 otherwise n can be 1 then we just show.<br>
 Time: O(√n)<br>
 A check till √n is sufficient because prime numbers lie in pairs (1, 100) (2, 50) (4, 25)...
@@ -165,10 +221,8 @@ Politeness of a number i.e. number of ways a number can be expressed as consecut
 15 : 1 + 2 + 3 + 4 + 5, 4 + 5 + 6, 7 + 8 hence 3<br>
 It is equivalent to number of all odd prime factors excluding 1. 15 : 1, 3, 5, 15 (so 3)
 
-**3) Find All Prime Numbers**
-Naive approach is to itterate from 2 to n and for each number call isPrime() this function will find all prime factors and see if it is more than 2 then true. Time: O(n√n)
-
-Sieve Of Eratosthanese: Time: O(nloglogn)
+### Sieve Of Eratosthanese:
+Time: O(nloglogn)
 ```c++
 void printPrimes(int n)
 {
@@ -176,7 +230,7 @@ void printPrimes(int n)
     fill(primes, primes + n + 1, 1);
     primes[0] = 0;
     primes[1] = 0;
-    for (int i = 2; i <= n; i++)
+    for (int i = 2; i <= n; ++i)
     {
         if (primes[i] == 1)
         {
@@ -187,7 +241,157 @@ void printPrimes(int n)
 }
 ```
 
-**4) Prime Factorization using Sieve Of Erastosthanese O(logn)**
+### Prime Factorization using Sieve Of Erastosthanese:
+Time: O(logn)<br>
+spf stores the smallest prime factors for each number
+```c++
+ll spf[MAXN];
+void sieve() 
+{ 
+    for (int i=1; i<MAXN; ++i) spf[i] = i;
+    for (int i=4; i<MAXN; i+=2) spf[i] = 2;
+    for (int i=3; i*i<MAXN; ++i)
+    {
+        if (spf[i] == i)
+        {
+            for (int j=i*i; j<MAXN; j+=i)
+            {
+                if (spf[j]==j)
+                    spf[j] = i;
+            }
+        }
+    }
+}
+
+vector<ll> factorize(ll x)
+{
+    vector<ll> factors;
+    while (x != 1)
+    {
+        factors.push_back(spf[x]);
+        x = x / spf[x];
+    }
+    return factors; 
+}
+```
+
+### Segmented Sieve:
+If we want to calculate prime numbers between a range say 10<sup>8</sup> to 10<sup>9</sup>(L to R)<br>
+We will create a sieve for 2 to root R and then we will make every number within it's sieve along with it's multiple as non-prime in resulted sieve (containing R-L elements)
+```c++
+vector<ll>* findPrimes(ll n)
+{
+    bool primes[n+1] {};
+    fill(primes + 2, primes + n + 1, true);
+    for (ll i = 2; i <= n; ++i)
+    {
+        if (primes[i])
+        {
+            for (int j = i*2; j <= n; j+=i)
+                primes[j] = false;
+        }
+    }
+
+    vector<ll>* foundPrimes = new vector<ll>;
+    for (ll i = 2; i <= n; ++i)
+    {
+        if (primes[i])
+            foundPrimes->push_back(i);
+    }
+    return foundPrimes;
+}
+
+void segmentedSeive(ll L, ll R)
+{
+    auto res = findPrimes(sqrt(R));
+    bool isPrime[R-L+1];
+    fill(isPrime, isPrime + R-L+1, true);
+    for (ll i = 0; i < res->size(); ++i)
+    {
+        ll key = res->at(i);
+        ll initKey = key;
+        while(key <= R)
+        {
+            if (key >= L)
+                isPrime[key-L] = false;
+            key += initKey;
+        }
+    }
+
+    for (ll i = 0; i < R-L+1; ++i)
+    {
+        if (isPrime[i])
+            cout << i+L << " ";
+    }
+}
+```
+
+### Chinease Remainder Theorem:
+Problems like find number when divided by 2 leaves 1, divided by 3 leaves 2, divided by 7 leaves 5.
+> x = 1 (mod 2) = 2 (mode 3) = 5 (mod 7)
+
+First thing is check all pairs of mod i.e. 2, 3, 7 have pair-wise GCD 1 so GCD (2, 3) = GCD (3, 7) = 1 and so on... And we need to find minimum possible value of that number.
+
+A naive approach is start by 1 and keep incrementing x checking if the condition matches.
+```c++
+ll findMinPossible(ll num[], ll rem[], ll n)
+{
+    ll x = 1;
+    while (true) 
+    {
+        for (ll j = 0; j < k; ++j)
+        {
+            if (x % num[j] != rem[j])
+               break;
+        }
+        if (j == k) return x;
+        x++;
+    }
+    return x;
+}
+```
+
+Chinease Remainder Theorem works by this formula:
+> x = { 0 <= i <= n-1 } (rem[i] * pp[i] * inv[i]) % prod
+
+Here prod is product of all numbers, pp[i] is prod / num[i]. inv[i] is Modular Multiplicative Inverse of pp[i] with respect to num[i]
+
+```c++
+ll chineaseRemainderTheorem(ll num[], ll rem[], ll n) 
+{
+    ll prod = 1ll;
+    for (ll i = 0; i < k; ++i) prod *= num[i]
+
+    ll res = 0;
+    for (ll i = 0; i < k; ++i)
+    {
+        ll pp = prod / num[i];
+        res += rem[i] * modInverse(pp, num[i]) * pp;
+    }
+    return result % prod;
+}
+```
+
+### Euler Phi Function:
+φ is a function on natural number that gives the count of positive integers coprimes to that number. φ(8) = 4, φ(9) = 6
+```c++
+ll phi[] = new int[n+1];
+for (ll i = 2; i <= n; ++i) phi[i] = i;
+for (ll i = 2; i <= n; ++i)
+{
+    if (phi[i] == i)
+    {
+        for (ll j = i; j <= n; j += i)
+            phi[j] = (phi[j] / i) * (i - 1);
+    }
+}
+```
+1. If P is prime φ(p<sup>k</sup>) = (p-1)p<sup>(k-1)</sup>
+2. φ(ab) = φ(a)φ(b)
+3. φ(d1) + φ(d2) + ... = n : here d1, d2 ... are all divisors of n
+
+### Wilson's Theorem:
+If p is prime then (p-1)! = -1 (mode p)
 
 ## 2. Bit Manipulation:
 N = 6163<sub>10</sub> = (6×10<sup>3</sup>) + (1×10<sup>2</sup>) + (6×10<sup>1</sup>) + (3×10<sup>0</sup>)<br>
@@ -298,7 +502,7 @@ Booth's Multiplication Algo: (01011 x 01011)
 int mul(int a, int b)
 {
     int ans = 0;
-    for (int i = 0 ; i < 32; i++)
+    for (int i = 0 ; i < 32; ++i)
     {
         if (b & 1) ans += a;
         b = b>>1;

@@ -445,3 +445,132 @@ LCG (Linear Congrunetial Generator): It is the most common of several different 
 
 > 1197 mod 10<sup>2</sup> = 97<br>
 > 173 mod 2<sup>6</sup> = 10101101 mod 2<sup>6</sup> = 101101 = 45
+
+## Statistics:
+A Probability distribution is a table of values showing the probabilities of various outcomes of an experiment. For example if a coin is tossed three times, the number of heads can be obtained - 0, 1, 2 or 3 times. The probability of all these distributions.
+
+A discrete variable is a variable which can only take a countable number of values like in the above example the number of head can only take 4 values so variable is discrete.
+
+A continuous variable is a variable where the data can take infinitely many values. Example - a variable measuring the time taken for something to be done is continuous since there are an infinite number of possible times that can be taken.
+
+The variable is said to be random if the sum of probabilities is one.
+
+The Probability Density function (PDF) of X tells probability of event x occuring. P(X=x) X is random variable like no. of heads P(X=0)
+
+The cumulative distributive function (CDF) of a discrete random variable X is the function F(t) which tells the probability that X is less than or equal to t. Thus it is found by integrating PDF between minimum value of X and t. F(X) = P(X<=x)
+
+A distributive function has the following properties:
+> 0 <= F(x) <= 1 for all x
+
+> F(x) is non decreasing [i.e. if x1 < x2 then F(x1) <= F(x2)]
+
+> lim x->inf F(x) = 1 and lim x->-inf F(x) = 0 (Since only takes finite values)
+
+### Mean Value: 
+E(x) = SUM {all i} x<sub>i</sub>p(x<sub>i</sub>), for discrete X<br>
+E(x) = INTEGRAL {-inf to inf} xf(x), for continuous X<br>
+E(x<sup>n</sup>) is the nth moment.<br>
+E(x<sup>n</sup>) = SUM {all i} x<sub>i</sub><sup>n</sup>p(x<sub>i</sub>) & INTEGRAL {-inf to inf} x<sup>n</sup>f(x)
+
+### Variance: V = E(x<sup>2</sup>) - E<sup>2</sup>(x)
+### Standard Deviation: √V
+
+## Input Probability Distribution functions
+### For Discrete systems:
+1) Bernoulli Distribution: For experiments consisting of n trials, each can be a success or a failure i.e. xi can be 0 (failure) or 1 (success). If only two outcomes then known as bernoulli trial otherwise bernoulli distributions.<br>![](res/bernouli.png)<br>
+Mean: p<br>
+Variance: pq<br>
+
+1) Binomial Distribution: If we have n trials. x successives are success then n-x are failures <br>![](res/binomial.png)<br>
+Binomial Theorem: (a+b)<sup>n</sup> = {sum 0 to n} <sup>n</sup>C<sub>x</sub> a<sup>x</sup> b<sup>n-x</sup><br>
+Mean: np<br>
+Variance: npq<br>
+
+3) Geometric Distribution: defined to be no. of trials to achieve first success.<br>![](res/geometrical.png)<br>
+Mean: 1/p<br>
+Variance: q/p<sup>2</sup><br>
+
+4) Negative Binomial: defined to be no. of trials to achieve kth success.<br>![](res/negativeBi.png)<br>
+Mean: k/p<br>
+Variance: kq/p<sup>2</sup><br>
+
+5) Poisson's Distribution: Rumored that it was used to model deaths cause by kicks of horses.<br>![](res/poisson.png)<br>
+Mean = Variance = α
+
+### For Continuous systems:
+1) Uniform Distribution: If PDF & CDF are<br>![](res/uniform.png)<br>
+Mean: (a+b)/2<br>
+Variance: (b-a)<sup>2</sup>/12
+
+2) Normal Distribution: Data symmetric about mean showing data more frequent towards mean. i.e. PDF symmetric about mean.<br>![](res/normal.png)<br>
+f(μ-x) = f(μ+x)<br>![](res/normal2.png)<br>
+
+3) Gamma Distribution: β(shape parameter) ϴ(scale parameter)<br>![](res/gamma.png)<br>
+Mean: 1/ϴ
+Variance: 1/βϴ<sup>2</sup><br>![](res/gamma2.png)<br><br>![](res/gamma3.png)<br>
+
+4) Weibull Distribution: ν(location parameter) β(shape parameter) ϴ(scale parameter)<br>![](res/weibull0.png)<br><br>![](res/weibull.png)<br>Put ν 0 and β 1 then Exponential Distribution<br>![](res/exponential.png)
+
+5) Triangular Distribution: <br>![](res/triangular.png)
+
+6) Emperical Distribution: A distribution whose parameter are observed values i.e. it's impossible to establish the distribution.<br>
+Given arrival in groups (1-8 peoples). The no. of persons (per groups) and the relative frequencies. Draw histogram for relative frequency & emperical CDF.<br>![](res/emperical1.png)<br>(first two columns given)<br>![](res/emperical2.png)<br>
+
+## Generation Of Random Variates
+1) It is necessary to generate random observations from probability distribution in order to determine the future event times we will refer to such a generated observation as random variate.
+2) It deals with procedures for sampling from different continuous and discrete distributions.
+3) It is assumed that distributions have completely specified and distributions samples are used as input to simulation models.
+4) Techniques like inverse transform, acceptance-rejection are used commonly for generating random variates.
+5) All techniques assume that a source of uniform [0, 1] random numbers (uniformly distributed random numbers are readily available)
+
+### Inverse Transform Technique
+1) Can be used to sample from discrete & continuous distributions
+2) The goal is to develop random variates x1, x2.. of particular type say exponential distribution.
+3) Useful when CDF i.e. F(x) is of simple form so that F<sup>-1 </sup> can be computed easily.
+> Compute CDF of desired random variable
+
+> Set F(X) = R on the range of X
+
+> Solve above equation for X in terms of R
+
+> Generate uniform random numbers R1, R2, R3... and then compute desired random variate using Xi = F<sup>-1</sup>Ri
+
+<br>![](res/InvTra.png)<br>
+
+### Identifying Distributions With Data
+1) Input data provide the driving force for a simulation model.
+2) In queuing system input data are distributions of time between arrival and service time.
+> Collect data from real system of interest, requires a substantial time and resource commitment. When data is not available expert opinion and knowledge of process is must.
+
+> Identify a probability distribution to represent the input process. With available data developing a frequency distribution or histogram.
+
+> Choose parameters that define a distribution family when data are available. Those parameters may be estimated from data.
+
+> Evaluate the choosen distribution and associated parameters for the goodness-of-bit using graphical method or statistical test.
+
+### Estimation Of Parameters
+> After selecting the family of distribution next step is the estimate the parameter of distribution.
+
+> In many cases sample mean & sample variance are used to estimate the parameters of hypothesised data.
+
+> The raw data maybe in disrete or continuous form.
+
+> Discrete data may have to be grouped to have frequency distribution.
+
+> Class distributions may be used.
+
+<br>![](res/case1.png)<br>
+<br>![](res/case2.png)<br>
+<br>![](res/case3.png)<br>
+<br>![](res/suggested.png)<br>
+
+## Goodness-Of-Fit Test
+### Chi-Square Test (x<sup>2</sup>)
+Given is a restaurant record of customer, first row contains expected percentage. Now we want to check if that expected hypothesis should be accpeted or rejected.<br>
+Observed datas (Null hypothesis), in next row. Then we are counting expected as per the observed values like for monday it should be 10% so 10% of total observed customers i.e. 200<br>
+First find out the Degree Of Freedom it's always 1 minus actual like for flipping coin we get head or tail so DOF is 1. Given also alpha is Significance level. Look in table for critical value corresponding to alpha and DOF. If our chi square ecxeeds critical value then we reject otherwise accepts.
+<br>![](res/chisqr.png)<br>
+
+### Multivariable: P(X=x, Y=y), x & y are independent if P(X, Y) = P(X) P(Y)
+### Covarience: Cov(X, Y) = E(X, Y) = E(X) E(Y)
+### Corelation: Cor(X, Y) = Cov(X, Y) / √Var(X) Var(Y)

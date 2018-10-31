@@ -115,8 +115,71 @@ temp[]  =      2    6    1,4  3    5
 This is pigeonhole senerio in every case any temp arr will have two element. end - start i.e. 4 - 1 = 3 so 3 elements that are 2nd 3rd and 4th (4 + 3 + 5) % 6 = 0
 ```
 
+### Very large string input to ll when % m
+```c++
+ll string2Int(string a, ll m)
+{
+    ll ans = 0ll;
+    for (int i = 0; i < a.size(); ++i)
+        ans = (((ans * 10) % m) + (a[i] - '0')) % m;
+    return ans;
+}
+```
+
+### ModPower
+```c++
+ll powMod(ll a, ll b, ll m)
+{
+    ll x = 1, y = a;
+    while (b > 0)
+    {
+        if (b & 1) x = (x * y) % m;
+        y = (y * y) % m;
+        b >>= 1;
+    }
+    return x;
+}
+```
+
 ### nCr calculations (<sup>n</sup>C<sub>r</sub> % p):
-1) Using Lucas Theorem TODO
+1) One way is using DP to store entire Pascal table O(nr)
+2) Lucas Theorem O(p<sup>2</sup> Log<sub>p</sub> n)
+```c++
+ll cal_nCr_mod_p(ll n, ll r, ll p)
+{
+    ll C[r+1];
+    memset(C, 0, sizeof(C));
+    C[0] = 1;
+    for (ll i = 1; i <= n; ++i)
+    {
+        for (ll j = min(i, r); j > 0; --j)
+            C[j] = (C[j] + C[j-1]) % p;
+    }
+    return C[r];
+}
+
+ll lucasTheorem(ll n, ll r, ll p)
+{
+    if (r == 0) return 1;
+    else
+    {
+        ll n_i = n%p, r_i = r%p;
+        ll result = (lucasTheorem(n/p, r/p, p) * cal_nCr_mod_p(n_i, r_i, p)) % p;
+        return result;
+    }
+}
+```
+3) Fermat’s little theorem:
+```c++
+ll nCr(ll n, ll r, ll p)
+{
+    if (n < r) return 0;
+    ll res = 1, rem = 1;
+    for (ll i = n - r + 1; i <= n; i++) res = (res * i) % p;
+    for (ll i = 2; i <= r; i++) rem = (rem * i) % p;
+    return (res * powMod(rem, p - 2, p)) % p;
+}
+```
 
 ### GCD using Euclid's Algorithm:<br>
 > GCD (A, B) = GCD (B, A % M) BaseCase: B gets 0
@@ -153,8 +216,17 @@ int gcdExtended(int a, int b, int *x, int *y)
 } 
 ```
 
-### Multiplicative modulo inverse using Extended Eulidean Algorithm:
-Naive approach try all numbers from 1 to m for every check (a * x) % m is 1
+### Fermat's Little Theorem:
+> a<sup>p</sup> = a (mod p) Here p is a prime number
+
+> ( a<sup>p</sup> - a ) % p = 0
+
+> (a<sup>p-1</sup> - 1) % p = 0
+
+> a<sup>p-1</sup> % p = 1
+
+### Multiplicative modulo inverse:
+Naive approach try all numbers from 1 to m for every check (a * x) % m = 1
 ```c++
 ll modInverse(ll a, ll m) 
 {
@@ -184,7 +256,13 @@ else return -1;
 
 Other equally efficent approach used when only m is prime is using Fermat's Little Theorem
 
-TODO
+> a<sup>m-1</sup> = 1 (mod m)
+
+> a<sup>-1</sup> = a<sup>m-2</sup> % m
+
+```c++
+powMod(a, m-2, m);
+```
 
 ### Find all prime factors:
 If a number is divisible by 2 divide it by 2 and show 2. Then loop from <u>3 to √n</u> Since n is odd (n % 2 != 0 so we can skip an element i.e. <u>i+=2</u>). Last check is if n > 2 otherwise n can be 1 then we just show.<br>
@@ -391,7 +469,23 @@ for (ll i = 2; i <= n; ++i)
 3. φ(d1) + φ(d2) + ... = n : here d1, d2 ... are all divisors of n
 
 ### Wilson's Theorem:
-If p is prime then (p-1)! = -1 (mode p)
+If p is prime then (p-1)! = -1 (mod p)
+> for p as 5 : 4! = -1 (mod 5)
+
+> 24 mod 5 = 4 = -1 Hence it has to be prime
+
+### Miller - Rabin Primality Test:
+> Step 1 : Find n-1 = 2<sup>k</sup>m
+
+Example n as 53. 52/2 = 26, 52/4 = 13, 52/8 = 6.5 so we will stop at 8. now k values will be 0, 1 & 2 corresponding m are 52, 26 & 13.
+
+> Step 2 : Choose a such that 1 < a < n-1
+
+Pick any number between 1 < a < n-1 for a it doesn't really matter. A smaller number just means less calculation.
+
+> b<sub>o</sub> = a<sup>m</sup>mod m, b<sub>i</sub> = b<sup>2</sup><sub>i-1</sub> mod m
+
+Calculate b<sub>o</sub> if it's +1 or -1 (Prime) else count b<sub>1</sub> from now on if it's +1 (composite) -1 (prime) if none then count b<sub>2</sub> again same condition. If the conditions goes on forever means the number is probably composite
 
 ## 2. Bit Manipulation:
 N = 6163<sub>10</sub> = (6×10<sup>3</sup>) + (1×10<sup>2</sup>) + (6×10<sup>1</sup>) + (3×10<sup>0</sup>)<br>
@@ -511,3 +605,43 @@ int mul(int a, int b)
     return ans;
 }
 ```
+
+### Inclusion Exclusion Using Bitmasking
+| A ∪ B ∪ C | = | A | + | B | + | C | - | A ∩ B | - | B ∩ C | - | C ∩ A | + | A ∩ B ∩ C|<br>
+| A ∪ B ∪ C ∪ ... | = { SINGLE SUMS } - { DOUBLE PAIRS SUM } + { TRIPLE PAIRS SUM } - { FOUR PAIRS SUM } + ...
+
+Find numbers less than 1000 divisible by 2, 3 & 5<br>
+Numbers less then N divisible by m are floor((N - 1) / m) So:<br>
+Divisible by 2 = 449<br>
+Divisible by 3 = 333<br>
+Divisible by 5 = 199<br>
+Divisible by 2.5 = 99<br>
+Divisible by 3.5 = 66<br>
+Divisible by 2.3 = 166<br>
+Divisible by 2.3.5 = 33<br>
+| 2 ∪ 3 ∪ 5 | = 499 + 133 + 199 - 99 - 66 - 166 + 33 = 733
+
+```c++
+ll num = 999;
+ll arr[] = {2, 3, 5};
+ll n = sizeof(arr) / sizeof(ll);
+ll result = 0;
+for (ll i = 1; i < (1 << n); ++i)
+{
+    ll mask = i, temp = 1, pos = 0, product = 1ll;
+    while (mask > 0)
+    {
+        ll lastBit = (mask&1);
+        if (lastBit) product *= arr[pos];
+        mask >>= 1;
+        ++pos;
+    }
+    ll bits = __builtin_popcount(mask);
+    if (bits&1) result += num/product;
+    else result -= num/product;
+}
+cout << result << endl;
+```
+
+In for loop we are finding every sub array excluding one with zero element so i = 1 initially. Then inside the while loop basically if our mask's last bit is true then take the pos element from array after that right shift mask and increment pos.<br>
+After loop the if condition checks if the set bits of mask is odd or even, if it's odd result is added otherwise subtracted.

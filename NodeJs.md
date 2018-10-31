@@ -1,0 +1,2 @@
+# Node.js
+Node js is an open source, cross platform runtime environment for executing java code outside the browse. It is quite often used to create backend services - API. It is ideal for building highly scalable, data intensive and real-time backend services.

@@ -57,4 +57,10 @@ So for every next rotation value is: curVal - (sum - arr[0]) + (arr[0] * (n-1))
 Simply apply binary search, go to middle element check arr[l] < arr[mid-1] and arr[mid+1] < arr[r] the subarray which does not fullfil this perform binary search over there now.
 
 ## 5. Reverse an array or string - Infosys, VMware
-<br>![](res/1.png)<br>
+<br>![](res/1.jpg)<br><u>O(logN)</u><br>
+
+## 6. Rearrange elements to have alternate +ve -ve elements O(N)O(1) - Amazon, Paytm
+Seperate +ve and -ve numbers using quick sort partition technique and then simply do rearrangment by swapping elements.
+
+## 7. Moving zeroes to end of array O(N)O(1) - Amazon, Bloomberg, Paytm
+Simply traverse left to right keep swapping if zero encounters

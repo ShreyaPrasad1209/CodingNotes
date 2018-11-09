@@ -506,6 +506,8 @@ NAND = !AND = A! + B!<br>
 
 > If XOR of two numbers/string/any data is 0 then both are same.
 
+> XOR with 0 is the number itself
+
 If between two number there's a bit difference of exactly one by XOR then it is called Gray Code. It is used in signal detection to check if there's any wrong signal.
 <center>
 
@@ -606,7 +608,12 @@ int mul(int a, int b)
 }
 ```
 
-### Inclusion Exclusion Using Bitmasking
+### Repeating elements of Array Problems
+Given array [1, 2, 4, 2, 1] finding xor 1^2^4^2^1 = xor(1^1)^(2^2)^(4) = 0^0^4 = 4
+
+
+
+### Inclusion Exclusion Problems
 | A ∪ B ∪ C | = | A | + | B | + | C | - | A ∩ B | - | B ∩ C | - | C ∩ A | + | A ∩ B ∩ C|<br>
 | A ∪ B ∪ C ∪ ... | = { SINGLE SUMS } - { DOUBLE PAIRS SUM } + { TRIPLE PAIRS SUM } - { FOUR PAIRS SUM } + ...
 

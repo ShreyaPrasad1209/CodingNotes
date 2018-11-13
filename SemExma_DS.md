@@ -750,3 +750,52 @@ Node* deleteNode(Node* cur, int value)
 }
 //O(logN) or in worst case if it's skewed tree then O(N)
 ```
+
+## Binary Tree to Binary Search tree
+Inorder traverse binary tree and store values in an array, now sort the array, and finally again do the inoder traversal this time copy values from sorted array.
+
+## BST can be converted to Greater Sum Tree in which ever node contains sum of all nodes greater than node
+![](res/gretre.png)<br>
+Inorder traverse: 10, 15, 20, 23, 25, 30, 35, 39<br>
+Make Sum array (traverse right2left keep summing): 139, 137, 130, 119, 104, 75, 40, 0
+
+## AVL Tree
+https://www.youtube.com/watch?v=GSt_mo60WuE
+
+## Extended Binary Tree or 2-Tree
+![](res/extBT.png)<br>
+Circles are internal nodes, Squares are external node. Extended binary tree has 0 or 2 child for every node.
+
+> General Tree (each node can have any number of childs)
+
+## Threaded Binary Tree
+Instead of wasting unused memory we keep inorder successor or predecessor to make inorder traversal faster.
+![](res/threadedtree.png)<br>
+
+## Binary Heap
+```c
+#define MAXSIZE 50
+#define parent(x) (x-1) >> 1
+#define child1(x) (x << 1) + 1
+#define child2(x) (x << 1) + 2
+
+int heapArr[MAXSIZE];
+int size = 0;
+void heapify()
+{
+    int cur = size;
+    while(heapArr[parent(cur)] > heapArr[cur])
+    {
+        int temp = heapArr[cur];
+        heapArr[cur] = heapArr[parent(cur)];
+        heapArr[parent(cur)] = temp;
+        cur = parent(cur);
+    }
+}
+void insert(int x)
+{
+    heapArr[size] = x;
+    heapify();
+    ++size;
+}
+```

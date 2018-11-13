@@ -16,10 +16,7 @@ Pop - q1 to q2 except last element dequeue it to return it later. Swap q1 and q2
 
 In case of using only 1 queue, simply in push - enqueue x to q. dequeue and enqueue.
 
-## 4. Mergable Stack
-Implement merge(Stack1, Stack2) use LinkedList representation for O(1)
-
-## 5. getMin() in stack - Abobe, Paytm, VMWare
+## 4. getMin() in stack - Abobe, Paytm, VMWare
 Use another auxillary stack keeping minimum values track in it.
 ```
 PUSH 18

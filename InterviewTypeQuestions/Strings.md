@@ -23,7 +23,7 @@ int main()
     {
         Key temp = prioQue.top();
         prioQue.pop();
-        str += temp.ch;
+        res += temp.ch;
         if (prev.freq > 0) prioQue.push(prev);
         --(temp.frq);
         prev = temp;

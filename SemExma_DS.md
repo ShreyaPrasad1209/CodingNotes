@@ -781,8 +781,9 @@ Instead of wasting unused memory we keep inorder successor or predecessor to mak
 
 int heapArr[MAXSIZE];
 int size = 0;
-void heapify()
+void push(int x)
 {
+    heapArr[size] = x;
     int cur = size;
     while(heapArr[parent(cur)] > heapArr[cur])
     {
@@ -791,11 +792,139 @@ void heapify()
         heapArr[parent(cur)] = temp;
         cur = parent(cur);
     }
-}
-void insert(int x)
-{
-    heapArr[size] = x;
-    heapify();
     ++size;
 }
+void pop()
+{
+    heapArr[0] = heapArr[size-1];
+    --size;
+    int cur = 0;
+    while(min(child1(cur), child2(cur)) < size)
+    {
+        int temp = heapArr[cur];
+        heapArr[cur] = min(heapArr[child1(cur)], heapArr[child2(cur)]);
+        heapArr[min(child1(cur), child2(cur))] = temp;
+        cur = min(child1(cur), child2(cur));
+    }
+}
 ```
+
+## Graph
+> Path, ClosedPath, Simple Path, Multi-edge, Loop, Degree, Simple Graph, Connected Graph, Complete Graph, Multigraph, Degree, Simple Graph, Loop, Adjacent Node
+> Adjancey Representation, Linked List Representation (Adjancey List)
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+void DFS(vector<int> *adj, bool *visited, int node)
+{
+    if (!visited[node])
+    {
+        cout << node << " ";
+        visited[node] = true;
+        for (int i = 0; i < adj[node].size(); ++i)
+            DFS(adj, visited, adj[node][i]);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, e;
+    cin >> n >> e;
+    vector<int> adj[n];
+    bool visited[n];
+    fill(visited, visited + n, false);
+    for (int i = 0; i < e; ++i)
+    {
+        int x, y;
+        cin >> x >> y;
+        adj[x].push_back(y);
+    }
+
+    for (int i = 0; i < n; ++i)
+    {
+        if (!visited[i])
+            DFS(&adj[0], &visited[0], i);
+    }
+
+    return 0;
+}
+```
+
+```c++
+void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
+{
+    if (!visited[node])
+    {
+        cout << node << " ";
+        
+        visited[node] = true;
+        for (int i = 0; i < adj[node].size(); ++i)
+        {
+            if (!visited[adj[node][i]])
+            {
+                nodeVisited.push(adj[node][i]);
+                cout << adj[node][i] << " ";
+            }
+        }
+
+        while(!nodeVisited.empty())
+        {
+            int top = nodeVisited.front();
+            nodeVisited.pop();
+            BFS(adj, visited, top);
+        }
+    }
+}
+```
+
+## Topological Sort:
+It is a sorting of graph. In a package manger a package has a dependencie with another so the package manager makes a graph of all the pacakages and perform a topological sort to get linear list of packages to be compiled in order.<br><br>
+To implement we take two thing a stack & a visited set. We choose any node which is not visited, put it to visited set. Then check it's child if it's not visited. if a parent is totally visited we put it in our stack. In the end pop all elements from stack and the graph is topologically sorted.
+
+## Spanning Tree:
+[Greedy Algorithm]<br>
+We first create disjoint sets for all nodes. We store path in a set and sort it in ascending order based on weight. Traverse this new sorted list and apply find set to see if two nodes of path are different then do union. Also print the connection because that is our final minimum spanning tree.
+```c++
+int e, v;
+cin >> e >> v;
+
+DisjointSet<int> ds;
+
+for (int i=0; i<e; ++i)
+    ds.makeSet(i);
+
+vector<int> vertex[e];
+vector<Path> path(v);
+for (int i=0; i<v; ++i)
+{
+    int a, b, c;
+    cin >> a >> b >> c;
+    vertex[a].push_back(b);
+    vertex[b].push_back(a);
+    path[i] = {a, b, c};
+}
+
+sort(path.begin(), path.end(), [](Path i, Path j){
+    return (i.length < j.length);
+}]);
+
+cout << "-------" << endl;
+
+for (int i=0; i<v; ++i)
+{
+    int a = ds.find(path[i].nodeA);
+    int b = ds.find(path[i].nodeB);
+    if (a != b)
+    {
+        ds.makeUnion(a, b);
+        cout << path[i].nodeA << " " << path[i].nodeB << " - " << path[i].length << endl;
+    }
+}
+```
+
+## Hashing

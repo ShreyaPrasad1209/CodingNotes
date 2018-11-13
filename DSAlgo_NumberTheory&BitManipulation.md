@@ -608,6 +608,14 @@ int mul(int a, int b)
 }
 ```
 
+### Swap two numbers using XOR (Without using temp variable)
+```
+int x = 10, y = 5;
+x = x ^ y;
+y = x ^ y;      //y = (x ^ y) ^ y = (y ^ y) ^ x = 0 ^ x = x
+x = x ^ y;      //x = (x ^ y) ^ x = y
+```
+
 ### Repeating elements of Array Problems
 Given array [1, 2, 4, 2, 1] finding xor 1^2^4^2^1 = xor(1^1)^(2^2)^(4) = 0^0^4 = 4
 

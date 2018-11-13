@@ -36,8 +36,10 @@ Binary trees can be stored dynamically using a struct and class or by using an A
 like 1 2 3 4 5 6 7 in array will be 1 root with 2 & 3 child then 4 & 5 child of 2 and 6 & 7 child of 3.<br>
 This is used for perfect balanced binary tree. A balanced binary tree has left node data lesser or equal to the current node and right has greater.
 
-To differentiate between tree and graph also we can do sum of all degrees = 2(n-1) for tree - Handshaking lemma
+To differentiate between tree and graph also we can do Total Nodes = 2(Leaves-1) for tree - Handshaking lemma
 <br>![](res/degree.png)<br>
+In a k-ary tree where every node has either 0 or k children. L = I*(k-1) + 1<br>
+L = Number of leaf node, I = Number of internal nodes i.e. nodes having k childs
 
 A bipartite graph is one whose vertices can be split into two independent groups U, V such that every edge connects between U and V. Other definations exists such as: The graph is two colourable or there is no odd length cycle.
 <br>![](res/bipartite.png)<br>

@@ -349,7 +349,7 @@ bool isEmpty() { return (root == NULL); }
 void push(int val, int _prio)
 {
     Node* newNode = new Node{val, _prio, NULL};
-	if (root == NULL) root = newNode;
+    if (root == NULL) root = newNode;
     else if (root->prio > newNode->prio)    //Flip sign for max prio
     {
         newNode->next = root;
@@ -389,7 +389,11 @@ int peek()
 
 ## Priority Queue (min prio) using Doubly Linked List:
 ```c
-struct Node { int data, prio; Node* next, prev; } *front = NULL, *rear = NULL;
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+
+struct Node { int data, prio; Node *next, *prev; } *front = NULL, *rear = NULL;
 bool isEmpty() { return (front == NULL && rear == NULL); }
 void push(int val, int _prio)
 {
@@ -404,13 +408,13 @@ void push(int val, int _prio)
         //Front Insert
         newNode->next = front;
         front->prev = newNode->next;
-        root = newNode;
+        front = newNode;
     }
     else if (newNode->prio > rear->prio)
     {
         //Rear Insert
         newNode->next = NULL;
-        root = newNode;
+        front = newNode;
     }
     else
     {
@@ -430,8 +434,8 @@ void pop()
         cout << "Queue is Empty!" << endl;
         return;
     }
-    Node* temp = root;
-    root = root->next;
+    Node* temp = front;
+    front = front->next;
     delete temp;
 }
 int peek()
@@ -441,7 +445,17 @@ int peek()
         cout << "Queue is Empty!" << endl;
         return -1;
     }
-    return root->data;
+    return front->data;
+}
+
+int main()
+{
+    push(1, 5);
+    push(2, 6);
+    push(3, 7);
+    push(4, 8);
+    push(5, 9);
+    return 0;
 }
 ```
 

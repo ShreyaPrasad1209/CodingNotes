@@ -73,13 +73,13 @@ BA + W[(E<sub>3</sub>L<sub>2</sub> + E<sub>2</sub>)L<sub>1</sub> + E<sub>1</sub>
 malloc(bytes of memory)
 //returns a pointer of heap memory it is simmilar to new keyword of C++
 calloc(elementsCount, sizeOfEachElement)
-//Systax is different in calloc but it also returns a pointer to heam memory however it also initializes it to ZERO
+//Syntax is different in calloc but it also returns a pointer to heap memory however it also initializes it to ZERO
 
 int* temp = (int*) malloc(sizeof(int));
 int* temp = new int;
 ```
 
-> String (Array, Linked List, Dynamic Array representation), Length concatinationm, substring, indexing (starting index of pattern in string)
+> String (Array, Linked List, Dynamic Array representation), Length concatination, substring, indexing (starting index of pattern in string)
 
 ## Digit Sum:
 ```c
@@ -178,7 +178,13 @@ void solve(int n, char rodFrom, char rodMiddle, char rodTo)
 ```
 
 ## Arithemetic Expression:
-```
+```java
+//Infix to postfix
+> Push left paranthesis on stack, add right paranthesis to expression.
+> Scan left to right and repeat.
+> If operand then append in postfix expression otherwise push it on stack.
+> If an operator with higher precidence (BODMAS) is already present in stack when pushing above then pop it and append to expression. If paranthesis close then pop and append insides.
+
 //Infix to prefix
 > Scan right to left. In the end reverse the expression. The behavior of paranthesis will also change. () will become )( during traversal
 
@@ -216,9 +222,70 @@ Reverse             InPre & PostIn
 <br>![](res/5.png)<br>
 **C. Store using List of Lists**
 <br>![](res/6.png)<br>
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+
+struct Node { int i, j, val; Node* next; } *sparseMat2Head = NULL, *sparseMat2Tail = NULL;
+struct Node2 { int x, val; Node2* next; };
+
+int main()
+{
+    int n = 4, m = 5;
+    int mat[n][m] = {{0, 0, 3, 0, 4}, {0, 0, 5, 7, 0}, {0, 0, 0, 0}, {0, 2, 6, 0, 0}};
+
+    int sparseMat1[3][MAX];
+    int sparseMat1Count = 0;
+    Node2* sparseMat3[n];
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; i < m; ++j)
+        {
+            if (mat[i][j] != 0)
+            {
+                //1-Using 3xN Matrix
+                sparseMat1[0][sparseMat1Count] = i;
+                sparseMat1[1][sparseMat1Count] = j;
+                sparseMat1[2][sparseMat1Count] = mat[i][j];
+                ++sparseMat1Count;
+
+                //2-Using Linked list
+                Node* cur = new Node{i, j, mat[i][j], NULL};
+                if (sparseMat2Head == NULL)
+                {
+                    sparseMat2Head = cur;
+                    sparseMat2Tail = cur;
+                }
+                else
+                {
+                    sparseMat2Tail->next = cur;
+                    sparseMat2Tail = cur;
+                }
+
+                //3-Using list of lists
+                Node2* cur2 = new Node2{j, mat[i][j], NULL};
+                if (sparseMat3[i] == NULL) sparseMat3[i] = cur2;
+                else
+                {
+                    Node2* temp = sparseMat3[i];
+                    while(temp->next != NULL) temp = temp->next;
+                    temp->next = cur2;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+```
 
 ## Operations On Sparse Matrix:
-Add, Subtract, Transpose (Simply reverse row & column values of the node), Multiply(See matrix multiplpication above newA[i][j] = A[i][k]*A[k][j] here k can be o...p) Orig matA (mxn) Orig matB(pxq)
+Add - Simply traverse both sparse matrix at a time keep two pointers while(pointer1 < end || pointer2 < end) this kind of and simply add. O(N) complexity. Subtract is also same.
+
+Transpose is simplest simplest traverse sparse matrix flipping rows and columns.
+
+Multiply is newA[i][j] = A[i][k]*B[k][j] where k will go from 0...p
 
 ## Polynomial Representation:
 In the image polynomial: 5x<sup>2</sup> + 4x + 2 & 5x + 5 are added using linked list. Array Of Structures also maybe used.
@@ -233,7 +300,7 @@ In the image polynomial: 5x<sup>2</sup> + 4x + 2 & 5x + 5 are added using linked
 #define MAX 5
 int qArr[MAX], front = -1, rear = -1;
 bool isEmpty() { return (front == -1 && rear == -1); }
-bool isFull() { return (rear == n-1); }
+bool isFull() { return (rear == n-1); } //In circular queue - (front==0 && rear==size-1) || (rear = (front-1)%(MAX-1))
 void enqueue(int val)
 {
     if (isFull())

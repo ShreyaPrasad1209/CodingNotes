@@ -1023,3 +1023,28 @@ int main()
 ```
 
 ## Hashing
+> Searching takes O(1), Terminologies - Hashing, Hashfunction, Hashtable
+
+Hashfunction requirements - Uniformly distributed, Easy to compute, minimize collision.
+
+* **Division Method:** h(k) = k mod n where n is size of hashtable.
+* **Folding Method:** divide in group of 2 and add like 123456 = 12+34+56 = 102 ignore 1 map it to 02
+* **Mid Square Method:** 125 square is 15625 taking mid 56 (If non even digits then append zero at begining)
+* **MAD (Multiplication Addition & Division):** h(k) = (a.k + b) % n
+* **Multiplication Method:** (kA % 1)*n where A is golden ratio constant 0.618, 0 < A < 1
+
+### Collision Resolution:
+![](res/hashingtech.png)<br>
+Closed Hashing (Open Addressing) - We don't utilize any thing extra then hash table everything is still mapped in it unlike linked list like ADT
+
+Open Hashing 
+* Chaining: Using linked list like chain to store collisions.
+
+Closed Hashing
+H(i) = (h(k) + f(i)) % n
+* Linear Probing: f(n) = i
+* Quadratic Probing: f(n) = i^2
+
+We go for H(0) first if collision H(1) and so on.
+
+> Modulo n where n is there in good hash functions so that collision reduces.

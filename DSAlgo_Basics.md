@@ -633,6 +633,8 @@ void sort(int arr[], int n)
 <br><u>8</u>02 <u>0</u>02 <u>0</u>24 <u>0</u>45 <u>0</u>66 <u>1</u>70 <u>0</u>75 <u>0</u>90
 <br>2 24 45 66 75 90 170 802
 
+![](res/sortTime.png)
+
 ## 6. Data Structures:
 ADT (Abstract Data Type) It tells about the behaviour (interface)
 

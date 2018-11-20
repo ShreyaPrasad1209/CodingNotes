@@ -501,16 +501,26 @@ Time: O(logn)
 ```c++
 int search(int arr[], int l , int r, int x)
 {
-    // l = 0 & r = n-1
+    //Binary Search
     if (r >= l)
     {
-        int mid = (l + r) / 2;
-        if (arr[mid] == x)
-            return mid;
-        else if (arr[mid] > x)
-            return search(arr, l, mid - 1, x);
-        else
-            return search(arr, mid + 1, r, x);
+        int mid = l + (r-l)/2;
+        if (arr[mid] == x) return mid;
+        else if (arr[mid] > x) return search(arr, l, mid-1, x);
+        else return search(arr, mid+1, r, x);
+    }
+    return -1;
+
+    //Ternary Search 
+    if (r >= l)
+    {
+        int mid1 = l + (r-l)/3;
+        int mid2 = mid1 + (r-l)/3;
+        if (arr[mid1] == x) return mid1;
+        if (arr[mid2] == x) return mid2;
+        else if (arr[mid1] > x) return search(arr, l, mid1-1, x);
+        else if (arr[mid2] < x) return search(arr, mid2+1, r, x);
+        else return search(arr, mid1+1, mid2-1, x);
     }
     return -1;
 }
@@ -534,12 +544,9 @@ int search(int arr[], int l, int r, int x)
     if (l <= r)
     {
         pos = left + (((double)(right - left) / (arr[right] - arr[left])) * (x - arr[left]))
-        if (arr[pos] == x)
-            return pos;
-        else if (x > arr[pos])
-            return search(arr, pos + 1, r, x);
-        else
-            return search(arr, l, pos - 1, x);
+        if (arr[pos] == x) return pos;
+        else if (x > arr[pos]) return search(arr, pos + 1, r, x);
+        else return search(arr, l, pos - 1, x);
     }
 
     return -1;
@@ -549,7 +556,7 @@ int search(int arr[], int l, int r, int x)
 ## Unbounded Binary Search:
 Consider that there's a monotonically increasing function f(x) with f(0) some negative value we need to find some value n for which f(n) will be the first non negative number of the function.<br>
 Naive approach is linearly searching till we get number greater than 0, it will take O(n)<br>
-Other approach is using Unbounded Binary Search. The idea is to proceed with f(0) then f(1) f(2) f(4) f(8) f(16) ... till f(x) every other is x2 of previous. Now f(x) is first non negative in the above exponentiated series. Now we need to apply binary search from O(x/2) to O(x) x/2 is previous term of the series.
+Other approach is using Unbounded Binary Search. The idea is to proceed with f(0) then f(1) f(2) f(4) f(8) f(16) ... till f(x) every other is  ''''''''''''''''''''''x2 of previous. Now f(x) is first non negative in the above exponentiated series. Now we need to apply binary search from O(x/2) to O(x) x/2 is previous term of the series.
 This will give a time complexity of O(logn)
 
 ## Selection Sort
@@ -631,14 +638,12 @@ void merge(int arr[], int l, int m, int r)
     int n1 = m - l + 1;
     int n2 =  r - m;
     int L[n1], R[n2];
-    for (i = 0; i < n1; ++i)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; ++j)
-        R[j] = arr[m + 1+ j];
+    for (i = 0; i < n1; ++i) L[i] = arr[l + i];
+    for (j = 0; j < n2; ++j) R[j] = arr[m + 1+ j];
 
     int i = 0;  //Initial index of first subarray
     int j = 0;  //Initial index of second subarray
-    int k = 1;  //Initial index of merged subarray
+    int k = l;  //Initial index of merged subarray
     while (i < n1 && j < n2)
     {
         if (L[i] <= R[j])
@@ -671,14 +676,13 @@ void sort(int arr[], int l, int r)
 {
     if (l < r)
     {
-        int m = (l + r) / 2;
+        int m = (l+r)>>2;
         sort(arr, l, m);
         sort(arr, m+1, r);
         merge(arr, l, m, r);
     }
 }
 ```
-
 ## Quick Sort
 In quick sort we partition the array and make sure all elements in left subarray is smaller than all elements in right sub array. Then again we will chose a pivot and partition. Unlike merge sort all things are done inplace (constant space complexity) so no need to create temporary variables. So not large memory required.
 <br>7 2 1 6 8 5 3 <u>4</u> -> 2 1 3 <u>4</u> 8 5 7 6
@@ -728,7 +732,13 @@ https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/
 
 > Tree (Root, Parent, Children, Internal Node, Siblings, Ansestors, Descendent, GrandParent, Cousin, Depth, Height), Binary Tree (Preorder, Inorder, Postorder), LinkedList Representation Of Binary Tree, Construction from PrePost-PreIn-PostIn
 
-> Strict (Each non leaf node contains either 0 or 1 element) Complete (All levels are full except last) Perfect(All levels are full) SkewedBinaryTree(Non leaf node has only one child like linkedlist)
+> Full/Strict Binary Tree - All node except leaf nodes are 0 or 2 child here L = I + 1 (L = leaf node, I = Internal node) - Handshaking Lemma
+
+> Complete Binary Tree (All levels except last are full)
+
+> Perfect Binary Tree (All levels are full)
+
+> Skewed Binary Tree - Like a linked list i.e. only one child
 
 > Array Representation Of Complete Binary Tree - Different then heap array representation because in heap we want elements leftmost.
 <br>![](res/8.png)<br>

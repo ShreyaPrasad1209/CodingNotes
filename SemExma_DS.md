@@ -906,8 +906,9 @@ void pop()
 ```
 
 ## Graph
-> Path, ClosedPath, Simple Path, Multi-edge, Loop, Degree, Simple Graph, Connected Graph, Complete Graph, Multigraph, Degree, Simple Graph, Loop, Adjacent Node
+> Path, ClosedPath (start = end), Simple Path, Multi-edge, Loop, Degree, Simple Graph, Connected Graph, Complete Graph, Multigraph, Degree, Simple Graph, Loop, Adjacent Node
 > Adjancey Representation, Linked List Representation (Adjancey List)
+![](res/typeGrap.png)
 
 ```c++
 #include <bits/stdc++.h>
@@ -981,5 +982,44 @@ void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
 ## Topological Sort:
 It is a sorting of graph. In a package manger a package has a dependencie with another so the package manager makes a graph of all the pacakages and perform a topological sort to get linear list of packages to be compiled in order.<br><br>
 To implement we take two thing a stack & a visited set. We choose any node which is not visited, put it to visited set. Then check it's child if it's not visited. if a parent is totally visited we put it in our stack. In the end pop all elements from stack and the graph is topologically sorted.
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+stack<int> res;
+
+void dfs(int n, bool visited[], vector<int> adjList[])
+{
+    if (!visited[n])
+    {
+        visited[n] = true;
+        for (int i = 0; i < adjList[n].size(); ++i)
+            dfs(adjList[n][i], visited, adjList);
+        res.push(n);
+    }
+}
+
+int main()
+{
+    int n, e;
+    cin >> n >> e;
+    vector<int> adjList[n];
+    for (int i = 0; i < e; ++i)
+    {
+        int a, b;
+        cin >> a >> b;
+        adjList[a].push_back(b);
+    }
+
+    bool visited[n];
+    for (int i = 0; i < n; ++i) dfs(i, visited, adjList);
+    while(!res.empty())
+    {
+        cout << res.top() << " ";
+        res.pop();
+    }
+    return 0;
+}
+```
 
 ## Hashing

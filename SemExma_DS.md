@@ -844,7 +844,9 @@ Inorder traverse binary tree and store values in an array, now sort the array, a
 
 ## BST can be converted to Greater Sum Tree in which ever node contains sum of all nodes greater than node
 ![](res/gretre.png)<br>
-Inorder traverse: 10, 15, 20, 23, 25, 30, 35, 39<br>
+All node sum which are greater then current
+
+Inorder traverse: 1, 2, 7, 11, 15, 29, 35, 40<br>
 Make Sum array (traverse right2left keep summing): 139, 137, 130, 119, 104, 75, 40, 0
 
 ## AVL Tree
@@ -973,46 +975,5 @@ void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
 ## Topological Sort:
 It is a sorting of graph. In a package manger a package has a dependencie with another so the package manager makes a graph of all the pacakages and perform a topological sort to get linear list of packages to be compiled in order.<br><br>
 To implement we take two thing a stack & a visited set. We choose any node which is not visited, put it to visited set. Then check it's child if it's not visited. if a parent is totally visited we put it in our stack. In the end pop all elements from stack and the graph is topologically sorted.
-
-## Spanning Tree:
-[Greedy Algorithm]<br>
-We first create disjoint sets for all nodes. We store path in a set and sort it in ascending order based on weight. Traverse this new sorted list and apply find set to see if two nodes of path are different then do union. Also print the connection because that is our final minimum spanning tree.
-```c++
-int e, v;
-cin >> e >> v;
-
-DisjointSet<int> ds;
-
-for (int i=0; i<e; ++i)
-    ds.makeSet(i);
-
-vector<int> vertex[e];
-vector<Path> path(v);
-for (int i=0; i<v; ++i)
-{
-    int a, b, c;
-    cin >> a >> b >> c;
-    vertex[a].push_back(b);
-    vertex[b].push_back(a);
-    path[i] = {a, b, c};
-}
-
-sort(path.begin(), path.end(), [](Path i, Path j){
-    return (i.length < j.length);
-}]);
-
-cout << "-------" << endl;
-
-for (int i=0; i<v; ++i)
-{
-    int a = ds.find(path[i].nodeA);
-    int b = ds.find(path[i].nodeB);
-    if (a != b)
-    {
-        ds.makeUnion(a, b);
-        cout << path[i].nodeA << " " << path[i].nodeB << " - " << path[i].length << endl;
-    }
-}
-```
 
 ## Hashing

@@ -389,10 +389,6 @@ int peek()
 
 ## Priority Queue (min prio) using Doubly Linked List:
 ```c
-#include <bits/stdc++.h>
-using namespace std;
-#define MAX 1000
-
 struct Node { int data, prio; Node *next, *prev; } *front = NULL, *rear = NULL;
 bool isEmpty() { return (front == NULL && rear == NULL); }
 void push(int val, int _prio)
@@ -414,7 +410,9 @@ void push(int val, int _prio)
     {
         //Rear Insert
         newNode->next = NULL;
-        front = newNode;
+        rear->next = newNode;
+        newNode->prev = rear;
+        rear = newNode;
     }
     else
     {
@@ -446,16 +444,6 @@ int peek()
         return -1;
     }
     return front->data;
-}
-
-int main()
-{
-    push(1, 5);
-    push(2, 6);
-    push(3, 7);
-    push(4, 8);
-    push(5, 9);
-    return 0;
 }
 ```
 

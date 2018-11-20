@@ -728,6 +728,9 @@ Then depending on ascending or descending we make max or min heap this is called
 <br>Time: Heapify takes logn time and then traversing all elements takes n so time complexity will be nlogn. However that's not the case and that is because heapify time will shorten with time as the elements will decrease making it O(n)
 https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/
 
+That's fucking complex to understand so XD<br>
+Say we want to build a heap of height h then that means it will be having 2^h -1 nodes now we need to call insert that many times along with heapify function. Each heapify shuffles the nodes exactly h times here h is height of that node. So exact operations will be = Sigma(i=1...h) i*2^i this is an AGP series
+
 > Sorting On Different Keys
 
 > Tree (Root, Parent, Children, Internal Node, Siblings, Ansestors, Descendent, GrandParent, Cousin, Depth, Height), Binary Tree (Preorder, Inorder, Postorder), LinkedList Representation Of Binary Tree, Construction from PrePost-PreIn-PostIn
@@ -786,7 +789,7 @@ Node* insertNode(Node* cur, int value)
 }
 Node* deleteNode(Node* cur, int value)
 {
-    if (cur == NULL) return cur;
+    if (cur == NULL) return cur;    //If no node with specified value
     else if (cur->data > value)
     {
         cur->left = deleteNode(cur->left, value);
@@ -807,11 +810,17 @@ Node* deleteNode(Node* cur, int value)
             return cur;
         }
         //case 2 : One child
-        else if (cur->left == NULL || cur->right == NULL)
+        else if (cur->left == NULL)
         {
-            Node* temp = cur;
-            if (cur->left == NULL) cur->right = deleteNode(cur->right, value);
-            else root->left = deleteNode(cur->left, value);
+            Node *temp = cur;
+            cur = cur->right;
+            delete temp;
+            return cur;
+        }
+        else if (cur->right == NULL)
+        {
+            Node *temp = cur;
+            cur = cur->left;
             delete temp;
             return cur;
         }
@@ -823,7 +832,7 @@ Node* deleteNode(Node* cur, int value)
             while(temp->left != NULL) temp = temp->left;
             cur->data = temp->data
             cur->right = deleteNode(cur->right, temp);
-            return root;
+            return cur;
         }
     }
 }

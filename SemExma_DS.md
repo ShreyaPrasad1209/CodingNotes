@@ -300,7 +300,7 @@ In the image polynomial: 5x<sup>2</sup> + 4x + 2 & 5x + 5 are added using linked
 #define MAX 5
 int qArr[MAX], front = -1, rear = -1;
 bool isEmpty() { return (front == -1); }
-bool isFull() { return (rear == n-1); } //In circular queue - (front==0 && rear==size-1) || (rear = (front-1)%(MAX-1))
+bool isFull() { return (rear == MAX-1); } //In circular queue - (front==0 && rear==size-1) || (rear = (front-1)%(MAX-1))
 void enqueue(int val)
 {
     if (isFull())

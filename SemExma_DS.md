@@ -850,12 +850,18 @@ Inorder traverse: 1, 2, 7, 11, 15, 29, 35, 40<br>
 Make Sum array (traverse right2left keep summing): 139, 137, 130, 119, 104, 75, 40, 0
 
 ## AVL Tree
-https://www.youtube.com/watch?v=GSt_mo60WuE
+https://www.youtube.com/watch?v=GSt_mo60WuE<br>
+https://www.youtube.com/watch?v=34rrlC0WGIc
 
 ## Extended Binary Tree or 2-Tree
 ![](res/extBT.png)<br>
 Circles are internal nodes, Squares are external node. Extended binary tree has 0 or 2 child for every node.
 
+Sum of path lengths of all internal nodes = 0 + 1 + 1 + 2 + 2 + 2 + 3 = 11
+
+Sum of path lengths of all external nodes = 3 + 3 + 4 + 4 + 3 + 2 + 3 + 3 = 25
+
+E = I + 2*n
 > General Tree (each node can have any number of childs)
 
 ## Threaded Binary Tree

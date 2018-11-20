@@ -419,10 +419,10 @@ void push(int val, int _prio)
         Node* temp = front;
         while(temp->next != NULL && temp->next->prio < newNode->prio)
             temp = temp->next;
-        (temp->prev)->next = newNode;
         newNode->next = temp->next;
-        newNode->prev = (temp->prev)->next;
-        temp->prev = newNode->next;
+        newNode->prev = temp;
+        temp->next = newNode;
+        (temp->next)->prev = newNode;
     }
 }
 void pop()

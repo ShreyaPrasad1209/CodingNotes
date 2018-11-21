@@ -30,7 +30,7 @@ int search(int arr[], int l, int r, int x)
     if (arr[l] <= arr[mid])
     {
         if (arr[l] <= x && arr[mid] >= x) return search(arr, l, mid-1, x);
-        else return return search(arr, mid+1, r, x);
+        else return search(arr, mid+1, r, x);
     }
     //Right subarray is sorted
     else if (arr[mid] <= arr[r])
@@ -57,10 +57,86 @@ So for every next rotation value is: curVal - (sum - arr[0]) + (arr[0] * (n-1))
 Simply apply binary search, go to middle element check arr[l] < arr[mid-1] and arr[mid+1] < arr[r] the subarray which does not fullfil this perform binary search over there now.
 
 ## 5. Reverse an array or string - Infosys, VMware
-<br>![](res/1.jpg)<br><u>O(logN)</u><br>
+<br>![](res/1.jpg)<br><u>O(N)</u><br>
 
 ## 6. Rearrange elements to have alternate +ve -ve elements O(N)O(1) - Amazon, Paytm
-Seperate +ve and -ve numbers using quick sort partition technique and then simply do rearrangment by swapping elements.
+We will use partition technique of quick sort and partition the array on the basis of zero. All the elements lesser (-ve) are on left and (+ve) on right side. This is inplace then we can simply swap to make alternate positive series.
 
 ## 7. Moving zeroes to end of array O(N)O(1) - Amazon, Bloomberg, Paytm
 Simply traverse left to right keep swapping if zero encounters
+
+## 8. Double the first element and move zero to end - Microsoft
+Given Array: [2, 2, 0, 4, 0, 8] = [4, 4, 8, 0, 0, 0] Zeros are invalid numbers. We are required to double the number if it's valid and appeared twice in continuation double first and make second zero and after complete traversal move zeroes to the right.
+
+## 9. Reorder an array according to given indexes - O(N)O(1)
+Given arr1[10, 11, 12] and arr2[1, 0, 2] we want result[11, 10, 12]
+```
+Traverse 0...n both array
+If index array value doesn't match with loop index then swap incrementing or decrementing the value.
+```
+
+## 10. Arrange given numbers to form the biggest number - Amazon, MakeMyTrip, Paytm
+[54, 546, 548, 60] ans will be 6054854654.<br>
+Solution is simple sort lexiographically simply sorting won't work and then append it.
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+    string arr[n];
+    for (int i = 0; i < n; ++i) cin >> arr[i];
+    sort(arr, arr + n);
+    string res = "";
+    for (int i = n-1; i >= 0; --i) res += arr[i];
+    cout << res << endl;
+    return 0;
+}
+```
+
+## 11. Rearrange an array such that ‘arr[j]’ becomes ‘i’ if ‘arr[i]’ is ‘j’
+```
+[1, 3, 0, 2]
+Since arr[0] is 1, arr[1] is changed to 0
+Since arr[1] is 3, arr[3] is changed to 1
+Since arr[2] is 0, arr[0] is changed to 2
+Since arr[3] is 2, arr[2] is changed to 3
+[2, 0, 3, 1]
+```
+**Way 1:** Using temp array & copying. <u>O(N)O(N)</u><br>
+**Way 2:** <u>O(N)O(1)</u> Update value to oldVal + newVal*n. Later if we want oldVal it's /n newVal is%n. Here n is size of array
+
+## 12. Replace every array element by multiplication of previous and next
+For first element a[0] * a[1], For last a[n-2] * a[n-1], others a[i-1] * a[i+1]<br>
+[2, 3, 4, 5, 6]<br>
+[2 * 3, 2 * 4, 3 * 5, 4 * 6, 5 * 6]<br>
+[6, 8, 15, 24, 30]<br>
+**Way 1:** Using temp array & copying. <u>O(N)O(N)</u><br>
+**Way 2:** <u>O(N)O(1)</u> Simply keep track of previous unchanged version of element<br>
+
+## 13. K’th Smallest/Largest Element in Unsorted Array - VMware, Microsoft, Wallmart
+[7, 10, 4, 3, 20, 15] k = 3, ans = 7<br>
+**Way 1:** Using sorting or min/max heap. <u>O(NlogN)</u><br>
+**Way 2:** Improved bubble sort make it run till k times only. <u>O(NK)</u><br>
+TODO: https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-3-worst-case-linear-time/
+
+## 14. Kth smallest element in a row-wise and column-wise sorted 2D array - Accolite, Amazon
+```
+Every element in row & collumn is arranged in non-decreasing order.
+        10, 20, 30, 40
+        15, 25, 35, 45
+        24, 29, 37, 48
+        32, 33, 39, 50
+```
+Idea is to itterate, initially smallest is always topleft. At any point we can go right or bottom which one is smaller.
+
+## 15. Find all elements in array which have at-least two greater elements
+[2, 8, 7, 1, 5] ans = [2, 1, 5]<br>
+We can sort and pick all numbers excluding maximum 2 this will be O(NlogN) or we can simply find maximum 2 numbers instead in 2 itteration then print all numbers except them it will be O(N)
+
+## 16. Median of Stream of Running Integers - Microsoft, Amazon, Ola, Oracle, Adobe, Google, Facebook, Yahoo, Apple
+[5, 10, 15] = [5, 7.5, 10]<br>
+Use BST, after every insertion go with inorder traversal it will be sorted find median.<br>
+TODO: https://www.geeksforgeeks.org/median-of-stream-of-running-integers-using-stl/

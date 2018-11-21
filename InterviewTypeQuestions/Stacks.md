@@ -2,8 +2,8 @@
 ## 1. Implement Queue Using Stack - Adobe, Amazon, DE Shaw, Flipkart, Goldman Sachs, Microsoft, Oracle
 Implemented by 2 stacks. Values in stack 1 - A, B, C then push it to stack 2 - C, B, A this way orderized for queue<br>
 
-**Way 1: Making Enqueue Costly** Enqueue - While stack1 is not empty push everything from 1 to 2. Then push x to stack 1 then again push back from 2 to 1.<br> Dequeue - If both stack empty then queueu empty otherwise pop from stack1 & return.<br>
-**Way 2: Making Dequeue Costly** Enqueue - Push to stack1<br>Dequeue - If both stack empty then queue empty otherwise if stack 2 is empty push from 1 to 2. pop from 2
+**Way 1: Making Dequeue Costly** Simply push in stack1 for enqueue. While for dequeue if stack2 is empty transfer from stack1 to stack2. If not empty simply pop. [transfer means poping from stack1 and moving to stack2]
+
 
 ## 2. Implement two stacks in an array - Samsung, Microsoft
 Divide n length array to two, however this way is space inefficient. Other space efficient way is to have one array from leftmost part of array and other from rightmost.
@@ -43,7 +43,7 @@ for (int i = 1; i < n; ++i)
 {
     while(!st.empty() && prices[st.top] <= prices[i])
         st.pop();
-    ans[0] = (st.empty() ? (i+1) : (i-st.top()));
+    ans[i] = (st.empty() ? (i+1) : (i-st.top()));
     st.push(i);
 }
 ```
@@ -68,7 +68,7 @@ for (int i = 1; i < n; ++i)
         ans[s.top()] = a[i];
         st.pop();
     }
-    st.push(a[i]);
+    st.push(i);
 }
 while(!st.empty())
 {

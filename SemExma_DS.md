@@ -162,7 +162,7 @@ int top()
 ```
 
 ## GCD & LCM:<br>
-> GCD (A, B) = GCD (B, A % M) BaseCase: B gets 0
+> GCD (A, B) = GCD (B, A % B) BaseCase: B gets 0
 
 > GCD (A, B) * LCM (A, B) = A * B
 
@@ -962,7 +962,8 @@ void pop()
 ## Graph
 > Path, ClosedPath (start = end), Simple Path, Multi-edge, Loop, Degree, Simple Graph, Connected Graph, Complete Graph, Multigraph, Degree, Simple Graph, Loop, Adjacent Node
 > Adjancey Representation, Linked List Representation (Adjancey List)
-![](res/typeGrap.png)
+![](res/typeGrap.png)<br>
+![](res/shitdef.png)
 
 ```c++
 #include <bits/stdc++.h>

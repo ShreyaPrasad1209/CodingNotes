@@ -300,7 +300,7 @@ In the image polynomial: 5x<sup>2</sup> + 4x + 2 & 5x + 5 are added using linked
 #define MAX 5
 int qArr[MAX], front = -1, rear = -1;
 bool isEmpty() { return (front == -1); }
-bool isFull() { return (rear == MAX-1); } //In circular queue - (front==0 && rear==MAX-1) || (rear = (front-1)%(MAX-1))
+bool isFull() { return (rear == MAX-1); } //In circular queue - (front==0 && rear==MAX-1) || (front == rear+1))
 void enqueue(int val)
 {
     if (isFull())
@@ -515,7 +515,7 @@ int search(int arr[], int l , int r, int x)
     if (r >= l)
     {
         int mid1 = l + (r-l)/3;
-        int mid2 = mid1 + (r-l)/3;
+        int mid2 = mid1 + l + (r-l)/3;
         if (arr[mid1] == x) return mid1;
         if (arr[mid2] == x) return mid2;
         else if (arr[mid1] > x) return search(arr, l, mid1-1, x);
@@ -543,7 +543,7 @@ int search(int arr[], int l, int r, int x)
 {
     if (l <= r)
     {
-        pos = left + (((double)(right - left) / (arr[right] - arr[left])) * (x - arr[left]))
+        pos = left + (((double)(right - left) / (arr[right] - arr[left])) * (x - arr[left]));
         if (arr[pos] == x) return pos;
         else if (x > arr[pos]) return search(arr, pos + 1, r, x);
         else return search(arr, l, pos - 1, x);
@@ -561,6 +561,7 @@ This will give a time complexity of O(logn)
 
 ## Selection Sort
 Itterate [0..n-1] find minimum element let it be at first then Itterate [1..n-1] find minimum element and so on<br>
+https://stackoverflow.com/questions/20761396/why-selection-sort-can-be-stable-or-unstable
 Time: O(n<sup>2</sup>)
 ```c++
 void sort(int arr[], int n)
@@ -757,6 +758,10 @@ L = Number of leaf node, I = Number of internal nodes i.e. nodes having k childs
 ![](res/4.png)<br>
 Every leaf node has operator
 
+Inorder traversal of expression tree produces infix version
+
+preorder traversal it gives prefix expression
+
 ## Binary Search Tree:
 > Inorder traversal of BST is always in ascending order
 ```c
@@ -879,6 +884,11 @@ int heapArr[MAXSIZE];
 int size = 0;
 void push(int x)
 {
+    if (size == MAXSIZE-1) 
+    {
+        cout << "DIE!!!" << endl;
+        return;
+    }
     heapArr[size] = x;
     int cur = size;
     while(heapArr[parent(cur)] > heapArr[cur])

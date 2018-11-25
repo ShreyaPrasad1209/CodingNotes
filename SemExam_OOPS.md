@@ -1,4 +1,4 @@
-Issues in softwares - Correctness, Maintainability, Reusability, Openness and interpoerabilty, portability, security, integrity, user friendliness
+Issues in softwares - Correctness, Maintainability, Reusability, Openness and interoperability, portability, security, integrity, user friendliness
 
 Evolution - Machine Language, Assembly Language, Procedure Language, Object-Oriented Programming.
 

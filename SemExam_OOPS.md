@@ -21,7 +21,7 @@ Evolution - Machine Language, Assembly Language, Procedure Language, Object-Orie
 * New data and functions can be easily added whenever necessary
 * Follows bottom-up approach in program design.
 
-Max 1024 length in identifier. only a-z, A-Z, numbers not begining & _
+Max No limit length in identifier. only a-z, A-Z, numbers not begining & _
 
 Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, Polymorphish, Dynamic Binding, Message Passing
 
@@ -31,7 +31,8 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 * Objects interact by sending messages to one another.
 
 ### Classes
-* A class is a collection of objects of simillar type
+* A class is a collection of objects of simillar type on which the object operates
+* Could be a user defined data type
 
 ### Data Abstraction
 * Wraping up of data and function into a single unit (class) is known as encapsulation
@@ -79,7 +80,7 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 * Message passing techniques for communication between objects makes the interface description with external systems much simpler.
 * Software complexity can be easily managed.
 
-> Object-based programming do not support inheritance and dynamic binding but object oriented programming do so
+> Object-based programming (ADA) do not support inheritance and dynamic binding but object oriented programming do so
 
 > Member functions (Functions inside a class) are also known as methods
 
@@ -92,6 +93,8 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 > Farenheit to celcius = ((f-32)/9)*5
 
 Tokens are the smallest individual units in a program. C++ has following tokens - Keywords, Identifiers, Constants, Strings, Operators
+
+> C 32 keywords C++ 64 keywords
 
 ```c++
 enum color { RED, BLUE, GREEN, YELLOW };
@@ -106,13 +109,14 @@ int bg = BLUE;
 ```c++
 const int MAX_AGE = 90;
 const int* a = new int;
+//or int const* a = new int;
 *a = 2;                 //ERROR since a is constant
 a = (int*)&MAX_AGE;     //No Error now
 //Can't change content of the pointer here but can change pointer address
 
+//Constant Pointer
 const int MAX_AGE = 90;
 int* const a = new int;
-//or int const* a = new int;
 *a = 2;                 //No Error here
 a = (int*)&MAX_AGE;     //ERROR since pointer of a is constant
 //Can't change the pointer address here
@@ -134,6 +138,7 @@ C++ new operators -
 
 > A void pointer can be used to create generic pointer
 
+> Expressions - Combination of constant, operator & variables it may also include function call that may return value. Types - Constant expression, Integral expression, float expression, pointer expression, relational expression, bitwise expression, logical expression
 ```c++
 int m = 10;
 int main()
@@ -159,6 +164,8 @@ Advantages of new over malloc:
 * It automatically determines the size of data object we don't need to use operator sizeof
 * It automatically returns correct pointer size, malloc return void*
 * Like any operator new and delete can be overloaded
+* New calls the constructor too hence initializing while malloc doesnt
+* We use delete for new operator and free for malloc
 
 Int - 4 bytes i.e. 0 to 2<sup>4.8</sup>-1 [Unsigned] or -2<sup>4.8</sup>/2 to 2<sup>4*8</sup>-1 [Signed]
 
@@ -166,7 +173,7 @@ void func(); //Function prototyping it is not important to specify argument name
 void func(...) //This is correct
 
 ### Inline Functions
-Objective of using function is to save memory space which become more if it's called multiple times. Lot of time in executing a series of instructions for tasks such as jumping the function, saving registers, pushing arguments on the stack. One solution is to use #define preprocessor however we cannot perform complex stuffs with it since it's not really a function. Inline functions eliminates the cost of small functions it is expanded in-line when it is invoked i.e. the compiler replaces the function call with it's corresponding function code (something simillar to macros expansion). It makes the program runs faster however the trade off is it takes more memory because the statement that defines inline functions are reproduces at each point where the function is called.
+Objective of using function is to save time which become more if it's called multiple times. Lot of time in executing a series of instructions for tasks such as jumping the function, saving registers, pushing arguments on the stack. One solution is to use #define preprocessor however we cannot perform complex stuffs with it since it's not really a function. Inline functions eliminates the cost of small functions it is expanded in-line when it is invoked i.e. the compiler replaces the function call with it's corresponding function code (something simillar to macros expansion). It makes the program runs faster however the trade off is it takes more memory because the statement that defines inline functions are reproduces at each point where the function is called.
 
 Use inline functions when
 * Instead of #define
@@ -177,6 +184,7 @@ Use inline functions when
 
 Preprocessor macros are just substitution patterns applied to your code. They can be used almost anywhere in your code. Inline functions are actual functions whose body is directly injected into their call site. They can only be useful where a function call is appropriate.
 * Macros are not type safe, and can be expanded regardless of whether they are syntatically correct
+* Macro done by preprocessor Inline done by compiler
 * Macros can expand other macros inline functions cannot
 * Inline functions are not always guaranteed to be inlined
 
@@ -186,13 +194,14 @@ int func() { return 1; }
 float func() { return 1.0f; }
 ```
 Function Overloading doesn't work like this We gotta use templates for this<br>
-Merits
+
+**Merits**
 * Friend function acts as a bridge between two classes by operating on their private datas
 * Must have access to source code for the class to make a function into friend
 * Able to access without need of inheriting
 * Can be used to increase versatility of operator overloading
 
-Demerits
+**Demerits**
 * Gives access to private members
 * Conceptually messy
 * Cannot do any run time polymorphism in it's member
@@ -249,7 +258,7 @@ void show(XYZ xyz, ABC abc)
 #include <bits/stdc++.h>
 using namespace std;
  
-class ABC;
+class ABC;      //Forward Declaration
  
 class XYZ
 {
@@ -261,7 +270,6 @@ public:
         data = value;
     }
     friend class ABC;
-    friend void getXYZData(XYZ);
 };
  
 class ABC
@@ -273,12 +281,7 @@ public:
         data = value + xyz.data;
     }
 };
- 
-void getXYZData(XYZ xyz)
-{
-    cout << xyz.data << endl;
-}
- 
+
 int main()
 {
     XYZ x;
@@ -349,7 +352,7 @@ public:
 };
 int sum(MyClass m)
 {
-    int MyClass::* ptrx = &MyClass::x;
+    int MyClass::* ptrx = &MyClass::x;s
     int MyClass::* ptry = &MyClass::y;
     MyClass *cl = &m;
     int S = m.*ptrx + cl->*ptry;
@@ -379,6 +382,11 @@ Characterstics of constructors
 * Can be overloaded
 * Type - Default, Copy, Parametrized, Dynamic initialization in constructor
 * Can also explicitly delete a constructor then we cannot create instance of the method however we can still do it from the class's member function:
+
+```c++
+A a = A(5,190); //Explicit
+A a(5,190);
+```
 ```c++
 MyClass(const MyClass &other) { curX = other.curX; } 
 
@@ -413,7 +421,9 @@ friend vector operator-(vector);            //unary minus
 vector operator-(vector);                   //subtration
 int operator==(vector);                     //comparison
 friend int operator==(vector, vector);      //comparison
-friend ostream& operator<<(ostream, vector)
+friend ostream& operator<<(ostream, vector);
+void * operator new(size_t size);
+void operator delete(void * p);
 ```
 
 Rules for operator overloading
@@ -747,3 +757,5 @@ public class Test
 > Servlet is Java EE server driven technology to create web applications in java.
 
 > JRE (Java Runtime Environment) are set of tools required for java development it include JDK (Java Development Kit) & Some support libraries
+
+> Template class & Class template are not the same. Template class is wrong it's only class template or function template because classes do not define templates, templates define classes (and functions).

@@ -182,10 +182,10 @@ Preprocessor macros are just substitution patterns applied to your code. They ca
 
 void perform(int a = 5) //Default argument<br>
 ```c++
-int func() { return 1 };
-float func() { return 1.0f };
+int func() { return 1; }
+float func() { return 1.0f; }
 ```
-Function Overloading doesn't work like this<br>
+Function Overloading doesn't work like this We gotta use templates for this<br>
 Merits
 * Friend function acts as a bridge between two classes by operating on their private datas
 * Must have access to source code for the class to make a function into friend

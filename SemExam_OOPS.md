@@ -9,7 +9,7 @@ Evolution - Machine Language, Assembly Language, Procedure Language, Object-Orie
 * Functions transform data from one form to another.
 * Employs top-down approach in program design.
 
-* OOP is an approach to program organization andthat attempts to eliminate some of the pitfalls of conventional programming methods by incorporating the best of structured programming features with several powerful new concepts.
+* OOP is an approach to program organization and that attempts to eliminate some of the pitfalls of conventional programming methods by incorporating the best of structured programming features with several powerful new concepts.
 * It is a new way of organizing and developing programs and has nothing to do with any particular language
 * It models real world problem very well unlike Procedure oriented langauges
 * Emphasis is on data rather than procedure
@@ -65,7 +65,7 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 | Call resolved by compiler         | Call not resolved by compiler     |
 | Also known as static binding, early binding, overloading | Also known as Dynamic binding, late binding, overriding |
 | Overloading is compile time polymorphism where more than one methods share the same name with different parameters or signature and return type | Overriding is run time polymorphism having same method with same parameter or signature but associated in a class or it's subclass |
-| It is achieved by function overloading & operator overloading | It is achieved by virtual functions & pointers |
+| It is achieved by function overloading & operator overloading | It is achieved by virtual functions |
 | It provides fast execution because known early at compile time | Slow execution |
 | It is less flexible as all things execute at compile time | More flexible |
 

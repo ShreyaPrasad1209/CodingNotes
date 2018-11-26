@@ -42,6 +42,8 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 * Abstraction refers to act of representing essential features without including the background details and explanations
 * Since classes use the concept of data abstraction, they are known as ADT
 
+![](res/absEnc.png)
+
 ### Inheritance
 * It is the process by which objects of one class acqure the properties of objects of another class.
 * It provides the idea of reusability. This means we can add additional feautes to an existing class without modifying it.
@@ -339,6 +341,8 @@ int main()
     return 0;
 }
 ```
+
+![](res/storageClasses.png)
 
 ### Pointers To Members
 ```c++

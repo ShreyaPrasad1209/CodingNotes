@@ -73,7 +73,7 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 * Through inheritance we can eliminate redundant code and extend the use of existing classes.
 * We can build programs from the standard working modules the communicate whith one another, rather than having to start writing everything from scratch.
 * The principle of data hiding helps the programmer to build secure programs.
-* It is possible to have multiple instances of an object to co-exts without any interference.
+* It is possible to have multiple instances of an object to co-exist without any interference.
 * The data centric design approach enables us to capture more details of a model.
 * Object oriented system can be easily upgraded from small to large systems
 * Message passing techniques for communication between objects makes the interface description with external systems much simpler.
@@ -87,7 +87,7 @@ Basic terms - Objects, Classes, Data Abstractions & Encapsulation, Inheritance, 
 
 > Old C has /* */ while in C++ //
 
-> Zero divided by zero error is an example of runtime error. Will compile error at runtime. There's compiler error. Lastly linker error.
+> Zero divided by zero error is an example of runtime error. Will stll compile. Error at runtime. There's compiler error if during compilation. Lastly there's a linker error.
 
 > Farenheit to celcius = ((f-32)/9)*5
 
@@ -98,8 +98,8 @@ enum color { RED, BLUE, GREEN, YELLOW };
 //RED, BLUE = 5, GREEN = 6, YELLOW then RED is 0 Yellow is 7
 //RED = 3, BLUE, GREEN, YELLOW then automatically 4, 5, 6, 7
 color bg = BLUE;
-color bg = 2;           //Error in c++ okay in C
-color bg = (color) 2;
+color bg = 1;           //Error in c++ okay in C
+color bg = (color) 1;
 int bg = BLUE;
 ```
 
@@ -124,7 +124,7 @@ const int* const a = new int;
 C++ new operators -
 * :: (Scope resolution operator)
 * ::* (To declare pointer to a member of a class) - Member derefrencing operator
-* * (To access a member using object name and pointer to that member) - Member derefrencing operator
+* \* (To access a member using object name and pointer to that member) - Member derefrencing operator
 * ->* (To access a member using a pointer to the object and a pointer to that member) - Member derefrencing operator
 * .* (Pointer-to-member operator)
 * delete (Memory release operator)

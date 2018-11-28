@@ -477,13 +477,6 @@ usage of css class .notice
 </script>
 ```
 
-### Ajax (Asynchronous Javascript & XML)
-built-in XMLHttpRequest object (to request data from a web server)
-* Reduced server interactivity
-* Better interaction and easier navigation
-* Security is less anyone can view source
-* javascript disabled browser cannot use them
-
 ### Bootstrap
 * Easy to use
 * Responsive features
@@ -491,28 +484,157 @@ built-in XMLHttpRequest object (to request data from a web server)
 * Compatible with browsers
 * Open source
 
-### Angular Framework
-AngularJS is an opensource JavaScript based development framework for building well structured, easily testable, and maintainable front-end applications. Allows MVC Architecture
-* Model: A model in AngularJS is a primitive data type, such as number string, boolean.
-* View: DOM(Document Object Model) is what users see. In order to display the data from controller, Angular expression can be added to the view which will coordinate model and view about any modification.
-* Controller: Controller is a collection of JavaScript classes where application logic is defined. Model resides inside controller. The controller encapsulates the behavior of application
+## 9. Sever-Side 
+Technologies Server-side scripting refers to the dynamic generation of web pages served up by the web server, as opposed to static web pages in the server storage that are served up to the web browser. 
+* Read data submitted by the user
+* Generate HTML dynamically based on user input
+* Determine information about the client browser
+* Access database systems
+* Exploit the HTTP protocol
+Perl, ASP, PHP, Node.js
 
-AngularJS is easy to use(AngularJS provides the capability to create single page applications in a very clean and maintainable way) & Two-way data binding(Two-way data binding implies that when you update any properties in your model, the UI will update and similarly that when UI elements are updated, the changes will be reflected to model properties). It also have reusable components & can run on all browsers. However it is not secure (Server side authentication is a must) and also if the user disable javascript he will only see blank page.
-
+### PHP (Personal Home Page)
+Server side scriptting language used to make HTML dynamic. Considering the Model-View-Controller for web application development. A server is needed to be run since it's a server-side language. XAMPP or other which supports PHP
 ```html
-<!DOCTYPE html>
-<html ng-app>
+<html>
     <head>
-        <title>My first AngularJS code</title>
-        <Script SRC="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></Script>
+        <title>My First PHP page</title>
     </head>
     <body>
-        <h1> Say Hello in AngularJS </h1>
-        <p>Enter your first name:</p>
-        <input ng-model="myName" type="text" placeholder="Your name">
-        <p>Hello <span ng-bind = "myName"></span></p>
+        <?php
+        echo "<h1>Hello World!</h1>";
+        ?>
     </body>
 </html>
 ```
+We asked the server to type Hello World<br>
+> echo date("r");
 
-## 9. Sever-Side Technologies
+PHP is similar to C/C++ when it comes to basic syntax, though it has its own variations. The PHP interpreter provides the functionality to "preprocess hypertext," which means executing PHP commands and producing the desired HTML.
+* Semicolon termination
+* Space insensitive
+* Keywords - if, else, while, echo...
+* Variable names case sensitive
+* // for comment (or #) or /* */
+* Variable start with $ followed by it's name
+```php
+$txt = "Hello World!";
+$num = 12;
+$arr = array("val1", "val2", "val3");
+$multiArr = array(
+    array(
+        "name" => "Ankit Priyarup",
+        "email" => "ankitpriyarup@gmail.com",
+    ),
+    array(
+        "name" => "Anukriti",
+        "email" => "anu1999kriti@gmail.com",
+    ),
+);
+echo $txt . "\n";
+if ($num > 50)
+    echo $num . "\n";
+else
+    echo "LOSER" . "\n";
+echo $arr[0] . "\n";
+echo $multiArr[1]["name"] . "\n";
+```
+* constants declared with define("KEY", VAL); doesn't require $ prefix to access
+```php
+define("SITE_URL", "http://www.dtu.ac.in/");
+echo "Thanks for visiting homepage - " . SITE_URL;
+```
+strlen(string), strev(string), str_word_count(string)
+```php
+function getSum($num1, $num2)
+{
+    $sum = $num1 + $num2;
+    echo "sum is: " . $sum;
+}
+getSum(10, 20);
+```
+```php
+$odd_numbers = [1,3,5,7,9];
+for ($i = 0; $i < count($odd_numbers); $i=$i+1)
+{
+    $odd_number = $odd_numbers[$i];
+    echo $odd_number . "\n";
+}
+```
+```php
+class Student
+{
+    public function __construct($first_name, $last_name) {
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+    }
+
+    public function say_name()
+    {
+        echo "My name is " . $this->first_name . " " . $this->last_name . ".\n";
+    }
+}
+
+$anu = new Student("Anukriti", "Kumar");
+$anu->say_name();
+```
+
+Advantages:
+* PHP is very flexible you can add it anywhere in HTML by just using the tag
+* No jar, preprocessor, no compiler, and deployment dependency exists
+* It's very simple to test & deploy
+
+Disdvantages:
+* Relatively slower than other advanced server-side languages like Node.js
+* PHP is not suitable for making larger applications
+* PHP is open source, meaning anyone can access it. If there are bugs in the source code, it can be used by people to explore the weakness of PHP
+
+```php
+<html>
+<body>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+  Name: <input type="text" name="fname">
+  <input type="submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $name = $_POST['fname'];
+    if (empty($name)) {
+        echo "Name is empty";
+    } else {
+        echo $name;
+    }
+}
+?>
+
+</body>
+</html>
+```
+### Node.js - Server Side JavaScript
+* Node.js is suitable for complex applications that need powerful processing
+* Node.js uses JavaScript as the front-end and back-end language
+* Node.js applications are much faster than PHP
+
+## 10. Web Frameworks
+### Django
+Django is a full stack high-level Python web framework. It follows the MVT Architecture
+1) URLs: A URL mapper is used to redirect HTTP requests to the appropriate view based on the request URL. The URL mapper can also match particular patterns of strings or digits that appear in
+an URL.
+2) M stands for Model: The data access layer contains anything and everything about the data—how to access it, how to validate it, which behaviors it has, and the relationships between the data.
+3) T stands for Template: The presentation layer contains presentation-related decisions—how something should be displayed on a web page or other type of document.
+4) V stands for view: The business logic layer contains the logic that accesses the model and defers to the appropriate templates. This works as the bridge between models and templates.
+![](res/django.png)
+
+### Ruby On Rails
+Ruby on Rails (RoR) is an open-source, full-stack framework written in Ruby for developing database-backed web applications. MVC based design. A model in a Ruby on Rails framework maps to a table in a database. A controller is the component of Rails that responds to external requests from the web server to the application and responds to the external request by determining which view file to render. A view in the default configuration of Rails is an .erb file. It is typically converted to output HTML at runtime
+
+## 11. Web Databases
+A web database is a database that can be queried and/or updated through the World Wide Web. It is a system for storing information that can then be accessed via a web site. For example, an online community may have a database that stores the usernames, passwords, and other details of all its members. Database technology concerns about adopting the right database model and breaking the "one model fits all" approach to handle data.
+
+SQL (Structured Query Language) Popular SQL databases - MySQL, Oracle
+NOSQL - Non Relatational, Distributive data - MongoDB, Neo4j
+
+In MySQL data is in table format, In MongoDB it's in JSON object oriented format in Neo4j it's graph based JSON object.

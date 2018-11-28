@@ -542,6 +542,8 @@ Pure Virtual Function:
 * A class with only pure virtual functions cannot be used to declare any objects of their own and are called abstract class.
 * Main objective of abstract class is to provide some traits to the derrived classes as it serves as a placeholder
 * The implications of making a function a pure virtual function is to achieve run time polymorphism
+
+> Abstract class have at least one virtual function
 ```c++
 virtual void doSomething() = 0;
 ```

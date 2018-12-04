@@ -182,7 +182,7 @@ Average time a customer spends in the system = 118/20<br>
 2) **Server:** It refers to any resource that provides the requested service. e.g. runways, routers, machines, etc.<br>![](res/SER.png)
 3) **Calling polulation:** Population comming into server. can be finite or infinite.
 4) **System capacity:** Maximum number of customers allowed in the system is known as system capacity
-5) Arrival process: Arrival may occur at scheduled arrivals such as patients to a doctor's office, airline flight arrives at an airport. The inter-arrival time may be constant or constant with small random fluctuation.
+5) **Arrival process:** Arrival may occur at scheduled arrivals such as patients to a doctor's office, airline flight arrives at an airport. The inter-arrival time may be constant or constant with small random fluctuation.
 
 ### Queue Behaviour:
 It means actions of customers while in a queue, waiting for service to begin.

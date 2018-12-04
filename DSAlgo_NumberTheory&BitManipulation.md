@@ -5,7 +5,7 @@ The expected number of trials for ith success is 1/p
 
 >**Coupon Collector Problem: A certain brand of cereal always distributes a coupon in every cereal box. The coupon chosen for each box is chosen randomly from a set of n distinct coupons. A coupon collector wishes to collect all n distinct coupons. What is the expected number of cereal boxes must the coupon collector buy so that the coupon collector collects all n distinct coupons.**<br><br>
 Probability of collecting first coupon is 1 since the collector has none. Later on for P<sub>i</sub> = (n - (i-1)) / n<br>
-E(x) = 1/P we need to calculate summation of E[x]<br>
+E(x) = 1/P (follows geometric distribution) we need to calculate summation of E[x]<br>
 = E(1) + E(2) + E(3) + E(4) + ... + E(n)<br>
 = n/n + n/n-1 + n/n-2 + n/n-3 + ... + + n/2 + n/1<br>
 = n (1/n + 1/n-1 + 1/n-2 + 1/n-3 + ... + 1/2 + 1)<br>

@@ -11,8 +11,6 @@ E(x) = 1/P (follows geometric distribution) we need to calculate summation of E[
 = n (1/n + 1/n-1 + 1/n-2 + 1/n-3 + ... + 1/2 + 1)<br>
 Apply expansion
 
-In a room of 23 peoples if all of them handshakes with everyone. <sup>22</sup>C<sub>2</sub> 22 because no one will handshake to himself.
-
 Unsigned long long int can store max till 18 places so we can Big Integers in java for C++ we can use arrays.
 ```c++
 /*

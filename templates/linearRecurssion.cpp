@@ -41,6 +41,15 @@ vector< vector<ll> > matPow(vector< vector<ll> > A, int p)
 int main()
 {
     flash;
-
+    mat(2, 1, F);
+    mat(2, 2, T);
+    T[0][0] = 0;
+    T[0][1] = 1;
+    T[1][0] = 1;
+    T[1][1] = 1;
+    F[0][0] = 1;
+    F[1][0] = 1;
+    for (int i = 1; i < 10; ++i)
+        cout << (matMul(matPow(T, i), F)[0][0]) % MOD << " ";
     return 0;
 }

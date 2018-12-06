@@ -12,60 +12,6 @@ E(x) = 1/P (follows geometric distribution) we need to calculate summation of E[
 Apply expansion
 
 Unsigned long long int can store max till 18 places so we can Big Integers in java for C++ we can use arrays.
-```c++
-/*
-A number 5189 is stored in res[] as following.
-res[] = {9, 8, 1, 5}
-x = 10
-
-Initialize carry = 0;
-
-i = 0, prod = res[0]*x + carry = 9*10 + 0 = 90.
-res[0] = 0, carry = 9
-
-i = 1, prod = res[1]*x + carry = 8*10 + 9 = 89
-res[1] = 9, carry = 8
-
-i = 2, prod = res[2]*x + carry = 1*10 + 8 = 18
-res[2] = 8, carry = 1
-
-i = 3, prod = res[3]*x + carry = 5*10 + 1 = 51
-res[3] = 1, carry = 5
-
-res[4] = carry = 5
-
-res[] = {0, 9, 8, 1, 5} 
-*/
-
-void multiply(int* a, int& n, int num)
-{
-    int carry = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        int product = a[i] * num + carry;
-        a[i] = product % 10;
-        carry = product / 10;
-    }
-    while (carry)
-    {
-        a[n] = carry % 10;
-        carry = carry / 10;
-        n++;
-    }
-}
-
-void big_factorial(int number)
-{
-    int* a = new int[1000];
-    a[0] = 1;
-    int n = 1;
-    for (int i = 2; i < number; ++i)
-        multiply(a, n, i);
-    for (int i = n-1; i >= 0; i--)
-        cout << a[i];
-    cout << endl;
-}
-```
 
 **<u>SEQUENCE FINDER</u>** https://oeis.org/
 
@@ -131,11 +77,31 @@ ll powMod(ll a, ll b, ll m)
     ll x = 1, y = a;
     while (b > 0)
     {
-        if (b & 1) x = (x * y) % m;
-        y = (y * y) % m;
+        if (b&1) x = (x*y) % m;
+        y = (y*y) % m;
         b >>= 1;
     }
     return x;
+}
+```
+
+### ModMul
+```c++
+ll mul(ll a, ll b, ll m)
+{
+    ll res = 0;
+    while(b)
+    {
+        if (b&1)
+        {
+            res += a;
+            if (res >= m) res -= m;
+        }
+        b >>= 1;
+        a = (a << 1);
+        if (a >= m) a-= m;
+    }
+    return res;
 }
 ```
 
@@ -196,7 +162,7 @@ Given that GCD (a, b) is 1
 
 > (A%B)x' + Ay' = 1
 
-> Comparing coeficients:<br>y = x'<br>x = y' - (b/a)x'
+> Comparing coeficients:<br>y = x'<br>x = y' - (B/A)x'
 ```c++
 int gcdExtended(int a, int b, int *x, int *y) 
 {
@@ -300,22 +266,24 @@ It is equivalent to number of all odd prime factors excluding 1. 15 : 1, 3, 5, 1
 ### Sieve Of Eratosthanese:
 Time: O(nloglogn)
 ```c++
-void printPrimes(int n)
+ll sieve[MAXN];
+void makeSieve() 
 {
-    int primes[n+1];
-    fill(primes, primes + n + 1, 1);
-    primes[0] = 0;
-    primes[1] = 0;
-    for (int i = 2; i <= n; ++i)
+    fill(sieve, sieve + MAXN, 1);
+    sieve[0] = 0;
+    sieve[1] = 0;
+    for (int i = 2; i < MAXN; ++i)
     {
-        if (primes[i] == 1)
+        if (sieve[i] == 1)
         {
-            for (int j = i*2; j <= n; j+=i)
-                primes[j] = 0;
+            for (int j = i*2; j < MAXN; j+=i)
+                sieve[j] = 0;
         }
     }
 }
 ```
+
+A number always have divisors in pair wise manner: 20 = 1, 2, 4, 5, 10, 20 in this 1 & 20 are pair, 2 & 10 are pair, 4 & 5 are pair.
 
 ### Prime Factorization using Sieve Of Erastosthanese:
 Time: O(logn)<br>
@@ -351,53 +319,64 @@ vector<ll> factorize(ll x)
 }
 ```
 
+### Sum of all divisors
+```
+suppose n has 3 prime factors
+n = (a ^ x) * (b ^ y) * (c ^ z)
+where a, b, c are prime factors of n
+and that is prime factorisation
+then sum of all divisors are
+(1 + a + a^2 + ... + a^x) *  (1 + b + b^2 + ... + b^y) *  (1 + c + c^2 + ... + c^z)
+```
+
 ### Segmented Sieve:
 If we want to calculate prime numbers between a range say 10<sup>8</sup> to 10<sup>9</sup>(L to R)<br>
 We will create a sieve for 2 to root R and then we will make every number within it's sieve along with it's multiple as non-prime in resulted sieve (containing R-L elements)
 ```c++
-vector<ll>* findPrimes(ll n)
+vector<ll> primes;
+void findPrimes(ll n)
 {
-    bool primes[n+1] {};
-    fill(primes + 2, primes + n + 1, true);
-    for (ll i = 2; i <= n; ++i)
+    ll i;
+    ll sqrtn = sqrt(n);
+    vector<bool> is_prime(n+1, true);
+
+    for (i = 3; i <= sqrtn; i += 2)
     {
-        if (primes[i])
+        if (is_prime[i])
         {
-            for (int j = i*2; j <= n; j+=i)
-                primes[j] = false;
+            ll increment = i+i;
+            primes.push_back(i);
+            for (int j = i * i; j <= n; j += increment)
+                is_prime[j] = false;
         }
     }
-
-    vector<ll>* foundPrimes = new vector<ll>;
-    for (ll i = 2; i <= n; ++i)
+    for (; i <= n; i += 2)
     {
-        if (primes[i])
-            foundPrimes->push_back(i);
+        if (is_prime[i])
+            primes.push_back(i);
     }
-    return foundPrimes;
 }
-
-void segmentedSeive(ll L, ll R)
+void segmentedSeive(ll m, ll n)
 {
-    auto res = findPrimes(sqrt(R));
-    bool isPrime[R-L+1];
-    fill(isPrime, isPrime + R-L+1, true);
-    for (ll i = 0; i < res->size(); ++i)
+    ll range = n - m;
+    vector<bool> is_prime(range + 1, true);
+
+    for (ll prime : primes)
     {
-        ll key = res->at(i);
-        ll initKey = key;
-        while(key <= R)
-        {
-            if (key >= L)
-                isPrime[key-L] = false;
-            key += initKey;
-        }
+        ll increment = prime + prime;
+        ll start = max(((m + prime - 1) / prime) * prime, prime * prime);
+        if ((start & 1) == 0)
+            start += prime;
+        start -= m;
+        for (int i = start; i <= range; i += increment)
+            is_prime[i] = false;
     }
 
-    for (ll i = 0; i < R-L+1; ++i)
+    if (m <= 2 && n >= 2) printf("2\n");
+    for (int k = (m & 1) ? 0 : 1; k <= range; k += 2)
     {
-        if (isPrime[i])
-            cout << i+L << " ";
+        if (is_prime[k])
+            printf("%d\n", m + k);
     }
 }
 ```
@@ -410,6 +389,7 @@ First thing is check all pairs of mod i.e. 2, 3, 7 have pair-wise GCD 1 so GCD (
 
 A naive approach is start by 1 and keep incrementing x checking if the condition matches.
 ```c++
+//Naive approach
 ll findMinPossible(ll num[], ll rem[], ll n)
 {
     ll x = 1;
@@ -484,6 +464,8 @@ Pick any number between 1 < a < n-1 for a it doesn't really matter. A smaller nu
 > b<sub>o</sub> = a<sup>m</sup>mod m, b<sub>i</sub> = b<sup>2</sup><sub>i-1</sub> mod m
 
 Calculate b<sub>o</sub> if it's +1 or -1 (Prime) else count b<sub>1</sub> from now on if it's +1 (composite) -1 (prime) if none then count b<sub>2</sub> again same condition. If the conditions goes on forever means the number is probably composite
+
+https://www.youtube.com/watch?v=vPum8EqmFz0&t=3231s
 
 ## 2. Bit Manipulation:
 N = 6163<sub>10</sub> = (6×10<sup>3</sup>) + (1×10<sup>2</sup>) + (6×10<sup>1</sup>) + (3×10<sup>0</sup>)<br>

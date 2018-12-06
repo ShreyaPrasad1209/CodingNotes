@@ -1441,3 +1441,10 @@ public:
     }
 };
 ```
+
+## 7. Greedy Algorithm
+Count out certain amount of money, using fewest possible notes or coins.<br>
+39 = 10 + 10 + 10 + 5 + 2 + 2<br>
+We are going for greedy approach chosing local optimum (max value we can take) to achieve global optimum. **This may not be true for some currency**
+
+Greedy is more efficient then DP

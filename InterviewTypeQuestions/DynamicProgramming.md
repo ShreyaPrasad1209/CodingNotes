@@ -67,3 +67,20 @@ int partition(int A[], int n, int k)
 //O(NlogN)
 ```
 Same type problem Allocate Books - Google (https://www.youtube.com/watch?v=Ss9ta1zmiZo)
+
+## 2. Knapsack Problem
+Given a knapsack (bag) with max m weights capacity and n objects with given profit and weights. We want to maximize profit
+```
+n = 7, m = 15
+objects     1   2   3   4   5   6   7
+profit      10  5   15  7   6   18  3
+weight      2   3   5   7   1   4   1
+We need to select maximum elements(m) from the objects so that we get max profit.
+
+In fractional Knapsack  [GREEDY]
+Profit/Weight: [5, 1.6, 3, 1, 6, 4.5, 3]
+Keep choosing high values: obj5, obj1, obj6, obj7, obj2, 2/3 * obj2
+
+In 0/1 Knapsack
+https://www.youtube.com/watch?v=nLmhmB6NzcM&t=197s
+```

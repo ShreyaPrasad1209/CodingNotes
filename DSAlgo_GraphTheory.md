@@ -36,7 +36,7 @@ Binary trees can be stored dynamically using a struct and class or by using an A
 like 1 2 3 4 5 6 7 in array will be 1 root with 2 & 3 child then 4 & 5 child of 2 and 6 & 7 child of 3.<br>
 This is used for perfect balanced binary tree. A balanced binary tree has left node data lesser or equal to the current node and right has greater.
 
-To differentiate between tree and graph also we can do Total Nodes = 2(Leaves-1) for tree - Handshaking lemma
+To differentiate between tree and graph also we can do Total Nodes = 2Leaves - 1 for tree - Handshaking lemma
 <br>![](res/degree.png)<br>
 In a k-ary tree where every node has either 0 or k children. L = I*(k-1) + 1<br>
 L = Number of leaf node, I = Number of internal nodes i.e. nodes having k childs
@@ -173,28 +173,30 @@ int main()
 
 2) **Breadth First Search:** Time: O(V + E) [V is vertices E is edges] - It explores all neighbours first before going in depth
 ```c++
-void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
+void BFS(vector<int> adj[], bool visited[],
+    queue<int> &nodeVisited, int node)
 {
     if (!visited[node])
     {
-        cout << node << " ";
-        
+        cout << node << " ";    
         visited[node] = true;
-        for (int i = 0; i < adj[node].size(); ++i)
-        {
-            if (!visited[adj[node][i]])
-            {
-                nodeVisited.push(adj[node][i]);
-                cout << adj[node][i] << " ";
-            }
-        }
+    }
 
-        while(!nodeVisited.empty())
+    for (int i = 0; i < adj[node].size(); ++i)
+    {
+        if (!visited[adj[node][i]])
         {
-            int top = nodeVisited.front();
-            nodeVisited.pop();
-            BFS(adj, visited, top);
+            nodeVisited.push(adj[node][i]);
+            cout << adj[node][i] << " ";
+            visited[adj[node][i]] = true;
         }
+    }
+
+    while(!nodeVisited.empty())
+    {
+        int top = nodeVisited.front();
+        nodeVisited.pop();
+        BFS(adj, visited, nodeVisited, top);
     }
 }
 ```

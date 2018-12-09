@@ -523,8 +523,14 @@ x
 
 1's Complement: Toggling every bit ~<br>
 2's Complement:<br>
--X = !X + 1<br>
-X = !(-X-1)
+-X = ~X + 1<br>
+X = ~(-X-1)
+
+```c++
+//If last bit is 0 then number is even if 1 then odd
+if (number&1) cout << "odd" << endl;
+else cout << "even" << endl;
+```
 
 <center>
 
@@ -599,7 +605,122 @@ x = x ^ y;      //x = (x ^ y) ^ x = y
 ### Repeating elements of Array Problems
 Given array [1, 2, 4, 2, 1] finding xor 1^2^4^2^1 = xor(1^1)^(2^2)^(4) = 0^0^4 = 4
 
+Given Array [1, 1, 2, 2, 4, 5] we need to find both 4 & 5<br>
+If we simply xor all numbers we will get 4^5 which will definitely be non zero. (100)^(101)=(001) Now if we divide the array elements into two one having 1 at unit place other having 0. [1, 1, 5], [2, 2, 4] take xor of both to get the ans<br>
+If 100(4) & 110(6) are non repeating numbers we need to divide the array based on tense (check rightmost set bit pos) place set or unset
+```c++
+int arr[] = {1, 1, 2, 2, 3, 9};
+int n = sizeof(arr) / sizeof(int);
+int xors = 0;
+for (int i = 0; i < n; ++i) xors ^= arr[i];
 
+int temp = 0;
+while(xors > 0)
+{
+    if (xors&1) break;
+    ++temp;
+    xors >>= 1;
+}
+int mask = 1<<temp;
+
+int num1 = 0, num2 = 0;
+for (int i = 0; i < n; ++i)
+{
+    if (((arr[i]&mask)>>temp)&1) num1 ^= arr[i];
+    else num2 ^= arr[i];
+}
+cout << num1 << " " << num2 << endl;
+```
+
+Given array [7, 7, 3, 4, 2, 4, 3, 3, 4, 7] all numbers except one is occuring thrice we need to find that number.<br>
+add binary position values (111 + 111 + 011 + 100 + 010 + 100 + 011 + 011 + 100 + 111) = 676 %3 all digit = 010 = 0.2<sup>0</sup> + 1.2<sup>1</sup> + 0.2<sup>2</sup> = 2
+```c++
+int arr[] = {7, 11, 3, 4, 9, 4, 3, 3, 4, 7, 9, 9, 7};
+    int n = sizeof(arr) / sizeof(int);
+
+    int count[32] {};
+    for (int i = 0; i < n; ++i)
+    {
+        int cur = arr[i], pos = 0;
+        while (cur > 0)
+        {
+            if (cur&1) ++count[pos];
+            ++pos;
+            cur >>= 1;
+        }
+    }
+    int ans = 0;
+    for (int i = 0; i < n; ++i) ans += pow(2, i) * (count[i] % 3);
+    cout << ans << endl;
+```
+
+### Calculating number of set bits
+```c++
+int countBits(int n)
+{
+    //Time: O(number of bits)
+    int count = 0;
+    while (n > 0)
+    {
+        count += (n&1);
+        n = n>>1;
+    }
+    return count;
+
+    //Time: O(number of set bits)
+    int count = 0;
+    while(n)
+    {
+        ++count;
+        n = n&(n-1);
+    }
+
+    // __builtin_popcount(n); or __builtin_popcountl or __builtin_popcountll
+}
+```
+
+### Get Set ith bit
+```c++
+int getIthBit(int n, int i)
+{
+    return (n&(1<<i)) == 0 ? 0 : 1;
+}
+void setIthBit(int &n, int i)
+{
+    n = n|(1<<i);
+}
+void clearBit(int &n, int i)
+{
+    n = n&(~(1<<i));
+}
+```
+
+### Subsequences of array
+```c++
+ll arr[] = {1, 2, 3};
+ll n = sizeof(arr) / sizeof(ll);
+for (ll i = 0; i < (1<<n); ++i)
+{
+    ll mask = i, pos = 0;
+    while (mask > 0)
+    {
+        if (mask&1) cout << arr[pos] << " ";
+        mask >>= 1;
+        ++pos;
+    }
+    cout << endl;
+}
+
+output:
+
+1 
+2 
+1 2 
+3 
+1 3 
+2 3 
+1 2 3 
+```
 
 ### Inclusion Exclusion Problems
 | A ∪ B ∪ C | = | A | + | B | + | C | - | A ∩ B | - | B ∩ C | - | C ∩ A | + | A ∩ B ∩ C|<br>
@@ -637,6 +758,3 @@ for (ll i = 1; i < (1 << n); ++i)
 }
 cout << result << endl;
 ```
-
-In for loop we are finding every sub array excluding one with zero element so i = 1 initially. Then inside the while loop basically if our mask's last bit is true then take the pos element from array after that right shift mask and increment pos.<br>
-After loop the if condition checks if the set bits of mask is odd or even, if it's odd result is added otherwise subtracted.

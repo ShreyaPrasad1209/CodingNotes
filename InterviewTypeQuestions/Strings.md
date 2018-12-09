@@ -48,6 +48,15 @@ It's a clear observation, that we should remove max frequency element.<br>
 
 ## 5. Find next smallest palindrom (greater then given number) - Amazon, Microsoft
 
+## 6. Find the smallest window in a string containing all characters of another string
+```
+Input :  string = "this is a test string"
+         pattern = "tist"
+Output :  Minimum window is "t stri"
+Explanation: "t stri" contains all the characters
+              of pattern.
+```
+
 ## INF. Big Integer Implementation
 
 ```c++  

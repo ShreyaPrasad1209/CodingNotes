@@ -339,7 +339,9 @@ std::rotate(vec.begin(), vec.begin() + 3, vec.end());<br>
 1 2 3 4 5 6 7 8 9 -> 6 7 8 9 1 2 3 4 5 <br>
 std::rotate(vec.begin(), vec.begin() + vec.size() - 4, vec.end());<br>
 
-std::lower_bound(vec.begin(), vec.end(), 5) will return an itterator to the first occurence of 5 in vector like wise there is std::upper_bound
+std::lower_bound(vec.begin(), vec.end(), 5) will return an itterator to the first occurence of 5 in vector like wise there is std::upper_bound<br>
+auto low = lowerbound(vec.begin(), vec.end(), 5);<br>
+cout << low - vec.begin() << endl;
 
 Lexiographic order is alphabetical order: 0, 1, 10, 2, 21, 3
 
@@ -1230,8 +1232,12 @@ Used in case where requests are sent like to a printer for print requests.<br><b
 Priority Queue is in which there is a priority assosiated with every value. It can be implemented through Binary Heap.<br>
 Applications of Priority Queue - CPU Scheduling, Graph Algorithms like Dijikstra, Prim's Minimum Spanning Tree.<br><br>
 Naive Implementation Of Priority Queue can be done using an array storing priority integer for every node. Everytime dequeing will look through the entire queue and dequeue the smallest (min priority queue) or larget (max priority queue)<br><br>
-In a queue there's one disadvantage that if we do deletion it will happen in front shifting all elements taking O(n). This can be avoided by using circular queue.
-
+In a queue there's one disadvantage that if we do deletion it will happen in front shifting all elements taking O(n). This can be avoided by using circular queue.<br><br>
+STL priority queue by default is a max heap pass greater<int> comparator to make it min heap
+```c++
+priority_queue <int> max_heap;
+priority_queue <Type, vector<Type>, ComparisonType > min_heap;
+```
 <br>![](res/circularqueue.png)<br>
 
 ```c++

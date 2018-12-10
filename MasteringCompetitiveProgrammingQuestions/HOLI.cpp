@@ -1,58 +1,46 @@
 //Holiday Accomodation - Page 46
 //https://www.spoj.com/problems/HOLI/
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
+#define ll long long
+vector< pair<ll, ll> > adj[100005];
+ll ret = 0;
+ll n;
 
-typedef long long ll;
-typedef unsigned long long ull;
-typedef unsigned long long int ulli;
-#define mat(x, y, name) vector< vector<ull> > name (x, vector<ull>(y));
-#define printMat(name) for (int i = 0; i < name.size(); ++i) {for (int j = 0; j < res[i].size(); ++j) cout << res[i][j] << " "; cout << endl;}
-
-int MOD = 1000000000;
-
-void perform(vector< pair<ulli, ulli> > a[], bool visited[], ulli sol[], ulli& ans, ulli n, ulli node = 0)
+ll dfs (ll par, ll u)
 {
-    visited[node] = true;
-    sol[node] = 1;
-    ulli at = a[node].size();
-    for (ulli i = 0; i < a[node].size(); ++i)
+    ll ans = 1;
+    for(ll i = 0; i < adj[u].size(); ++i)
     {
-        ulli v = a[node][i].first;
-        if (!visited[v])
-        {
-            perform(a, visited, sol, ans, n, v);
-            sol[node] += sol[v];
-            ans += 2 * min(sol[v], n-sol[v]) * a[node][i].second;
-        }
+        ll v = adj[u][i].first;
+        ll wt = adj[u][i].second;
+        if(v==par) continue;
+        
+        ll nodes = dfs(u,v);
+        ret += 2 * min(nodes, n-nodes) * wt;
+        ans += nodes;
     }
+    return ans;
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    ulli t;
-    cin >> t;
-    ulli tc = t;
-    while(tc--)
+    ll t;
+    scanf("%lld", &t);
+    ll tc = 1;
+    while(t--)
     {
-        ulli n;
-        cin >> n;
-        vector< pair<ulli, ulli> > a[n];
-        bool visited[n] {};
-        ulli sol[n] {};
-        for (ulli i = 0; i < n-1; ++i)
+        ret = 0;
+        scanf("%lld", &n);
+        for (ll i = 1; i <= n; ++i) adj[i].clear();
+        for (int i = 1; i <= n-1; ++i)
         {
-            ulli x, y, z;
-            cin >> x >> y >> z;
-            a[x-1].push_back(make_pair(y-1, z));
-            a[y-1].push_back(make_pair(x-1, z));
+            ll u, v, x;
+            scanf("%lld %lld %lld", &u, &v, &x);
+            adj[u].push_back({v, x});
+            adj[v].push_back({u, x});
         }
-        ulli ans = 0;
-        perform(a, visited, sol, ans, n);
-        cout << "case #" << t - tc << ": " << ans << endl;
+        dfs(-1, 1);
+        cout << "Case #" << tc++ << ": " << ret << endl;
     }
-    return 0;
 }

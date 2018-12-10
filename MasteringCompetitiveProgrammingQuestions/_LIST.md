@@ -10,9 +10,11 @@
 ## 5. Binary Search
 * SUBSUMS (S)
 
+## 6. Expression Tree
+* CMEXPR(S)
+
 ## TODO
 * https://www.spoj.com/problems/MKTHNUM/
-* https://www.spoj.com/problems/CHOCOLA/
 * https://www.spoj.com/problems/LASTSHOT/
 * https://www.spoj.com/problems/HOLI/
 * https://www.spoj.com/problems/PRATA/

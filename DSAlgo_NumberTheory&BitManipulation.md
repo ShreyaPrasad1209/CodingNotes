@@ -532,6 +532,13 @@ if (number&1) cout << "odd" << endl;
 else cout << "even" << endl;
 ```
 
+```
+n & (-n) will give last bit value since -n = ~n+1
+
+5: (1001) & (0111) = 0001
+7: (1010) & (0110) = 0000
+```
+
 <center>
 
 | Decimal       | Binary       | Hexadecimal  | Decimal       | Binary       | Hexadecimal  |
@@ -737,24 +744,76 @@ Divisible by 2.3 = 166<br>
 Divisible by 2.3.5 = 33<br>
 | 2 ∪ 3 ∪ 5 | = 499 + 133 + 199 - 99 - 66 - 166 + 33 = 733
 
+Numbers between 1 and n which are divisible by any of the prime numbers less than 20
 ```c++
-ll num = 999;
-ll arr[] = {2, 3, 5};
-ll n = sizeof(arr) / sizeof(ll);
-ll result = 0;
-for (ll i = 1; i < (1 << n); ++i)
+ll t;
+cin >> t;
+while (t--)
 {
-    ll mask = i, temp = 1, pos = 0, product = 1ll;
-    while (mask > 0)
+    ll num;
+    cin >> num;
+    ll arr[] = { 2, 3, 5, 7, 11, 13, 17, 19 };
+    ll n = sizeof(arr) / sizeof(ll);
+    ll result = 0;
+    for (ll i = 1; i < (1<<n); ++i)
     {
-        ll lastBit = (mask&1);
-        if (lastBit) product *= arr[pos];
-        mask >>= 1;
-        ++pos;
+        ll mask = i, temp = 1, pos = 0, product = 1ll, bits = __builtin_popcount(mask);
+        while (mask > 0)
+        {
+            ll lastBit = (mask&1);
+            if (lastBit) product *= arr[pos];
+            mask >>= 1;
+            ++pos;
+        }
+        if (bits&1) result += num/product;
+        else result -= num/product;
     }
-    ll bits = __builtin_popcount(mask);
-    if (bits&1) result += num/product;
-    else result -= num/product;
+    cout << result << endl;
 }
-cout << result << endl;
+```
+
+### N Queens using Bitshift
+IsSafe function of backtracking checks the placement in O(n) time using bitshift it can be O(1)<br>
+Concept is we need to check column and diagonals for each placement. We can have different boolean arrays for that. Say we put a queen in one column we then mark corresponding column (i) in column array, diagonal1 (i-j) diagonal2(i+j) later to check IsSafe we just simply need to see if all three arrays are unset.
+> We are basically maping both diagonals and columns, column corresponds to i values. diagonals have i+j or i-j const
+```c++
+//solve(0, 4, ans);
+bitset<30> col, d1, d2;
+void solve(int r, int n, int &ans)
+{
+    if (r == n)
+    {
+        ++ans;
+        return;
+    }
+    for (int c = 0; c < n; ++c)
+    {
+        if (!col[c] && !d1[r-c+n-1] && !d2[r+c])
+        {
+            col[c] = d1[r-c+n-1] = d2[r+c] = 1;
+            solve(r+1, n, ans);
+            col[c] = d1[r-c+n-1] = d2[r+c] = 0;
+        }
+    }
+}
+```
+Another even faster approach, it will not go to non safe positions
+```
+say a 4x4 chessboard
+our initial pos we wish to find safe place based on this
+    0100
+left shift it & also right shift it by 1 then OR all three
+    0100
+    1000
+    0010
+   =1110
+   ~0001
+So now only 4th is the safe place
+
+Sometimes it may even fall outside array so we AND the shifts
+    1000
+   10000 & 01111 = 00000
+    0100
+   =1100
+   ~0011
 ```

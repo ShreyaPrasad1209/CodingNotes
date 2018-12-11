@@ -16,7 +16,16 @@
 * Boston Numbers (HB), A factorial Problem (HB), Random Query (CF)
 
 ## 4. Number Theory
-* 
+* DCEPC11B (S), Light's New Car (HB), POWPOW2 (S), DIVSUM (S)
+* DIVSUM2 (S), FACTMUL (S), MAIN74 (S), NDIVPHI (S)
+* THREEDIF(C), LCPCP2 (S), GCD(2), FINDPRM (S), TDKPRIME (S), TDPRIMES (S), PRIME1 (S)
+* FACTCG2 (S), ALICESIE (S), AMR10C (S), SPOTWO (C), DCEPC13D (S), CUBEFR (S)
+* NFACTOR (S), CSQUARE (S), CPRIME (S), ANARCO9C (S), GCDEX (S), AMR11E (S), 
+* https://discuss.codechef.com/questions/72953/a-dance-with-mobius-function
+* https://www.hackerearth.com/challenge/competitive/codemonk-number-threory-part-1/
+* https://www.hackerearth.com/challenge/competitive/code-monk-number-theory-ii/
+* https://www.hackerearth.com/challenge/competitive/code-monk-number-theory-iii/
+* https://www.hackerrank.com/challenges/ncr/problem
 
 ## 5. Binary Search
 * SUBSUMS (S)

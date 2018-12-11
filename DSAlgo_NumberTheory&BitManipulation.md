@@ -59,6 +59,16 @@ temp[]  =      2    6    1,4  3    5
 This is pigeonhole senerio in every case any temp arr will have two element. end - start i.e. 4 - 1 = 3 so 3 elements that are 2nd 3rd and 4th (4 + 3 + 5) % 6 = 0
 ```
 
+### Properties Of Modulo
+> (a+b)%M = (a%M + b%M) % M
+
+> (a-b)%M = (a%M - b%M + M) % M
+
+> (a*b)%M = (a%M * b%M) % M
+
+> (a/b)%M = (a%M * b<sup>-1</sup>%M) % M
+
+b<sup>-1</sup>%M is multiplicative inverse: (b*y)%M = 1 [y val]
 ### Very large string input to ll when % m
 ```c++
 ll string2Int(string a, ll m)
@@ -75,11 +85,11 @@ ll string2Int(string a, ll m)
 //logN
 ll powMod(ll a, ll b, ll m)
 {
-    ll x = 1, y = a;
+    ll x = 1;
     while (b > 0)
     {
-        if (b&1) x = (x*y) % m;
-        y = (y*y) % m;
+        if (b&1) x = (x*a) % m;
+        a = (a*a) % m;
         b >>= 1;
     }
     return x;
@@ -151,35 +161,57 @@ ll nCr(ll n, ll r, ll p)
 
 > GCD (A, B) * LCM (A, B) = A * B
 
-O(Log min(a, b))
+O(Log max(a, b))
 
 ### Extended Euclid's Algorithm:<br>
 ax + by = GCD (a,b)<br>
 Here x & y can be calculated using extended euclid's algrithm. There has to exist some x & y for all a & b to satisfy the above condition according to Bezout's Theorem.
 https://www.youtube.com/watch?v=6KmhCKxFWOs
 
-Given that GCD (a, b) is 1
-> Ax + By = 1
+> Ax + By = GCD(A, B)
 
-> (A%B)x' + Ay' = 1
+> Ax' + (A%B)y' = GCD(A, B)
 
-> Comparing coeficients:<br>y = x'<br>x = y' - (B/A)x'
+> Ax' + (A - floor(A/B))y' = GCD(A, B)<br>
+Bx' + Ay' - floor(A/B)By'  = GCD(A, B)<br>
+B(x' - floor(a/b)y') + Ay' = GCD(A, B)
+
+> Comparing coeficients:<br>
+x = y'<br>
+y = x' - floor(A/B)y'
 ```c++
+//18x + 30y = GCD(18, 30)
+//30x + 18y = GCD(30, 18)
+//18x + 12y = GCD(18, 12)
+//12x + 6y = GCD(12, 6)
+//6x + 0y = GCD(6, 0)           BASE CASE always have x = 1, y = 0
 int gcdExtended(int a, int b, int *x, int *y) 
 {
     if (a == 0)
     {
-        *x = 0;
-        *y = 1;
+        *x = 1;
+        *y = 0;
         return b;
     }
     int x1, y1;
     int gcd = gcdExtended(b%a, a, &x1, &y1);
-    *x = y1 - (b/a) * x1;
-    *y = x1;
+    *x = y1;
+    *y = x1 - (a/b) * y1;
     return gcd; 
 } 
 ```
+Ax + By = C<br>
+Here C is not GCD(A, B) This is called Linear Diophantine Equation<br>
+let g = gcd(A, B)<br>
+k<sub>1</sub>gx + k<sub>2</sub>gy = c<br>
+k<sub>1</sub>x + k<sub>2</sub>y = c/g<br>
+This c/g must be an int this means c is a multiple of gcd<br>
+k<sub>1</sub>x + k<sub>2</sub>y = k gcd(a,b)<br>
+
+So now using extended eucledian find for ax + by = gcd(a, b) let it's ans be x<sub>o</sub> & y<sub>o</sub> Then later x becomes k.x<sub>o</sub> & y becomes k.y<sub>o</sub>
+
+(x, y) = 
+K may have other possible values too
 
 ### Fermat's Little Theorem:
 > a<sup>p</sup> = a (mod p) Here p is a prime number
@@ -204,13 +236,13 @@ ll modInverse(ll a, ll m)
 }
 ```
 Other approach is Extended GCD it will work only if a & m are coprime.
-> x = 1/a (mod M)
+> (a.x)%m = 1
 
-> ax = 1 (mod M)
+> (a.x - 1)%m = 0
 
 > ax - 1 = qm
 
-> ax - qm = 1
+> ax - qm = 1       GCD(a, q) should be 1 to work
 
 Now use Extended Eucledian to find value of x & q. Here x is inverse modulo provided that a & m are co prime i.e. GCD (a, m) = 1
 ```c++
@@ -432,6 +464,9 @@ ll chineaseRemainderTheorem(ll num[], ll rem[], ll n)
 
 ### Euler Phi Function:
 φ is a function on natural number that gives the count of positive integers coprimes to that number. φ(8) = 4, φ(9) = 6
+
+φ(50) i.e. 2.5.5<br>
+= 50(1 - 1/5)(1 - 1/2) = 20
 ```c++
 ll phi[] = new int[n+1];
 for (ll i = 2; i <= n; ++i) phi[i] = i;

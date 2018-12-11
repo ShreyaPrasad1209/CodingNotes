@@ -72,6 +72,7 @@ ll string2Int(string a, ll m)
 
 ### ModPower
 ```c++
+//logN
 ll powMod(ll a, ll b, ll m)
 {
     ll x = 1, y = a;
@@ -285,6 +286,7 @@ void makeSieve()
 
 A number always have divisors in pair wise manner: 20 = 1, 2, 4, 5, 10, 20 in this 1 & 20 are pair, 2 & 10 are pair, 4 & 5 are pair.
 
+Further optimizations can be done by ignoring even number since they can never be prime also. Initially say we check 2 we mark it's multiple false then 3 the idea is we start marking divisible from N<sup>2</sup> so in 5 start from 25
 ### Prime Factorization using Sieve Of Erastosthanese:
 Time: O(logn)<br>
 spf stores the smallest prime factors for each number

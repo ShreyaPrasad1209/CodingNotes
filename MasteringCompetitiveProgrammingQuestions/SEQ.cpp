@@ -2,17 +2,14 @@
 //https://www.spoj.com/problems/SEQ/
 #include <bits/stdc++.h>
 using namespace std;
-
 typedef long long ll;
-typedef unsigned long long ull;
-typedef unsigned long long int ulli;
-#define mat(x, y, name) vector< vector<ull> > name (x, vector<ull>(y));
+#define mat(x, y, name) vector< vector<ll> > name (x, vector<ll>(y));
 
-int MOD = 1000000000;
+ll MOD = 1e9;
 
-vector< vector<ull> > matMul(vector< vector<ull> > A, vector< vector<ull> > B)
+vector< vector<ll> > matMul(vector< vector<ll> > A, vector< vector<ll> > B)
 {
-    vector< vector<ull> > C(A.size(), vector<ull>(B[0].size()));
+    vector< vector<ll> > C(A.size(), vector<ll>(B[0].size()));
     for (int i = 0; i < A.size(); ++i)
     {
         for (int j = 0; j < B[0].size(); ++j)
@@ -25,7 +22,7 @@ vector< vector<ull> > matMul(vector< vector<ull> > A, vector< vector<ull> > B)
     return C;
 }
 
-vector< vector<ull> > matPow(vector< vector<ull> > A, int p)
+vector< vector<ll> > matPow(vector< vector<ll> > A, int p)
 {
     if (p == 1)
         return A;
@@ -33,7 +30,7 @@ vector< vector<ull> > matPow(vector< vector<ull> > A, int p)
         return matMul(A, matPow(A, p-1));
     else
     {
-        vector< vector<ull> > C = matPow(A, p/2);
+        vector< vector<ll> > C = matPow(A, p/2);
         return matMul(C, C);
     }
 }
@@ -51,18 +48,18 @@ int main()
         cin >> k;
         mat(k, 1, F);
         mat(k, k, T);
-        int x = k-2;
-        while(x >= 0)
+        for (int i = k-1; i >= 0; --i) cin >> F[i][0];
+        for (int i = 0; i < k; ++i) cin >> T[0][i];
+        int tmp = 1;
+        while (tmp < k)
         {
-            T[x][x+1] = 1;
-            x--;
+            T[tmp][tmp-1] = 1;
+            ++tmp;
         }
-        for (int i = 0; i < k; ++i) cin >> F[i][0];
-        for (int i = k-1; i >= 0; i--) cin >> T[k-1][i];
-        
+
         int n;
         cin >> n;
-        cout << matMul(matPow(T, n-1), F)[0][0] << endl;
+        cout << matMul(matPow(T, n-1), F)[k-1][0] << endl;
     }
     return 0;
 }

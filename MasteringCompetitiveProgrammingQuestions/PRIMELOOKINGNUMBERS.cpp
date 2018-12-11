@@ -16,6 +16,7 @@ int main()
     for (ll i = 1; i < (1 << n); ++i)
     {
         ll mask = i, temp = 1, pos = 0, product = 1ll;
+        ll bits = __builtin_popcount(mask);
         while (mask > 0)
         {
             ll lastBit = (mask&1);
@@ -23,7 +24,6 @@ int main()
             mask >>= 1;
             ++pos;
         }
-        ll bits = __builtin_popcount(mask);
         if (bits&1) result += num/product;
         else result -= num/product;
     }

@@ -479,9 +479,7 @@ for (ll i = 2; i <= n; ++i)
     }
 }
 ```
-1. If P is prime φ(p<sup>k</sup>) = (p-1)p<sup>(k-1)</sup>
-2. φ(ab) = φ(a)φ(b)
-3. φ(d1) + φ(d2) + ... = n : here d1, d2 ... are all divisors of n
+![](res/IMG_20181212_023553847.jpg)
 
 ### Wilson's Theorem:
 If p is prime then (p-1)! = -1 (mod p)

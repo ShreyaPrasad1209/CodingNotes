@@ -1579,6 +1579,6 @@ int lazyQuery(int start, int end, int l, int r, int node = 1)
 ## 7. Greedy Algorithm
 Count out certain amount of money, using fewest possible notes or coins.<br>
 39 = 10 + 10 + 10 + 5 + 2 + 2<br>
-We are going for greedy approach chosing local optimum (max value we can take) to achieve global optimum. **This may not be true for some currency** Like in above case leaf node represents single segment all parent to it gives sum within range query.
+We are going for greedy approach chosing local optimum (max value we can take) to achieve global optimum. **This may not be true for some other currencies** Like in above case leaf node represents single segment all parent to it gives sum within range query.
 
 Greedy is more efficient then DP. O(NLogN) of Greedy can also be optimized by using counting sort if and only if our total elements are less variant. Or even radix sort can be used.

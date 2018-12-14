@@ -46,10 +46,10 @@
 * T-Shirts (C), N Queens Optimized (using bitmasking)
 
 ## 8. Trees Extra
-* MATRIX QUERIES (HB), GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - Segment Tree
-* ... - Fenwick Tree/Binary Indexed Tree
-* CMEXPR(S) - Expression Tree
-* ... - Tries
+* MATRIX QUERIES (HB), GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - **Segment Tree**
+* ... - **Fenwick Tree/Binary Indexed Tree**
+* CMEXPR(S) - **Expression Tree**
+* ... - **Tries**
 
 ## 9. Dynamic Programming
 
@@ -57,11 +57,13 @@
 
 ## 11. Graph Theory
 
-## 12. Geometric Algorithm
+## 12. Game Theory
 
-## 13. Fast Fourier Transform
+## 13. Geometric Algorithm
 
-## 14. Heavy Light Decomposition
+## 14. Fast Fourier Transform
+
+## 15. Heavy Light Decomposition
 
 ## TODO
 * https://www.spoj.com/problems/MKTHNUM/

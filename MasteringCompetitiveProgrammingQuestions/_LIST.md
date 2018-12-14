@@ -18,7 +18,7 @@
 ## 4. Number Theory
 * DCEPC11B (S), Light's New Car (HB), POWPOW2 (S), DIVSUM (S)
 * DIVSUM2 (S), FACTMUL (S), MAIN74 (S), NDIVPHI (S)
-* THREEDIF(C), LCPCP2 (S), GCD(2), FINDPRM (S), TDKPRIME (S), TDPRIMES (S), PRIME1 (S)
+* THREEDIF(C), LCPCP2 (S), GCD(S), FINDPRM (S), TDKPRIME (S), TDPRIMES (S), PRIME1 (S)
 * FACTCG2 (S), ALICESIE (S), AMR10C (S), SPOTWO (C), DCEPC13D (S), CUBEFR (S)
 * NFACTOR (S), CSQUARE (S), CPRIME (S), ANARCO9C (S), GCDEX (S), AMR11E (S), 
 * https://discuss.codechef.com/questions/72953/a-dance-with-mobius-function
@@ -28,10 +28,25 @@
 * https://www.hackerrank.com/challenges/ncr/problem
 
 ## 5. Binary Search
+* First, Last occurence of a element
+* Finding a square root of a no.
 * SUBSUMS (S)
+* https://articles.leetcode.com/the-painters-partition-problem/
+* https://www.geeksforgeeks.org/allocate-minimum-number-pages/
+* AGGRCOW (S), EKO (S), HMAPPY (C), PRATA (S), BEAUTIFUL TRIPLES (HR)
 
-## 6. Expression Tree
-* CMEXPR(S)
+## 6. Greedy Algorithm
+* BUSYMAN (S), BAISED (S), TACHSTCK (C), BALIFE (S), DEFKIN (S), EXPEDITION (S)
+* Fractional Knapsack, Huffman Coding
+* DIE HARD (S), GERGOVIA (S), SOLDIER (S), CHOCOLA (S), CMIYC (S)
+* Maximum Circles (HB), Maximum Unique Segment (C)
+
+## 7. Recurssion & Backtracking
+* T-Shirts (C)
+
+## 8. Trees Extra
+* CMEXPR(S) - Expression Tree
+* GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - Segment Tree
 
 ## TODO
 * https://www.spoj.com/problems/MKTHNUM/

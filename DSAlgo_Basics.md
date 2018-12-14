@@ -1448,9 +1448,65 @@ public:
 };
 ```
 
+13) Segment Tree<br>
+Say given array we want to calculate sum (or anyother query like max from L to R) from L to R. we can do it in O(N) time or in O(1) if we calculate prefix sum of the array. With Segment Tree we take O(logN) however we can also update our array updating then summing over range is fastest through segment tree if no updating then better use prefix sum.<br>
+![](res/segmentTree.png)<br>
+**Every node represents the answer to a query**<br>
+![](res/QUERYST.png)
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int tree[900000];
+void buildTree(int arr[], int start, int end, int node = 1)
+{
+    if (start == end)
+    {
+        tree[node] = arr[end];
+        return;
+    }
+    int mid = (start + end) >> 1;
+    buildTree(arr, start, mid, node*2);
+    buildTree(arr, mid+1, end, node*2 + 1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+int queryTree(int start, int end, int l, int r, int node = 1)
+{
+    if (start > end || start > r || end < l) return 0;
+    if (start >= l && end <= r) return tree[node];
+    int mid = (start + end) >> 1;
+    int q1 = queryTree(start, mid, l, r, node*2);
+    int q2 = queryTree(mid+1, end, l, r, node*2 + 1);
+    return q1 + q2;
+}
+void updateTree(int start, int end, int i, int val, int node = 1)
+{
+    if (start > end || start > i || end < i) return;
+    if (start == end)
+    {
+        tree[node] = val;
+        return;
+    }
+    int mid = (start + end) >> 1;
+    updateTree(start, mid, i, val, node*2);
+    updateTree(mid+1, end, i, val, node*2 + 1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+int main()
+{
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    int n = sizeof(arr) / sizeof(int);
+    buildTree(arr, 0, n-1);
+    cout << queryTree(0, n-1, 2, 4) << endl;    //21
+    updateTree(0, n-1, 3, 19);
+    cout << queryTree(0, n-1, 2, 4) << endl;    //33
+    return 0;
+}
+```
+
 ## 7. Greedy Algorithm
 Count out certain amount of money, using fewest possible notes or coins.<br>
 39 = 10 + 10 + 10 + 5 + 2 + 2<br>
-We are going for greedy approach chosing local optimum (max value we can take) to achieve global optimum. **This may not be true for some currency**
+We are going for greedy approach chosing local optimum (max value we can take) to achieve global optimum. **This may not be true for some currency** Like in above case leaf node represents single segment all parent to it gives sum within range query.
 
-Greedy is more efficient then DP
+Greedy is more efficient then DP. O(NLogN) of Greedy can also be optimized by using counting sort if and only if our total elements are less variant. Or even radix sort can be used.

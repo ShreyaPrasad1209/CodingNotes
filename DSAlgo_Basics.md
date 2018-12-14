@@ -1472,8 +1472,9 @@ void buildTree(int arr[], int start, int end, int node = 1)
 }
 int queryTree(int start, int end, int l, int r, int node = 1)
 {
-    if (start > end || start > r || end < l) return 0;
-    if (start >= l && end <= r) return tree[node];
+    if (start > end || start > r || end < l) return 0; //No Overlap
+    if (start >= l && end <= r) return tree[node]; //Complete Overlap
+    //Partial Overlap
     int mid = (start + end) >> 1;
     int q1 = queryTree(start, mid, l, r, node*2);
     int q2 = queryTree(mid+1, end, l, r, node*2 + 1);
@@ -1481,12 +1482,13 @@ int queryTree(int start, int end, int l, int r, int node = 1)
 }
 void updateTree(int start, int end, int i, int val, int node = 1)
 {
-    if (start > end || start > i || end < i) return;
-    if (start == end)
+    if (start > end || start > i || end < i) return; //No Overlap
+    if (start == end) //Complete Overlap
     {
         tree[node] = val;
         return;
     }
+    //Partial Overlap
     int mid = (start + end) >> 1;
     updateTree(start, mid, i, val, node*2);
     updateTree(mid+1, end, i, val, node*2 + 1);
@@ -1499,8 +1501,78 @@ int main()
     buildTree(arr, 0, n-1);
     cout << queryTree(0, n-1, 2, 4) << endl;    //21
     updateTree(0, n-1, 3, 19);
+    for (int i = 1; i < 14; ++i) cout << tree[i] << " ";
+    cout << endl;
     cout << queryTree(0, n-1, 2, 4) << endl;    //33
     return 0;
+}
+```
+**BUILD O(N), QUERY O(logN), UPDATE O(logN)**<br>
+Updating a single values takes O(logN) say we want to range update values naively calling will be O(NlogN) it can be O(N) since entire tree may need to be updated in the worst case and it will be of order N. Most optimized is using lazy propagation in O(logN)<br>
+```c++
+void updateRange(int start, int end, int l, int r, int increment, int node = 1)
+{
+    if (start > end || start > r || end < l) return;
+    if (start == end)
+    {
+        tree[node] += increment;
+        return;
+    }
+    int mid = (start + end) >> 1;
+    updateRange(start, mid, l, r, increment, node*2);
+    updateRange(mid+1, end, l, r, increment, node*2+1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+```
+Lazy Propagation simply assigns a lazy value for all node in a tree. Say we update a range if it's a complete overlap then that range node will get a lazy value assosiated otherwise the conjection of partials will be. Then later on if a query is passed to any node we start from parent root node always going deep, if we found any non zero lazy then we will resolve that node means we will increment that node to it's value and also pass it on to it's children.
+```c++
+int lazy[900000];
+void lazyUpdate(int start, int end, int l, int r, int val, int node = 1)
+{
+    if (lazy[node] != 0)
+    {
+        tree[node] += (end - start + 1) * lazy[node];
+        if (start != end)
+        {
+            lazy[node*2] += lazy[node];
+            lazy[node*2 + 1] += lazy[node];
+        }
+        lazy[node] = 0;
+    }
+    if (start > end || start > r || end < l) return;
+    if (start >= l && end <= r)
+    {
+        tree[node] += (end - start + 1) * val;
+        if (start != end)
+        {
+            lazy[node*2] += lazy[node];
+            lazy[node*2 + 1] += lazy[node];
+        }
+        return;
+    }
+    int mid = (start + end) >> 1;
+    lazyUpdate(start, mid, l, r, val, node*2);
+    lazyUpdate(mid+1, end, l, r, val, node*2 + 1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+int lazyQuery(int start, int end, int l, int r, int node = 1)
+{
+    if (start > end || start > r || end < l) return 0;
+    if (lazy[node] != 0)
+    {
+        tree[node] += (end - start + 1) * lazy[node];
+        if (start != end)
+        {
+            lazy[node*2] += lazy[node];
+            lazy[node*2 + 1] += lazy[node];
+        }
+        lazy[node] = 0;
+    }
+    if (start >= l && end <= r) return tree[node];
+    int mid = (start + end) >> 1;
+    int q1 = lazyQuery(start, mid, l, r, node*2);
+    int q2 = lazyQuery(mid+1, end, l, r, node*2 + 1);
+    return q1 + q2;
 }
 ```
 

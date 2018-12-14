@@ -42,11 +42,26 @@
 * Maximum Circles (HB), Maximum Unique Segment (C)
 
 ## 7. Recurssion & Backtracking
-* T-Shirts (C)
+* N Queens, Robots On Ice, M Coloring Problem, Rat in a maze, Finding Hamiltonian Cycle, Knight's Tour, Sudoku Solver, Permutations
+* T-Shirts (C), N Queens Optimized (using bitmasking)
 
 ## 8. Trees Extra
+* MATRIX QUERIES (HB), GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - Segment Tree
+* ... - Fenwick Tree/Binary Indexed Tree
 * CMEXPR(S) - Expression Tree
-* GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - Segment Tree
+* ... - Tries
+
+## 9. Dynamic Programming
+
+## 10. MO's Algorithm
+
+## 11. Graph Theory
+
+## 12. Geometric Algorithm
+
+## 13. Fast Fourier Transform
+
+## 14. Heavy Light Decomposition
 
 ## TODO
 * https://www.spoj.com/problems/MKTHNUM/

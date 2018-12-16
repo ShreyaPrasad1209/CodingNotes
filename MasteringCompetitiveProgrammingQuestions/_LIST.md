@@ -46,10 +46,10 @@
 * T-Shirts (C), N Queens Optimized (using bitmasking)
 
 ## 8. Trees Extra
-* MATRIX QUERIES (HB), GSS1 (S), QSET (C), JTREE (C), COUNZ (C), DIVMAC (C) - **Segment Tree**
-* ... - **Fenwick Tree/Binary Indexed Tree**
+* MATRIX QUERIES (HB), GSS1 (S), DIVMAC (C), QSET (C), JTREE (C), COUNZ (C) - **Segment Tree**
+* INVCNT(S), ANDSQR(C), BAADSHAH (C), CTRICK (S) - **Fenwick Tree/Binary Indexed Tree**
 * CMEXPR(S) - **Expression Tree**
-* ... - **Tries**
+* PRHYME(S) - **Tries**
 
 ## 9. Dynamic Programming
 

@@ -140,3 +140,6 @@ We can sort and pick all numbers excluding maximum 2 this will be O(NlogN) or we
 [5, 10, 15] = [5, 7.5, 10]<br>
 Use BST, after every insertion go with inorder traversal it will be sorted find median.<br>
 TODO: https://www.geeksforgeeks.org/median-of-stream-of-running-integers-using-stl/
+
+## 18. Counting Inversions - Microsoft, Flipkart, Amazon, Adobe
+https://www.geeksforgeeks.org/counting-inversions/

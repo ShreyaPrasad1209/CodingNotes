@@ -1575,6 +1575,35 @@ int lazyQuery(int start, int end, int l, int r, int node = 1)
     return q1 + q2;
 }
 ```
+DIVMAC.cpp<br>
+
+14. Fenwick Or Binary Index Tree<br>
+It is used to calculate prefix sum of an array. It's not as powerful as Segment Tree but it's simpler to implement.<br>
+In the image, BIT will be stored in array of n+1 length. (indexing starts with 1 because binary operation used later onn will be anomoly for 0) for each say 3 find 3 & -3 this will flip right most set bit giving the parent from tree.<br>
+Now to fill all value say 4 we find 4 = 0 + 2^2 means we go from 0th index to next 4 elements or for 11 = 2^3 + 2^1 + 2^0 from 10-10
+![](res/BIT.png)<br>
+If we need to find sum from 0 to 5 we first go to value 6 take it here it's 9 then we go to it's parent it's 10 so ans is 19
+```c++
+void update(int i, int val)
+{
+    while (i < 1000)
+    {
+        tree[i] += val;
+        i += (i & -i);
+    }
+}
+int query(int i)
+{
+    int sum = 0;
+    while (i > 0)
+    {
+        sum += tree[i];
+        i -= (i & -i);
+    }
+    return sum;
+}
+```
+When to use BIT - When inverse exists like addition has subtraction or multiplication have division but not with gcd.
 
 ## 7. Greedy Algorithm
 Count out certain amount of money, using fewest possible notes or coins.<br>

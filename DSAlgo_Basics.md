@@ -345,6 +345,9 @@ cout << low - vec.begin() << endl;
 
 Lexiographic order is alphabetical order: 0, 1, 10, 2, 21, 3
 
+To round of int - lower int, upper int or even nearest round off<br>
+https://www.geeksforgeeks.org/lrint-llrint-c/
+
 ```c++
 //compare function: Descending order. By default sort function will sort in ascending order.
 sort(ar.begin(), ar.end(), [](const class& a, const class& b) -> bool
@@ -487,6 +490,8 @@ void sort(int arr[], int n)
 We use divide and conquer to divide entire array (half to then other half) into individual array. Then we merge while sorting it. Here 27 38 - 3 43 we loop through n of both these merge sets at each iteration check 27 < 3 so 3 comes first then 27 then again check 38 < 43 hence final is 3 27 38 43.
 <br>Time: O(nlogn)
 <br>Space: O(n)
+
+https://www.geeksforgeeks.org/counting-inversions/
 ```c++
 void merge(int arr[], int l, int m, int r)
 {
@@ -1584,26 +1589,33 @@ Now to fill all value say 4 we find 4 = 0 + 2^2 means we go from 0th index to ne
 ![](res/BIT.png)<br>
 If we need to find sum from 0 to 5 we first go to value 6 take it here it's 9 then we go to it's parent it's 10 so ans is 19
 ```c++
-void update(int i, int val)
+void update(int BIT[], int n, int i, int incr)
 {
-    while (i < 1000)
+    while (i <= n)
     {
-        tree[i] += val;
+        BIT[i] += incr;
         i += (i & -i);
     }
 }
-int query(int i)
+int query(int BIT[], int n, int i)
 {
-    int sum = 0;
+    int ans = 0;
     while (i > 0)
     {
-        sum += tree[i];
+        ans += BIT[i];
         i -= (i & -i);
     }
-    return sum;
+    return ans;
 }
 ```
-When to use BIT - When inverse exists like addition has subtraction or multiplication have division but not with gcd.
+BIT array stores values like: left = i - 2<sup>r</sup> + 1. right = i. Here r is rightmost set bit position. example-<br>
+BIT(1) = 1 - 2<sup>0</sup> + 1 = [1, 1]<br>
+BIT(2) = 2 - 2<sup>1</sup> + 1 = [1, 2]<br>
+Observation: ans is [i, i] for all odd no. ans is [1, i] for 2 power no.
+
+When to use BIT - When inverse exists like addition has subtraction or multiplication have division, max min, but not with gcd.
+
+https://www.geeksforgeeks.org/count-inversions-array-set-3-using-bit/
 
 ## 7. Greedy Algorithm
 Count out certain amount of money, using fewest possible notes or coins.<br>

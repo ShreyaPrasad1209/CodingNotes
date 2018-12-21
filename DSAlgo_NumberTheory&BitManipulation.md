@@ -161,7 +161,7 @@ ll nCr(ll n, ll r, ll p)
 
 > GCD (A, B) * LCM (A, B) = A * B
 
-O(Log max(a, b))
+O(Log min(a, b))
 
 ### Extended Euclid's Algorithm:<br>
 ax + by = GCD (a,b)<br>
@@ -212,6 +212,9 @@ So now using extended eucledian find for ax + by = gcd(a, b) let it's ans be x<s
 
 (x, y) = 
 K may have other possible values too
+
+
+Given Ax - By = 0 for given A & B we need to find minimum possible x & y ans is find LCM of A & B then divide it by A & B to find respective x & y (Problem: ENIGMATH)
 
 ### Fermat's Little Theorem:
 > a<sup>p</sup> = a (mod p) Here p is a prime number
@@ -291,6 +294,8 @@ Find all divisors of a number n from 1. We will itterate from 1 to n checking mo
 For 100: 1 2 4 5 10 20 25 50 100<br>
 (1, 100) (2, 50) (4, 25) (5, 20) they form pairs with product n. Now O(√n).<br>
 Proper divisors are all divisors except number itself.
+
+Count number of divisors of two numbers, simply find __gcd(a, b) then find all divisors of it count it that should be the answer Problem: COMDIV<br>
 
 Politeness of a number i.e. number of ways a number can be expressed as consecutive numbers sum.<br>
 15 : 1 + 2 + 3 + 4 + 5, 4 + 5 + 6, 7 + 8 hence 3<br>
@@ -612,6 +617,8 @@ i & 3; // bitwise [4 = 1 << 2, apply ((1 << 2) - 1), so use 3]
 i % 2^i = n & (2^i - 1)
 
 Bitwise shifts << >> shouldn't be used on negative numbers.
+
+There are two shifts - logical shift & arithemetic shift. In right both are different for left both are same. Logical shift is normal. In arithemtic most significant signed bit is coppied instead of zero. So a -ve number remains negative.
 ```
 ```c
 /*

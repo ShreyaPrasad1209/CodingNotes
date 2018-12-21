@@ -45,13 +45,24 @@
 * N Queens, Robots On Ice, M Coloring Problem, Rat in a maze, Finding Hamiltonian Cycle, Knight's Tour, Sudoku Solver, Permutations
 * T-Shirts (C), N Queens Optimized (using bitmasking)
 
-## 8. Trees Extra
+## 8. Trees Extra & Range Update Query Problems
 * MATRIX QUERIES (HB), GSS1 (S), DIVMAC (C), QSET (C), JTREE (C), COUNZ (C) - **Segment Tree**
 * INVCNT(S), ANDSQR(C), BAADSHAH (C), CTRICK (S) - **Fenwick Tree/Binary Indexed Tree**
+* UPDATEIT(S) - **Difference Array**
 * CMEXPR(S) - **Expression Tree**
 * PRHYME(S) - **Tries**
 
 ## 9. Dynamic Programming
+* MST1(S), MKBUDGET(S), MMAXPER(S), MPILOT(S), CRSCNTRY(S), MBLAST(S), MBALL(S), MSTRING(S), PIGBANK(S), SCUBADIV(S), MINVEST(S), FOOL(S)
+* https://www.geeksforgeeks.org/find-minimum-number-of-coins-that-make-a-change/
+* https://codeforces.com/contest/429/problem/B
+* BRIDGE(S), ADFRUITS(S), EDIST(S), MIXTURES(S), KNAPSACK(S), AIBOHP (S), COINS (S), TRT(S)
+* https://www.geeksforgeeks.org/longest-palindromic-subsequence-dp-12/
+* https://www.geeksforgeeks.org/matrix-chain-multiplication-dp-8/
+* GNY07H(S), INUMBER(S), LEXBRAC(S), LSORT(S), MBEEWALK(S), MINUS(S), MTILE(S), MUSKET(S), ROCK(S), SQRBR(S), SUMITR(S), THREECOL(S), TWENDS(S), OILCOMP(S), MARTIAN(S), SAMER08D(S), ACMAKER(S), AEROLITE(S), BACKPACK(S), COURIER(S), DP(S), KRECT(S), LISA(S), NAJKRACI(S), PHIDIAS(S), PT07X(S), VOCV(S), TOURIST(S), ANARC09A(S), ASSIGN(S), COUNT(S), CRSCNTRY(S), CSUBSEQS(S), CTGAME(S), CZ_PROB1(S), DSUBSEQ(S), FINDPRM(S), DP(S), FPOLICE(S)
+* FSEATS(S), GNYR09F(S), HELPBOB(S), HIST2(S), INCSEQ(S), JEDNAKOS(S), JOCHEF(S), KPMATRIX(S), M00PAIR(S), M3TILE(S), MBLAST(S), MCIRGAME(S), MFISH(S), MINVEST(S), MMINPAIN(S), MNERED(S), MONONUM(S), MORSE(S), MPILOT(S), MREPLBRC(S), MSTRING(S), MYSTIC(S), NGON(S), NOCHANGE(S), PARTIT(S), PARTPALI(S), PARTY(S), PERMUTI(S), QCJ2(S), RAIN3(S), RAINBOW(S), RENT(S), SAMER08C(S)
+* SCUBADIV(S), SERVICE(S), SSHUFFLE(S), STREET(S), TEM(S), TEMPTISL(S), TREE(S), TRIP(S), UPSUB(S), VBOSS(S), WORMS(S), XOINC(S), YODA(S), MTREE(S), TREASURY(S), CNTTREE(S), TWOPATHS(S), CPCRCIC(S), ABA12C(S), ACQUIRE(S), ACTIV(S), APIO10A(S), BADXOR(S), BAT1(S), BAT2(S), BAT3(S), BAT4(S), BCAKE(S), BORW(S), CODERE3(S), COLORSEG(S), DCEPC501(S), DCOWS(S), EXPLOSN(S), FLWRS(S), GCJ082A(S), GNYR04C(S), GONE(S)
+* GOODG(S), IITWPC4J(S), INGRED(S), IOIPALIN(S), IWGBS(S), KOSARE(S), LKS(S), LUCIFER(S), MAIN112(S), MAIN72(S), MAXWOODS(S), MAY99_4(S), MC(S), MISERMAN(S), NFURY(S), NY10E(S), PAUWS(S), RAONE(S), REPAIR1(S), RPLB(S), SAFECRAC(S), SLIDE(S), TAP2013C(S), TIEROPE(S), TRAVERSE(S), TRIKA(S), UCV2013K(S), UOFTAE(S), UOFTCF(S), WACHOVIA(S), WPC4F(S), XMEN(S)
 
 ## 10. MO's Algorithm
 
@@ -70,3 +81,7 @@
 * https://www.spoj.com/problems/LASTSHOT/
 * https://www.spoj.com/problems/PRATA/
 * https://www.spoj.com/problems/HOTELS/
+* https://www.spoj.com/problems/SAMER08F/
+* https://www.spoj.com/problems/NY10A/
+* https://www.spoj.com/problems/OFFSIDE/
+* https://www.spoj.com/problems/MAXLN/

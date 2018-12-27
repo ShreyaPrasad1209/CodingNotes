@@ -16,7 +16,17 @@ Unsigned long long int can store max till 18 places so we can Big Integers in ja
 **<u>SEQUENCE FINDER</u>** https://oeis.org/
 
 **<u>Catalan Numbers:</u> 1, 1, 2, 5, 14, 42**<br> Cat(n) = <sup>2n</sup>C<sub>n</sub>/(n+1) And Cat(0) = 1<br>
-1) Number of possible BST with n keys
+1) Number of possible BST with n keys<br>
+> This can be otherwise solved using DP for 4 keys say it will be taking any one of them as key then reusing previous keys solution
+```c++
+//nth catalan number
+dp[0] = 1, dp[1] = 1;
+for (int i = 2; i <= n; ++i)
+{
+    for (int j = 0; j < i; ++j)
+        dp[i] += dp[i] * dp[i-j-1];
+}
+```
 2) {a, b, c, d} can be parenthesized with Cat(4) ways: (ab)(cd), a(b(cd)), ((ab)c)d, (a(bc)(d)), a((bc)d)
 3) A polygon with n + 2 sides can split into Cat(n + 2) triangles
 4) No of ways to form mountain ranges with n upstrokes<br>

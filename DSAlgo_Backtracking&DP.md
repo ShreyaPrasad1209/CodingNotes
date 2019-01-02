@@ -719,3 +719,10 @@ We get this dp by moving i & j (j<i) if it's possible to do both jobs then do it
 20) **Regex & Wildcard matching:**<br>
 https://www.youtube.com/watch?v=3ZDZ-N0EPV0<br>
 https://www.youtube.com/watch?v=l3hda49XcDE
+
+21) **K Ordered LCS (HE)**<br>
+```
+we need 3D DP
+if (a[i] = b[j]) 1 + solve(i+1, j+1, k)
+else 1 + solve(i+1, j+1, k-1) || solve(i, j+1, k) || solve(i+1, j, k) - whichever gives best the ans (max of all three)
+```

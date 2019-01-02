@@ -727,3 +727,13 @@ we need 3D DP
 if (a[i] = b[j]) 1 + solve(i+1, j+1, k)
 else 1 + solve(i+1, j+1, k-1) || solve(i, j+1, k) || solve(i+1, j, k) - whichever gives best the ans (max of all three)
 ```
+
+22) **Friend pairing problem:**<br>
+```
+Say there are n friend and each friend can either go to the party single or in a pair with other. How many such ways possible.
+
+1 - 1
+2 - 2
+3 - {1}{2}{3}, {1}{2,3}, {1, 2}{3}, {1,3}{2}
+So clearly for any n either he can go alone or with pair with someone else. If alone the look for dp[n-1] and if pair then dp[n-2] till all such possible pairs keep adding that's solution
+```

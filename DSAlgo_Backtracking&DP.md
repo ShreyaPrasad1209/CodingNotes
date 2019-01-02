@@ -597,7 +597,8 @@ Given A (10x30) B (30x5) C (5x60) then we need to find order of multiplication s
 (AB)C = (10×30×5) + (10×5×60) = 4500 operations
 A(BC) = (30×5×60) + (10×30×60) = 27000 operations.
 ```
-https://www.youtube.com/watch?v=vgLJZMUfnsU
+https://www.youtube.com/watch?v=vgLJZMUfnsU<br>
+*SPOJ MIXTURES*
 
 15) **Maximum Size Rectangle/Square Of All 1s**<br>
 ```

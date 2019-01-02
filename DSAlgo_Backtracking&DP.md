@@ -218,7 +218,7 @@ DP means - a) Memoization (Top down approach) b) Pure DP (Bottom up approach)
 
 Recursive implementation of Fibonaaci even using memo calls stacks for recursive call 2^n times using itteration to fill a linear DP for fibonacci is O(N)
 
-Using matrix exponentiation fibonacci can be solved in O(k^3 logN) here k is 2. We can even use golden ratio. We can also find it in O(logN) using DP idea is to use other recurence relation such that f(n) is defined in terms of f(n/2)
+Using matrix exponentiation fibonacci can be solved in O(k^3 logN) here k is 2. We can even use golden ratio. We can also find it in O(logN) using DP idea is to use other recurence relation such that f(n) is defined in terms of f(n/2)<br>
 f(2 * k) = f(k) * f(k) + f(k - 1) * f(k - 1)<br>
 f(2 * k + 1) = f(k) * f(k + 1) + f(k - 1) * f(k)
 

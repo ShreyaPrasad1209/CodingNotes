@@ -554,20 +554,20 @@ void sort(int arr[], int l, int r)
 <br>Time: O(n<sup>2</sup>) worst case in average case we get O(nlogn) the worst case senerio is avoided usually by a randmised version of quick sort.
 <br>![](res/quicksortpartition.jpg)<br>
 ```c++
-void partition(int& arr[], int l, int r)
+int partition(int arr[], int l, int r)
 {
     int pivot = arr[r];
-    int x = l - 1;
-    for (int i = l; i < r - 1; ++i)
+    int i = l-1;
+    for (int j = l; j <= r-1; ++j)
     {
-        if (arr[i] <= pivot)
+        if (arr[j] <= pivot)
         {
-            x++;
-            swap(&arr[x], &arr[i]);
+            i++;
+            swap(arr[i], arr[j]);
         }
     }
-    swap(&arr[x + 1], &arr[r]);
-    return(x + 1);
+    swap(arr[i+1], arr[r]);
+    return i+1;
 }
 
 void sort(int arr[], int l, int r)

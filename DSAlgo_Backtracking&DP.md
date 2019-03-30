@@ -247,7 +247,7 @@ int staircaseProblem(int n)
 {
     if (memo[n-1] == -1) memo[n-1] = staircaseProblem(n - 1);
     if (memo[n-2] == -1) memo[n-2] = staircaseProblem(n - 2);
-    
+
     return memo[n - 1] + memo[n - 2];
 }
 ```
@@ -256,16 +256,15 @@ int staircaseProblem(int n)
 Given array [2, 3, 1, 1, 2, 4, 2, 0, 1, 1] ans is 0->1->4->5->9 (At any step max we can jump is value on that index). Simple dp problem start filling from rightmost end in dp store minimum jumps to reach end from that point, hence dp will be [4, 3, 4, 3, 2, 1, 2, -1, 1, 0] also keep in track which jump is efficient to take at each step so that we can later backtrack our steps.
 
 3) **Minimum Cost Path:** <br>
-![](res/minimumcosthome.png)
+![](res/minimumcosthome.png)<br>
 right side given matrix we need to go from top left to bottom right we can only go bottom and right otherwise this question would have infinite possibilities.<br>
 Left side is the dp each cell having minimum cost till that block. min(dp[i-1][j], dp[i][j-1]) + mat[i][j]<br>
-**Another varient problem**
+**Another varient problem**<br>
 ![](res/totalways.png)
 
-```
 If we were given condition to move in any 4 direction then there would have been infinite possibilities.
 
-1) **Wine Problem:** We have n wines with their initial prices given. A wine sells at rate of initial price times year it is old. We can sell one wine only per year. What is max profit. We can sell only from two ends<br>
+4) **Wine Problem:** We have n wines with their initial prices given. A wine sells at rate of initial price times year it is old. We can sell one wine only per year. What is max profit. We can sell only from two ends<br>
 [2, 3, 5, 1, 4]. Approach is find max after selling both end wines. Using greedy and selling cheap first is wrong
 ```c++
 //We will use 2D DP storing l & r

@@ -358,10 +358,18 @@ int main()
     int n;
     cin >> n;
     int cost[n + 1];
-    for (int i = 0; i <= n; ++i) cin >> cost[i];    
+    for (int i = 0; i <= n; ++i) cin >> cost[i];
     cout << rodCutter(cost, n);
     return 0;
 }
+```
+```
+We have rod of length 5 with pieces value: 2, 5, 7, 8 for 1, 2, 3 & 4 respectively.
+    1   2   3   4   5
+2   2   4   6   8   10
+5   2   5   7   10
+5
+7
 ```
 DP relation will be: Max Cost of rod = (Cost of 1 Rod + Max cost of remaining rod) + (Cost of 2 Rod + Max cost of remaining rod) + ...
 
@@ -372,7 +380,7 @@ Given a string we can perform insertion, deletion, replacement to convert to ano
     ""  S   A   T   U   R   D   A   Y
 ""  0   1   2   3   4   5   6   7   8
 S   1   0   1   2   3   4   5   6   7
-U   2 
+U   2
 N   3
 D   4
 A   5
@@ -384,10 +392,10 @@ each cell represents min operations reqd. to convert inp. to out.
 At any point this DP represents say for i=3, j=1
 We want to make S from SAT this means 2 deletion. so 2 min operations.
 replacement: 1 + dp[i-1][j-1]
-deletion: 1 + dp[i-1][j]
+deletion: 1 + dp[i+1][j]
 insertion: 1 + dp[i][j-1]
-+ 1 if character of i & j matches
 min of all three is ans of that cell
+if charactre matches look for i-1, j-1 element since checking that element is redundant
 ```
 
 8) **Find Longest Increasing subsequence:**
@@ -425,10 +433,16 @@ If the problem was Find Long Increasing Bitonic subsequence, bitonic means a sub
 */
 
 /*
+
+Maximum Sum Increasing Subsequence
+Like in 4 6 1 3 8 4 6 LIS will be 1 3 4 6 but SIS will be 4 6 8 because it's sum is max
+Implementation is same just we will keep track of sum for every array aswell in a different array and to find answer we will see max of that array
+https://www.youtube.com/watch?v=99ssGWhLPUE
+
 Application - Box Stacking Problem
 Suppose we are given boxes with their l, b & h. we need to stack them as maximum as possible. upper box should be smaller then lower.
 
-Find all 3 orientation of each box and sort them according to their base area
+Find all 3 orientation of each box and sort them according to their base area i.e. [lbh] [lhb] [bhl] imagine book placing
 1 2 4   -   [1 2 4] (2), [4 1 2] (4), [4 2 1] (8)
 3 2 5   -   [3 2 5] (6), [2 5 3] (10), [5 3 2] (15)
 [5, 3, 2] -> 0
@@ -451,20 +465,14 @@ Also in a different array maintain every time if it's possible to stack at i the
 [2, 3, 3, 7, 5, 11]
 [0, 1, 0, 0, 1, 3]
 11 is max value and we get that by 5<-3<-0
-
-Maximum Sum Increasing Subsequence
-Like in 4 6 1 3 8 4 6 LIS will be 1 3 4 6 but SIS will be 4 6 8 because it's sum is max
-Implementation is same just we will keep track of sum for every array aswell in a different array and to find answer we will see max of that array
-https://www.youtube.com/watch?v=99ssGWhLPUE
 */
 ```
 
 9) **Longest Palindromic Subsequence:**<br>
-Simply if sequence begining and end matches then it's max(dp[i-1][j], dp[i][j-1]) otherwise max with + 2. To find the sequence backtrack from topmost if it's start end are same print start end to string beginning and end then go i-1, j-1 that over here has start and end different so go max side check again since it has same start end append to result again go to i-1, j-1 if it's last simply put it in middle
-![](res/lps.png)
-https://www.youtube.com/watch?v=lDYIvtBVmgo
+https://www.youtube.com/watch?v=lDYIvtBVmgo<br>
+https://www.youtube.com/watch?v=_nCsPn7_OgI
 
-10)  **Maximum Subset Problem:**
+7)   **Maximum Subset Problem:**
 Here the return function two operation will give entire possibilities for the recurssion.
 ```c++
 bool isSubsetSum(ull n, ull arr[], ull sum)
@@ -494,7 +502,7 @@ bool isSubsetSum(int n, int arr[], int sum)
 }
 ```
 
-11) **Longest Common Subsequence:**
+8)  **Longest Common Subsequence:**
 ```
 X = nematode
 Y = empty
@@ -539,9 +547,10 @@ In the end see max of entire matrix it's 3 that's ans to find substring go to th
 /*
 Total Weight: 7
 Items (weight-val): 1-1, 3-4, 4-5, 5-7
+
+            (total weight capacity of knapsack)
 Val (Weight)    0   1   2   3   4   5   6   7
-    ""          0   0   0   0   0   0   0   0
-    1 (1)       0   1   1   1   1   1   1   1
+    1 (1)       0   1   1   1   1   1   1   1       [we only have 1 quantity of each item]
     4 (3)       0   1   1   4   5   5   5   5
     5 (4)       0   1   1   4   5  *6*  6   9
     7 (5)       0   1   1   4   5   7   8   9

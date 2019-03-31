@@ -750,4 +750,5 @@ Say there are n friend and each friend can either go to the party single or in a
 So clearly for any n either he can go alone or with pair with someone else. If alone the look for dp[n-1] and if pair then dp[n-2] till all such possible pairs keep adding that's solution
 ```
 
-http://acm.timus.ru/problemset.aspx?space=1&tag=dynprog&skipac=False&sort=difficulty
+http://acm.timus.ru/problemset.aspx?space=1&tag=dynprog&skipac=False&sort=difficulty<br>
+Solutions: https://github.com/marioyc/Online-Judge-Solutions/tree/master/Timus%20Online%20Judge

@@ -18,7 +18,7 @@ bool isSafe(int* solution, int count)
 {
     if (count == 0)
         return true;
-    
+
     for (int i = 0; i < count; ++i)
     {
         //x = count
@@ -657,20 +657,10 @@ Now we will just traverse entire dp from bottom right or anywhere actually we wi
                                 [Max of all these sub arrays
                                 within all itteration is ans]
 
-After this next itteration from 2nd column till last then 3rd column till last and so on it will result in final max 
+After this next itteration from 2nd column till last then 3rd column till last and so on it will result in final max
+
+O(N cube) all other questions of list is N square or N this one is only unique XD
 */
-//Kadane's Algorithm basically it says if we are finding ith max subarray sum then either it is sum of current a[i] and previous or just previous max
-int maxSubArraySum(int a[], int n)
-{
-    int x = -1, y = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        y += a[i];
-        if (x < y) x = y;
-        if (y < 0) y = 0;
-    }
-    return x;
-}
 ```
 https://www.youtube.com/watch?v=yCQN096CwWM<br>
 

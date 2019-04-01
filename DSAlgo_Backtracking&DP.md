@@ -158,7 +158,7 @@ int xMove[8] = { 2, 1, -1, -2, -2, -1,  1,  2 };
 int yMove[8] = { 1, 2,  2,  1, -1, -2, -2, -1 };
 
 bool isSafe(int x, int y)
-{   
+{
     return (x >= 0 && y >= 0 && x < 8 && y < 8 && arr[x][y] == -1);
 }
 
@@ -202,7 +202,7 @@ int main()
         for (int j = 0; j < 8; ++j)
             arr[i][j] = -1;
     }
-    
+
     performKnightTour(x, y);
     return 0;
 }
@@ -264,7 +264,9 @@ Left side is the dp each cell having minimum cost till that block. min(dp[i-1][j
 
 If we were given condition to move in any 4 direction then there would have been infinite possibilities.
 
-4) **Wine Problem:** We have n wines with their initial prices given. A wine sells at rate of initial price times year it is old. We can sell one wine only per year. What is max profit. We can sell only from two ends<br>
+> OPTIMIZATION PROBLEMS: https://medium.com/@pratikone/dynamic-programming-for-the-confused-rod-cutting-problem-588892796840
+
+4) **Wine Problem: OPTIMIZATION PROBLEM** We have n wines with their initial prices given. A wine sells at rate of initial price times year it is old. We can sell one wine only per year. What is max profit. We can sell only from two ends<br>
 [2, 3, 5, 1, 4]. Approach is find max after selling both end wines. Using greedy and selling cheap first is wrong
 ```c++
 //We will use 2D DP storing l & r
@@ -313,7 +315,7 @@ int solve(int arr[], int n)
 */
 ```
 
-5) **Burst Balloon Problem:**<br>
+5) **Burst Balloon Problem: OPTIMIZATION PROBLEM**<br>
 ```c++
 /*
 Given values of balloons: 3 1 5 8
@@ -332,9 +334,8 @@ dp[i][j] = max(dp[i][j-1] + arr[j]*arr[j+1], dp[i+1][j] + arr[0]*arr[j+1])
 */
 ```
 
-6) **Rod Cutter (Optimization Problem):** <br>
+1) **Rod Cutter: OPTIMIZATION PROBLEM** <br>
 We are given a rod of some length and we can cut it in any number of pieces. We are given an array that tells us price for rod piece of that size. We need to find rod maximum selling price cuts.<br>
-https://medium.com/@pratikone/dynamic-programming-for-the-confused-rod-cutting-problem-588892796840
 ```c++
 #include <bits/stdc++.h>
 using namespace std;
@@ -373,7 +374,7 @@ We have rod of length 5 with pieces value: 2, 5, 7, 8 for 1, 2, 3 & 4 respective
 ```
 DP relation will be: Max Cost of rod = (Cost of 1 Rod + Max cost of remaining rod) + (Cost of 2 Rod + Max cost of remaining rod) + ...
 
-7) **Edit Distance:**
+7) **Edit Distance: STRING PROBLEM**
 Given a string we can perform insertion, deletion, replacement to convert to another string find min operations.
 ```
               i-->
@@ -398,7 +399,7 @@ min of all three is ans of that cell
 if charactre matches look for i-1, j-1 element since checking that element is redundant
 ```
 
-8) **Find Longest Increasing subsequence:**
+8) **Find Longest Increasing subsequence: OPTIMIZATION PROBLEM**
 Whenever question says longest, maximum, highest out of subsequences then chances are more of DP
 ```c++
 /*
@@ -472,7 +473,7 @@ Also in a different array maintain every time if it's possible to stack at i the
 https://www.youtube.com/watch?v=lDYIvtBVmgo<br>
 https://www.youtube.com/watch?v=_nCsPn7_OgI
 
-7)   **Maximum Subset Problem:**
+10)   **Maximum Subset Problem:**
 Here the return function two operation will give entire possibilities for the recurssion.
 ```c++
 bool isSubsetSum(ull n, ull arr[], ull sum)
@@ -502,7 +503,7 @@ bool isSubsetSum(int n, int arr[], int sum)
 }
 ```
 
-8)  **Longest Common Subsequence:**
+11)  **Longest Common Subsequence:**
 ```
 X = nematode
 Y = empty
@@ -611,6 +612,7 @@ A(BC) = (30×5×60) + (10×30×60) = 27000 operations.
 ```
 https://www.youtube.com/watch?v=vgLJZMUfnsU<br>
 *SPOJ MIXTURES*
+https://www.youtube.com/watch?v=XHjjIJxnAJY
 
 15) **Maximum Size Rectangle/Square Of All 1s**<br>
 ```
@@ -670,10 +672,12 @@ int maxSubArraySum(int a[], int n)
     return x;
 }
 ```
+https://www.youtube.com/watch?v=yCQN096CwWM<br>
 
+17) **Numbers WIthout Consecutive 1s in binary representation:**<br>
 https://www.youtube.com/watch?v=a9-NtLIs1Kk
 
-17) **Optimal Game Strategy:**<br>
+18) **Optimal Game Strategy:**<br>
 Given an array two players play optimally and pick from either side to maximize value.
 ```
 [3, 9, 1, 2]
@@ -688,7 +692,7 @@ dp[i][j].first = max(dp[i+1][j].second + val[i], dp[i][j-1].second + val[j])
 dp[i][j].second = max(dp[i+1][j].first + val[i], dp[i][j-1].first + val[j])
 ```
 
-18) **Text Justification:**<br>
+19) **Text Justification: OPTIMIZATION PROBLEM**<br>
 Given text and width of screen arrange it such that spaces are evenly distributed
 ```
 Given: Tushar Roy likes to code
@@ -703,25 +707,29 @@ Tushar      ->   4
 Roy likes   ->   1
 to code     ->   3
 
-we check badness of arrangement by space left squared sum so 40 & 26. Greedy approach of fitting as many words will fail.
+we check badness of arrangement by space left squared sum (we could have even taken cube it's just to make it sensitive to minor errors) so 40 & 26. Greedy approach of fitting as many words will fail.
 
 This dp represents badness of picking i-j elements to display on one line of given width
     0   1   2   3   4
 0   16  0   INF INF INF
 1       49  1   INF INF
 2           25  4   INF
-3                   9
+3               64  9
 4                   36
 
 Now we will create another dp table that will keep track of minimum badness for each new word we put
 [16, 0, 17, 4, 26]
 last index has the answer of total badness
+
+https://www.youtube.com/watch?v=RORuwHiblPc
 ```
 
-19) **Weighted Job Scheduling Problem:**<br>
+20) **Weighted Job Scheduling Problem: OPTIMIZATION PROBLEM**<br>
 Given jobs along with their weights we need to choose such that we get max weight out of it. It's different from greedy BUSYMAN because in that no weight was given and we just want to select most jobs possible.
 ```
 first sort on the bases of end time
+(1, 3)    (2, 5)    (4, 6)    (6, 7)    (5, 8)     (7, 9)
+   5         6        5          4        11          2
 weights [5, 6, 5, 4, 11, 2]
 dp:
 (1, 3)    (2, 5)    (4, 6)    (6, 7)    (5, 8)     (7, 9)
@@ -729,26 +737,65 @@ dp:
 We get this dp by moving i & j (j<i) if it's possible to do both jobs then do it for example in 3rd job j = 0 i = 2 then it's possible to do both job so 5+5 = 10 update it to 10 likewise keep max value in dp
 ```
 
-20) **Regex & Wildcard matching:**<br>
-https://www.youtube.com/watch?v=3ZDZ-N0EPV0<br>
-https://www.youtube.com/watch?v=l3hda49XcDE
+21) **Regex & Wildcard matching: STRING PROBLEM**<br>
+```
+* means any string of length 0 or more can come in between ?/. means only one character can come
+pattern: x?y*z          string to match: xaylmz
+```
+![](res/Screenshot&#32;from&#32;2019-04-01&#32;22-03-09.png)<br>
+https://www.youtube.com/watch?v=3ZDZ-N0EPV0
 
-21) **K Ordered LCS (HE)**<br>
-```
-we need 3D DP
-if (a[i] = b[j]) 1 + solve(i+1, j+1, k)
-else 1 + solve(i+1, j+1, k-1) || solve(i, j+1, k) || solve(i+1, j, k) - whichever gives best the ans (max of all three)
-```
+22) **Travelling Salesman problem:**<br>
+Salesman travels over a set of cities, he has to return to source. Minimize total distance travelled by him. Such cycle is also called hamiltonian cycle. We want minimum weight hamiltonian cycle.<br>
+we will use bitmask to make it efficient. 000001 means out of all 6 cities 1st is visited<br>
+![](res/Screenshot&#32;from&#32;2019-04-02&#32;01-51-36.png)<br>
 
-22) **Friend pairing problem:**<br>
-```
-Say there are n friend and each friend can either go to the party single or in a pair with other. How many such ways possible.
+```c++
+#include <bits/stdc++.h>
+using namespace std;
 
-1 - 1
-2 - 2
-3 - {1}{2}{3}, {1}{2,3}, {1, 2}{3}, {1,3}{2}
-So clearly for any n either he can go alone or with pair with someone else. If alone the look for dp[n-1] and if pair then dp[n-2] till all such possible pairs keep adding that's solution
+int n = 4;
+int dist[10][10] =
+{
+    { 0,  20, 42, 25},
+    { 20,  0, 30, 34},
+    { 42, 30,  0, 10},
+    { 25, 34, 10,  0}
+};
+int VISITED_ALL = (1<<n) -1;
+int dp[16][4];
+
+int tsp (int mask, int pos)
+{
+    if (mask == VISITED_ALL) return dist[pos][0];
+    if (dp[mask][pos] != -1) return dp[mask][pos];
+
+    int ans = INT_MAX;
+    for (int city = 0; city < n; ++city)
+    {
+        if ((mask&(1<<city)) == 0)
+            ans = min(dist[pos][city] + tsp(mask|(1<<city), city), ans);
+    }
+
+    dp[mask][pos] = ans;
+    return ans;
+}
+
+int main()
+{
+    for (int i = 0; i < (1<<n); ++i)
+    {
+        for (int j = 0; j < n; ++j)
+            dp[i][j] = -1;
+    }
+    cout << tsp(1, 0);
+    return 0;
+}
 ```
+https://www.youtube.com/watch?v=JE0JE8ce1V0
+
 
 http://acm.timus.ru/problemset.aspx?space=1&tag=dynprog&skipac=False&sort=difficulty<br>
 Solutions: https://github.com/marioyc/Online-Judge-Solutions/tree/master/Timus%20Online%20Judge
+
+> TODO: 3D DP

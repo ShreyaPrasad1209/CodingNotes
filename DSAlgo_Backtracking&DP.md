@@ -266,6 +266,8 @@ If we were given condition to move in any 4 direction then there would have been
 
 > OPTIMIZATION PROBLEMS: https://medium.com/@pratikone/dynamic-programming-for-the-confused-rod-cutting-problem-588892796840
 
+> https://medium.com/@emailarunkumar/coin-exchange-problem-greedy-or-dynamic-programming-6e5ebe5a30b5
+
 4) **Wine Problem: OPTIMIZATION PROBLEM** We have n wines with their initial prices given. A wine sells at rate of initial price times year it is old. We can sell one wine only per year. What is max profit. We can sell only from two ends<br>
 [2, 3, 5, 1, 4]. Approach is find max after selling both end wines. Using greedy and selling cheap first is wrong
 ```c++

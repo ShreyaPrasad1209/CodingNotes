@@ -336,7 +336,7 @@ dp[i][j] = max(dp[i][j-1] + arr[j]*arr[j+1], dp[i+1][j] + arr[0]*arr[j+1])
 */
 ```
 
-1) **Rod Cutter: OPTIMIZATION PROBLEM** <br>
+6) **Rod Cutter: OPTIMIZATION PROBLEM** <br>
 We are given a rod of some length and we can cut it in any number of pieces. We are given an array that tells us price for rod piece of that size. We need to find rod maximum selling price cuts.<br>
 ```c++
 #include <bits/stdc++.h>

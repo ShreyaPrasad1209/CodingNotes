@@ -478,7 +478,7 @@ void sort(int arr[], int n)
             int temp = arr[i];
             for (int j = i; j >= gap && arr[j - gap] > temp; j -= gap)
                 arr[j] = arr[j - gap];
-            
+
             arr[j] = temp;
         }
     }
@@ -1451,6 +1451,29 @@ public:
         return temp -> isTerminal;
     }
 };
+```
+https://www.geeksforgeeks.org/palindrome-pair-in-an-array-of-words-or-strings/<br>
+![](res/hVkzy.png)
+```
+[bat, tab, cat] these will make battab or tabbat so we will get palindrome when
+- size[i] = size[j] and j is rev of i
+- size[i] > size[j] and i must end with rev of j and remaining letters of i is palindrome
+
+This Trie makes it pretty efficient to search for prefixes. For instance searching for cba (reverse of  abc) gives the node starting cbaaa
+1) Create an empty Trie.
+2) Do following for every word:-
+    a) Insert reverse of current word.
+    b) Also store up to which index it is
+       a palindrome.
+3) Traverse list of words again and do following
+   for every word.
+    a) If it is available in Trie then return true
+    b) If it is partially available
+         Check the remaining word is palindrome or not
+         If yes then return true that means a pair
+         forms a palindrome.
+         Note: Position upto which the word is palindrome
+               is stored because of these type of cases.
 ```
 
 13) Segment Tree<br>

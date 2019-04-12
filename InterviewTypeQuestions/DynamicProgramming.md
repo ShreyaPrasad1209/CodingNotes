@@ -8,7 +8,7 @@ int partition(int A[], int n, int k)
 {
     if (k == 1) return accumulate(A, A+n, 0);
     if (n == 1) return A[0];
-    
+
     int best = INT_MAX;
     for (int j = 1; j <= n; j++)
     {

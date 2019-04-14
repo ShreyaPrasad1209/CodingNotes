@@ -211,6 +211,7 @@ Apply DFS to all unvisited nodes. As the node get's exit put it in a stack. Then
 5) **Cycle detection:** [Directed Graph] Apply DFS and maintain a visited set. If during traversing DFS we encounter an already visited node then it means the graph has cycle. [Undirected Graph] We also need to maintain a complete visited set and for cycle the node should be in visited but not in completely visited set.<br><br>
 Another way is with the help of Disjoint Sets. We make disjoint sets for all nodes and then for each connections we make union. If we found that before making union both edges already belong in same disjoint set means there is a cycle.
 ```c++
+// O(N)
 int main()
 {
     int n, e;
@@ -270,6 +271,7 @@ bool Graph::isCyclic()
     return (topOrder.size() != V);
 }
 /*
+O(V+E)
 Above code is basically for topological sort using Kahn's algorithm
 - Compute indegree for all nodes and add those with 0 to the queue
 - Visit queue until its empty. Remove visited element from queue add it to topological Order

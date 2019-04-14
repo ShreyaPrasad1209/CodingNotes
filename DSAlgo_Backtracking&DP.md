@@ -315,6 +315,25 @@ int solve(int arr[], int n)
 1   0       0       0       5       24
 4   0       0       0       0       20
 */
+
+// Quick way to do diagonal filling
+for (int i = 1; i < n; ++i)
+    for (int j = 0, k = i; k < n; ++k, ++j)
+
+/*
+It prints:
+i j k
+1 0 1
+1 1 2
+1 2 3
+1 3 4
+2 0 2
+2 1 3
+2 2 4
+3 0 3
+3 1 4
+4 0 4
+*/
 ```
 
 5) **Burst Balloon Problem: OPTIMIZATION PROBLEM**<br>

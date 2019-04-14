@@ -58,7 +58,7 @@
 * https://a2oj.com/Category.jsp?ID=33
 * BRIDGE(S), ADFRUITS(S), MIXTURES(S), AIBOHP (S)
 * TWENDS(S), MKBUDGET(S), BADXOR(S)
-* http://acm.timus.ru/problemset.aspx?space=1&tag=dynprog&skipac=False&sort=difficulty
+* AIBOPHOBIA(S), M3TILE(S), GNY07H(S), INUMBER(S)
 
 ## 10. MO's Algorithm
 

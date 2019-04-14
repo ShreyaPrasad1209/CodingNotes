@@ -216,7 +216,123 @@ int partition(vector<int> arr, int n, int k)
 Simmilar question Allocate Books - https://www.youtube.com/watch?v=Ss9ta1zmiZo
 
 # Bit Manipulation
+## Min XOR Value
+https://www.interviewbit.com/problems/min-xor-value/
+```c++
+// O(nlog) solution
+int Solution::findMinXor(vector<int> &A)
+{
+    sort(A.begin(), A.end());
+    int ans = INT_MAX;
+    for (int i = 0; i < A.size()-1; ++i)
+        ans = min(ans, A[i]^A[i+1]);
+    return ans;
+}
+```
+> Repeating elements of Array Problems from DSAlgo_NumberTheory&BitManipulation.md
+
+## Divide Integers
+```c++
+int Solution::divide(int dividend, int divisor)
+{
+    int sign = 1;
+    if (dividend < 0) sign = -sign;
+    if (divisor < 0) sign = -sign;
+
+    unsigned long long tmp = abs((long long) dividend);
+    unsigned long long tmp2 = abs((long long) divisor);
+
+    unsigned long c = 1;
+    while (tmp2 < tmp)
+    {
+        tmp2 <<= 1;
+        c <<= 1;
+    }
+
+    long long res = 0;
+    while (tmp >= abs((long long)divisor))
+    {
+        while (tmp2 <= tmp)
+        {
+            tmp -= tmp2;
+            res = res+c;
+        }
+        tmp2 >>= 1;
+        c >>= 1;
+    }
+
+    return (sign*res >= INT_MAX ||  sign*res < INT_MIN) ? INT_MAX : sign*res;
+}
+```
+
+## Different Bits Sum Pairwise
+https://www.interviewbit.com/problems/different-bits-sum-pairwise/
+```c++
+int Solution::cntBits(vector<int> &A)
+{
+    long long int ans = 0;
+    int count;
+
+    for(int i = 0; i < 31; i++)
+    {
+        count = 0;
+        for(int j = 0; j < A.size(); j++)
+        {
+            if(A[j] & (1 << i))
+                count++;
+        }
+        ans = (ans + (2*count*(A.size()-count))) % 1000000007;
+    }
+
+    return (int)ans;
+}
+```
 
 # Strings
+## Amazing Subarrays
+https://www.interviewbit.com/problems/amazing-subarrays/
+```c++
+const int MOD = 10003;
+bool isVowel(char A)
+{
+    bool res = true;
+    switch (A)
+    {
+        case 'a':
+        case 'A':
+        case 'e':
+        case 'E':
+        case 'i':
+        case 'I':
+        case 'o':
+        case 'O':
+        case 'u':
+        case 'U':
+            res = true;
+            break;
+        default:
+            res = false;
+            break;
+    }
+    return res;
+}
+
+int Solution::solve(string A)
+{
+    int count = 0;
+    size_t N = A.length();
+    for (size_t i = 0; i < N; ++i)
+    {
+        if (isVowel(A[i]))
+            count += N - i;
+    }
+    return count%MOD;
+}
+```
+[Vague question asking interviewer]<br>
+https://www.interviewbit.com/problems/atoi/<br>
+https://www.interviewbit.com/problems/valid-number/
+
+See string addition, subtraction, multiplication, division, modulo, exponentation. Also big integer implementation
 
 # Two Pointers

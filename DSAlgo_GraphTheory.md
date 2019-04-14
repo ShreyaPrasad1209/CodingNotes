@@ -235,6 +235,49 @@ int main()
     return;
 }
 ```
+Using BFS to detect cycle in directed graph we use Kahn's Algorithm for Topological Sorting
+```c++
+bool Graph::isCyclic()
+{
+    vector<int> inDegree(V, 0);
+    for (int i = 0; i < V; ++i)
+    {
+        for (int j = 0; j < adj[i].size(); ++j)
+            ++inDegree[adj[i][j]];
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; ++i)
+    {
+        if (inDegree[i] == 0)
+            q.push(i);
+    }
+
+    vector<int> topOrder;
+    while (!q.empty())
+    {
+        int front = q.front();
+        q.pop();
+        topOrder.push_back(front);
+        for (int i = 0; i < adj[front].size(); ++i)
+        {
+            --inDegree[adj[front][i]];
+            if (inDegree[adj[front][i]] == 0)
+                q.push(adj[front][i]);
+        }
+    }
+
+    return (topOrder.size() != V);
+}
+/*
+Above code is basically for topological sort using Kahn's algorithm
+- Compute indegree for all nodes and add those with 0 to the queue
+- Visit queue until its empty. Remove visited element from queue add it to topological Order
+- Visit neighbous and reduce their indegree since that path is now chosen and if indegree reduces down to 0 we add it to queu
+- This makes sense because we are only going to neighbour if it's last path we haven't discovered
+- If in the end topological sort cannot visit every node means there was a cycle in the path
+*/
+```
 
 6) **Counting number of simple cycles:** Out of adjancey matrix let's say 0 -> 1, 2, 3 we make pairs of i, j & k = (0, 0, 1) (0, 0, 2) (0, 1, 2) then correspondingly we increment that cell of matrix A[ adj[i][j]] [adj[i][k] ]
 ```c++
@@ -261,8 +304,8 @@ int main()
         {
             cin >> val;
             if(val)
-                adj[i].push_back(j);            
-        }            
+                adj[i].push_back(j);
+        }
     }
 
     for(int i = 0; i < n; ++i)

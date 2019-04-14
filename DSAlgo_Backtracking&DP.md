@@ -784,14 +784,5 @@ int main()
     return 0;
 }
 ```
-https://www.youtube.com/watch?v=JE0JE8ce1V0
-
-**Space State Reduction Technique [IMPORTANT IN 3D and above DP]**<br>
-https://www.hackerearth.com/practice/algorithms/dynamic-programming/state-space-reduction/tutorial/
-
-1)  **The Values You Can Make (3D DP):**<br>
-https://blog.csdn.net/mengxiang000000/article/details/62227631
-
-
-http://acm.timus.ru/problemset.aspx?space=1&tag=dynprog&skipac=False&sort=difficulty<br>
-Solutions: https://github.com/marioyc/Online-Judge-Solutions/tree/master/Timus%20Online%20Judge
+https://www.youtube.com/watch?v=JE0JE8ce1V0<br>
+https://medium.com/basecs/speeding-up-the-traveling-salesman-using-dynamic-programming-b76d7552e8dd

@@ -249,7 +249,7 @@ Given Ax - By = 0 for given A & B we need to find minimum possible x & y ans is 
 ### Multiplicative modulo inverse:
 Naive approach try all numbers from 1 to m for every check (a * x) % m = 1
 ```c++
-ll modInverse(ll a, ll m) 
+ll modInverse(ll a, ll m)
 {
     a = a % m;
     for (ll x = 1; x < m; x++)
@@ -297,7 +297,7 @@ void primeFactors(int n)
         cout << 2 << " ";
         n = n/2;
     }
- 
+
     for (int i = 3; i <= sqrt(n); i += 2)
     {
         while (n % i == 0)
@@ -306,7 +306,7 @@ void primeFactors(int n)
             n = n/i;
         }
     }
- 
+
     if (n > 2)
         cout << n << " ";
 }
@@ -720,7 +720,7 @@ int arr[] = {7, 11, 3, 4, 9, 4, 3, 3, 4, 7, 9, 9, 7};
         }
     }
     int ans = 0;
-    for (int i = 0; i < n; ++i) ans += pow(2, i) * (count[i] % 3);
+    for (int i = 0; i < 32; ++i) ans += pow(2, i) * (count[i] % 3);
     cout << ans << endl;
 ```
 

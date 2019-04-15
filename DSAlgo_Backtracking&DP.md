@@ -250,6 +250,7 @@ int staircaseProblem(int n)
 
     return memo[n - 1] + memo[n - 2];
 }
+// Simmilar problem SPOJ (ACODE)
 ```
 
 **Another variation is Minimum Jump To Reach End**<br>

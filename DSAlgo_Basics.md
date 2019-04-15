@@ -534,6 +534,25 @@ void merge(int arr[], int l, int m, int r)
         ++j;
         ++k;
     }
+    /*
+    // In place merge:
+    int i = 0, j = 0;
+    while((i < A.size()) && (j < B.size()))
+    {
+        if(A[i] > B[i])
+        {
+            A.insert(A.begin()+i, B[j]);
+            i++;
+            j++;
+        }
+        else i++;
+    }
+    while(j != B.size())
+    {
+        A.push_back(B[j]);
+        j++;
+    }
+    */
 }
 void sort(int arr[], int l, int r)
 {

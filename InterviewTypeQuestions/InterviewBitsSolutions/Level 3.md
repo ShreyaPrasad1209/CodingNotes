@@ -336,3 +336,21 @@ https://www.interviewbit.com/problems/valid-number/
 See string addition, subtraction, multiplication, division, modulo, exponentation. Also big integer implementation
 
 # Two Pointers
+## Minimize the absolute difference
+https://www.interviewbit.com/problems/minimize-the-absolute-difference/
+```c++
+int Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C)
+{
+    int i = A.size()-1, j = B.size()-1, k = C.size()-1;
+    int ans = abs(max(A[i], max(B[j], C[k])) - min(A[i], min(B[j], C[k])));
+    while (i != -1 && j != -1 && k != -1)
+    {
+        ans = min(ans, abs(max(A[i], max(B[j], C[k])) - min(A[i], min(B[j], C[k]))));
+        int max_term = max(A[i], max(B[j], C[k]));
+        if (A[i] == max_term) i--;
+        else if (B[j] == max_term) j--;
+        else k --;
+    }
+    return ans;
+}
+```

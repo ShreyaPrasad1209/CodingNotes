@@ -20,7 +20,7 @@
 * DIVSUM2 (S), FACTMUL (S), MAIN74 (S), NDIVPHI (S)
 * THREEDIF(C), LCPCP2 (S), GCD(S), FINDPRM (S), TDKPRIME (S), TDPRIMES (S), PRIME1 (S)
 * FACTCG2 (S), ALICESIE (S), AMR10C (S), SPOTWO (C), DCEPC13D (S), CUBEFR (S)
-* NFACTOR (S), CSQUARE (S), CPRIME (S), ANARCO9C (S), GCDEX (S), AMR11E (S), 
+* NFACTOR (S), CSQUARE (S), CPRIME (S), ANARCO9C (S), GCDEX (S), AMR11E (S)
 * https://discuss.codechef.com/questions/72953/a-dance-with-mobius-function
 * https://www.hackerearth.com/challenge/competitive/codemonk-number-threory-part-1/
 * https://www.hackerearth.com/challenge/competitive/code-monk-number-theory-ii/
@@ -59,6 +59,7 @@
 * BRIDGE(S), ADFRUITS(S), MIXTURES(S), AIBOHP (S)
 * TWENDS(S), MKBUDGET(S), BADXOR(S)
 * AIBOPHOBIA(S), M3TILE(S), GNY07H(S), INUMBER(S)
+* MBEEWALK(S), ACODE(S), BYTESM2(S)
 
 ## 10. MO's Algorithm
 
@@ -74,6 +75,7 @@
 
 ## 16. Extras
 * Introduction to Algorithms - CLRS
+* https://math.stackexchange.com/questions/22721/is-there-a-formula-to-calculate-the-sum-of-all-proper-divisors-of-a-number
 * https://www.youtube.com/watch?v=MxiTG96QOxw
 * https://www.youtube.com/watch?v=rXfKWIZQIo4
 * https://www.youtube.com/watch?v=NgbK43jB4rQ
@@ -87,3 +89,4 @@
 * https://www.spoj.com/problems/NY10A/
 * https://www.spoj.com/problems/OFFSIDE/
 * https://www.spoj.com/problems/MAXLN/
+* https://www.spoj.com/problems/MINUS/

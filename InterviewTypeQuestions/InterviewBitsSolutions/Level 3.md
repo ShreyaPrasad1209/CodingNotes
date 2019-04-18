@@ -354,3 +354,137 @@ int Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C)
     return ans;
 }
 ```
+
+## 3 Sum
+https://www.interviewbit.com/problems/3-sum/
+```c++
+int Solution::threeSumClosest(vector<int> &A, int B)
+{
+    sort(A.begin(), A.end());
+    int ans = 0, diff = INT_MAX;
+    for (int i = 0; i < A.size()-2; ++i)
+    {
+        int j = i+1, k = A.size()-1;
+        while (j < k)
+        {
+            int cur = A[i] + A[j] + A[k];
+            if (diff > abs(cur - B)) ans = cur, diff = abs(cur - B);
+            if (cur > B) --k;
+            else ++j;
+        }
+    }
+    return ans;
+}
+```
+
+## DiffK
+https://www.interviewbit.com/problems/diffk/
+```c++
+int Solution::diffPossible(vector<int> &A, int B)
+{
+    int p = 0, q = 0;
+    while (q < A.size())
+    {
+        if (p == q) ++q;
+        else if (A[q]-A[p] == B && q != p) return 1;
+        else if (A[q]-A[p] > B) ++p;
+        else if (A[q]-A[p] < B) ++q;
+    }
+    return 0;
+}
+```
+
+## Max Continuous Series Of 1
+https://www.interviewbit.com/problems/max-continuous-series-of-1s/
+```c++
+vector<int> Solution::maxone(vector<int> &A, int B)
+{
+    int wL = 0, wR = 0;
+    int nZero = 0;
+    int bestWindowWidth = -1;
+    vector<int> result;
+    int start = 0, end = 0;
+    while (wR < A.size())
+    {
+        // Expand to the right, update 0 count
+        if (nZero <= B)
+        {
+            if (A[wR] == 0) ++nZero;
+            ++wR;
+        }
+        // Shrink from left, update 0 count;
+        if (nZero > B)
+        {
+            if (A[wL] == 0) --nZero;
+            ++wL;
+        }
+        if (wR-wL+1 > bestWindowWidth)
+        {
+            bestWindowWidth = wR-wL+1;
+            start = wL;
+            end = wR;
+        }
+    }
+    for (int i = start; i < end; ++i) result.push_back(i);
+    return result;
+}
+```
+
+## Array 3 Pointers
+https://www.interviewbit.com/problems/array-3-pointers/
+```c++
+int getMax(int a, int b, int c) { return max(a, max(b,c)); }
+
+int Solution::minimize(const vector<int> &A, const vector<int> &B, const vector<int> &C)
+{
+    int i = 0, j = 0, k = 0;
+    int sol = INT_MAX;
+    int temp, temp1, temp2, temp3;
+    while(i < A.size() || j < B.size() || k < C.size())
+    {
+        sol = min(sol, getMax(abs(A[i]-B[j]), abs(B[j]-C[k]), abs(C[k]-A[i])));
+
+        temp1 = (i+1 < A.size()) ?
+            getMax(abs(A[i+1]-B[j]), abs(B[j]-C[k]), abs(C[k]-A[i+1])) : INT_MAX;
+        temp2 = (j+1 < B.size()) ?
+            getMax(abs(A[i]-B[j+1]), abs(B[j+1]-C[k]), abs(C[k]-A[i])) : INT_MAX;
+        temp3 = (k+1 < C.size()) ?
+            getMax(abs(A[i]-B[j]), abs(B[j]-C[k+1]), abs(C[k+1]-A[i])) : INT_MAX;
+        temp = min(temp1, min(temp2, temp3));
+
+        if(temp == INT_MAX) return sol;
+        else if(temp == temp1) i++;
+        else if(temp == temp2) j++;
+        else k++;
+    }
+    return sol;
+}
+```
+
+## Container With Most Water
+https://www.interviewbit.com/problems/container-with-most-water/
+```c++
+int Solution::maxArea(vector<int> &A)
+{
+    int i = 0;
+    int j = A.size()-1;
+    int ans = 0;
+    while (i < A.size())
+    {
+        int cur = 0;
+        if (A[i] < A[j])
+        {
+            cur = (j-i) * A[i];
+            ++i;
+        }
+        else
+        {
+            cur = (j-i) * A[j];
+            --j;
+        }
+        if (cur > ans) ans = cur;
+        if (i == j) break;
+    }
+    return ans;
+}
+```

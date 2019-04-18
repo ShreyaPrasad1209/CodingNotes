@@ -101,7 +101,7 @@ https://www.interviewbit.com/problems/first-missing-integer/
 int firstMissingPositive(vector<int> &A)
 {
     // [3, 4, -1, 1] Input
-    // STD magic baby XD without iterators hume swap karna padta uff
+    // STL magic baby XD without iterators hume swap karna padta uff
     for (auto it = A.begin(); it != A.end(); )
     {
         if (*it <= 0) A.erase(it);

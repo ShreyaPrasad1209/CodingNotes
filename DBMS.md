@@ -180,7 +180,7 @@ Maximum Cardinality, It defines the maximum number of times an entity occurence 
 - Total Participation (Minimum cardinality > 0)
 Example: A project employee relationship. Each project must have min 5 employee and max 12 employee. Each employee must be in atmost 2 projects. Here project min cardinality is 5 and max 12 while for employee its 0 and 2. Project to employee is total participation while employee to project it's partial participation. (Double line in total participation)
 
-> The Strong Entity is the one whose existence does not depend on the existence of any other entity in a schema while a weak entity is the one that depends on its owner entity i.e. a strong entity for its existence. A weak entity is denoted by the double rectangle. ![](res/Screenshot&#32;from&#32;2019-03-05&#32;21-57-11.png)
+> The Strong Entity is the one whose existence does not depend on the existence of any other entity in a schema while a weak entity is the one that depends on its owner entity i.e. a strong entity for its existence. A weak entity is denoted by the double rectangle. <br>![](res/Screenshot&#32;from&#32;2019-03-05&#32;21-57-11.png)
 
 Conversion to Relational Model:
 - Converting Entity Sets to table: Simply put entity set as table and all entities as values
@@ -278,8 +278,95 @@ https://youtu.be/yIN6k57OB3U?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
 - Transitive dependance is a functional dependency from A → B is called transitive if A, B are non-prime.<br>
 https://youtu.be/9H4aJqYyd9s?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
 
-BCNF implications:<br>
+BCNF (Boyce Codd Normal Form) implications:<br>
 ![](res/Screenshot&#32;from&#32;2019-03-06&#32;00-29-09.png)<br>
 Here in this example below, there's no partial dependancy and transitive dependancy so last is checking if right one is prime and left one can be prime as well as non prime. Here it is both prime in C → B so it's not in BCNF. If C would have been anything else which is a super key then we can ignore it<br>
 ![](res/Screenshot&#32;from&#32;2019-03-06&#32;00-30-20.png)<br>
 https://youtu.be/mzxnbsmIRNw?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
+
+## File Structures:
+SRS -> ER Diagram -> Relation Model -> Normalization -> File Structure(Indexing & Physical Strucutre such that accessing data gets faster)<br>
+
+Files can be managed in secondary memory in three ways - contiguous allocation, linked allocation & indexed allocation.
+
+The order of rows & columns are significant however their might be some benefits of having them in sorted. Their might be a case when whole record cannot fit inside the memory block then we use spanned or unspanned memory allocation.
+
+In sorted, searching fast (binary search) but insertion and deletion is difficult opposite in unsorted.
+
+If we have say a block of size 1024B and our record (tuple/row of table) has size 100B there are n tuples. After filling 10 records 24B space is left now we can either utilize that 24B by splliting record 24-76 putting 76 in next block. This is spanned mapping if we don't then unspanned. Spanned mapping make sure there's no internal fragmentation. <br> ![](res/Screenshot&#32;from&#32;2019-04-20&#32;21-08-03.png) <br> Spanned increases search time but reduces space used.
+
+Indexing on the otherhand is done by keeping index file say with key (like roll number) and values (Block pointer that matches it). After finding block we simply go to it in O(1) then in block it will contain like 10 records searching it linearly is also no deal. If Index file is small then then actual memory blocks it is beneficial.
+- Now index file just have two columns key-value unlike actual with all information. (Reduces width)
+- Index file maps to block pointer each block holds like 10 records so index file will be /10 smaller. (Reduces height)
+> Our Index file will have roll numbers 1, 11, 21, 31 if we are looking for 9th rollnumber applying binary search we know it's 1 since it's immediate lesser than 11. Keeping just few pointers is sparse indexing but let's say in our blocks records are not sorted then we need to map all pointers then it is dense indexing.
+
+> Sparse ka matlab har record ko entry naa milna par dense ka matlab har value ko entry milna. So example ki values repeat ho rahi he 1, 1, 1, 2, 3 and 1 2 3 are mapped in index other two 1s are left so this is sparse kyuki kuch record rehgaye par also dense kyuki har value hogaya. Toh ye dono he.
+- Index file only contains frequently accessed elements. (Different case, Reduces height)
+
+> Indexing is a secondary mean for accessing tuples, it optimizes search we could simply search over blocks. Even indexing over dense is still beneficial in time. In space it definitely takes new additional space.
+
+Types Of Indexing:
+- Single-level Indexing
+  - Primary Indexing: Tab use karte he jab main file sorted ho usme primary key uthaake index kardete he (search attribute). It is a example of sparse indexing. No. of enteries in index file = No. of blocks acquired by the main file. No. of access recquired = logN + 1. <br>https://www.youtube.com/watch?v=mbjE4WsWYCA&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV&index=47
+  - Clustered Indexing: Main file is sorted on some non-key attribute. There will be one entry for each unique value of the non-key attribute. If number of block acquired by index file is n, then block access required will be logN + 1. It is both sparse and dense<br> ![](res/Screenshot&#32;from&#32;2019-04-20&#32;23-49-24.png)
+  - Secondary Indexing: Non sorted he primary key ho naa ho koi naa kyuki this is dense indexing saare index me hote he. This is used only non sorted jab ho. Why do we need ki non sorted? Like sometimes we want to find based on non sorted multiple index file ho sakte he for a single main file it won't change main file toh ek ko karsakte he sort dusre ko ek saath nahi. Since it's dense indexing index file ka height main file jitna hoga still index file kaa faayda he because width kam he toh space toh kam lega comparitively main file ke. And we can now apply binary search aswell.<br>https://www.youtube.com/watch?v=Tmbv15xiIPo&list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV&index=50
+- Multi-level indexing: Index eetna bada jo search ke liye dusri indexing. We use B & B+ tree typically kyuki uska structure resemble karta he.
+
+## Transactions:
+Transaction is maintainance of database. <br> ![](res/Screenshot&#32;from&#32;2019-04-21&#32;12-49-39.png) <br> A transaction is set of instructions. Instructions are atomic in nature they get either performed or not performed. Whole transaction is not atomic but it should also be atomic. In this case we have to roll back. Pese kat jaayenge A se par nahi jaayenge B me toh inconsistency hogaya.
+
+ACID Properties, a transaction should follow these:
+- Atomicity (saare instruction execute ho yaa to koi bhi nahi)
+- Consistency (Transaction ke baad database ka state change ho jata he as in saare data change so pehle database consistent thaa abb bhi rahe we want this then we can say consistency maintained he. In above bank case consistency is checked with A+B constant rahe throughout)
+- Isolation (Kisi transaction par kisi dusre transaction ka farak nahi padna chahiye. It's logical isolation ofcourse physically aesa kare ki series me transaction run hoye then system will be slow so we just want it logically, parallaly hoye par user ko lage isolation me horaha he)
+- Durability (Transaction completion ke baad durable rahe uske changes no software hardware failure commit hogaya)
+
+> Transaction Management Component is a part of DBMS which ensures Atomicity
+
+> No DBMS component ensures consistency kyuki Atomicity, Isolation, Durability ensured he tab ye bhi automatically he
+
+> Concurrency Control Component is a part of DBMS which ensures Isolation
+
+> Recovery Management Component is a part of DBMS which ensures Durability
+
+![](res/Screenshot&#32;from&#32;2019-04-21&#32;13-36-22.png)<br>
+All the instructions within the transaction is performed on a local buffer of main database after failure the buffer is discarded and if no failure that partially commited local buffer is copied to main database.
+
+Advantages Of Concurrency (Ek baar me ek se zyada transactions):
+- Waiting Time reduces
+- Response Time reduces (response is pehla interaction like restaurant me waiter aaya sabse pehle is response in the end food aane me kitna time is total waiting time. We may sometimes even want ki response time less ho althought waiting time zyada rah jaaye)
+- Resource utilization is more
+- Efficiency increases
+
+Kabhi kabhi inconsistency aasakti he due to concurrency, manage karna mushkil hoga.
+
+> Transactions are run together as schedule
+
+**Dirty Read Problem:** Koi transaction database ki value read naa karke koi aesi uncommited local buffer ki value read kare then it's dirty read.<br> ![](res/Screenshot&#32;from&#32;2019-04-21&#32;13-49-07.png)<br>In this example T1 & T2 run concruently. T1 does some changes on local buffer say changes 10 to 11 and at the same time T2 also reads, reading first takes from local buffer if there's no existence in primary memory then it will move to secondary memory. T2 then commits. Now later on if T1 has some failure then it will rollback this will create inconsistency. This can be avoided if T2 commited later on i.e. after T1 commits.
+
+**Unrepeatable Read Problem:** Jab ek value ko repeatedly read kara and values alag aayi then ye problem he. <br> ![](res/Screenshot&#32;from&#32;2019-04-21&#32;13-55-59.png)<br> Now eesme read jab dusri baar hua value change kardi kisi dusre transaction ne so inconsistency hogayi.
+
+**Phantom Read Problem:** <br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;14-05-42.png) <br> Now abb humne dusre read se pehle delete hi kardia toh again inconsistency aajayegi.
+
+**Lost Update Problem (Write-Write Conflict):**<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;15-41-10.png) <br> T1 ne value 10 se 11 kardi but then T2 ne firse change kardi (yaha T2 ne read karke change nahi kara to a constant i.e. 50 this is blind update) now T2 ne commit kardia jab T1 commit kar raha he it is commiting it's changes par T2 ne uske changes ko change kardia toh isolation nahi raha T1 kaa T1 kaa change nahi raha.
+
+**Serial Schedule:** Serial running of transactions. Slow. No problems as mentioned above. Let's say there are n transactions in the schedule T1, T2, T3, ... Tn then we have n * n-1 * n-2 ... 1 = n! ways of designing a serial schedule.
+
+**Non Serial Schedule:** Concurrent, Fast, May have above mentioned problems. Say we have n transactions in schedule T1, T2, T3, ... Tn with n1, n2, n3, ... nn instructios in each transaction then we have ((n1+n2+n3+n4+...+nn)! / (n1! n2! + n3! + ... nn!)) - n!
+
+## Conflict Serializability in DBMS
+![](res/Screenshot&#32;from&#32;2019-04-21&#32;16-02-28.png)<br>
+Basically we want to check humara non-serial schedule consistent he ya nahi (problems naa hona is consistent). If we can swap instructions within transactions (transaction ke andar ki relative ordering nahi that we should never change) and swaps ke baad if it becomes serial kyuki serial is always consistent then we can say S1 is consistent as well. If it fails then we are not sure it may or may not be consistent. Like in the image we can do it. If instructions happen on different variable then it won't matter order. Or if it's read-read then no matter konsa transaction pehle read karta he swap can be done, but if its read-write, write-read or write-write then we cannot swap.<br>https://youtu.be/QkROSmKbVFQ?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV<br>https://youtu.be/6feqtT3e-vA?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
+
+## View Serializability
+It is weaker than conflict serializability that means if a schedule is VS then it may or may not CS but if it's CS then it's definitely VS. VS is an NP complete problem so that's why we tend to go with CS first. Agar CS nahi he but usme blind write nahi he then VS nahi hoga but agar he blind write then wo ho sakta he.<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;16-49-32.png)<br>https://youtu.be/FJteasXARxg?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
+
+To check this we basically make all possible arrangements, then compare it with non-concurrent schedule like before. This time we check - initial read same, final write same, intermediate read same then we say it's view serializable.
+
+## Recoverable Schedule
+![](res/Screenshot&#32;from&#32;2019-04-21&#32;18-33-06.png)<br> Although ye schedule consistent he par still failure kahi bhi ho sakti he say failure hui (line) then T1 roll back hua par T2 ne commit kardia toh inconssistency reh jaayegi it should be 5 (initially A is 10) but it will be 15. This is irrecoverable schedule and we don't want it. Here T2 ka R(A) is dirty read agar transaction me dirty read nahi he then transaction humesha recoverable hoga kyuki uss case me ek ke rollback se dusre ko farak nahi padta. Dirty read hone ke baad bhi recoverable ho sakta he agar jis order me dirty read he ussi order me commit he like<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;18-39-36.png)
+
+> Cascadeless Schedule https://youtu.be/qH2iYtuJEwQ?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV [we don't want dirty read]
+
+## Strict Schedule
+Dirty read kehta tha ki write ho raha he kisi pe toh bina commit ke read nahi, strict kehta he read write dono nahi. It doesn't mean serial ho pura see S3. S1 is not strict schedule. S2-S3 are<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;18-50-13.png)

@@ -265,3 +265,90 @@ ListNode* Solution::detectCycle(ListNode* A)
 ```
 
 # Stacks & Queues
+## Largest Rectangle In Histogram
+https://www.interviewbit.com/problems/largest-rectangle-in-histogram/
+```c++
+int Solution::largestRectangleArea(vector<int> &A)
+{
+    stack<int> st;
+    int ans = 0;
+    A.push_back(-1);
+    for (int i = 0; i < A.size(); ++i)
+    {
+        while (!st.empty() && A[i] <= A[st.top()])
+        {
+            int height = A[st.top()];
+            st.pop();
+            int width = i - (st.empty() ? -1 : st.top()) - 1;
+            ans = max(ans, height * width);
+        }
+        st.push(i);
+    }
+    A.pop_back();
+    return ans;
+}
+```
+
+## Sliding Window Maximum
+https://www.interviewbit.com/problems/sliding-window-maximum/
+```c++
+vector<int> Solution::slidingMaximum(const vector<int> &A, int k)
+{
+    deque <int> q;
+    vector <int> res;
+    int n = A.size();
+    for(int i = 0; i < n; ++i)
+    {
+        while (!q.empty() && q.front() < i-k+1) q.pop_front();
+        while (!q.empty() && A[i] > A[q.back()]) q.pop_back();
+        q.push_back(i);
+        if(i >= k-1) res.push_back(A[q.front()]);
+    }
+    return res;
+}
+```
+
+## Min Stack
+https://www.interviewbit.com/problems/min-stack/
+```c++
+stack<int> st;
+stack<int> minSt;
+
+MinStack::MinStack()
+{
+    while (!st.empty()) st.pop();
+    while (!minSt.empty()) minSt.pop();
+}
+
+void MinStack::push(int x)
+{
+    st.push(x);
+    if (minSt.size() == 0) minSt.push(x);
+    else
+    {
+        if (x <= minSt.top()) minSt.push(x);
+        else minSt.push(minSt.top());
+    }
+}
+
+void MinStack::pop()
+{
+    if (!st.empty())
+    {
+        st.pop();
+        minSt.pop();
+    }
+}
+
+int MinStack::top()
+{
+    if (st.empty()) return -1;
+    return st.top();
+}
+
+int MinStack::getMin()
+{
+    if (minSt.empty()) return -1;
+    return minSt.top();
+}
+```

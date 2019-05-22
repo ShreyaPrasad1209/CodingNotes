@@ -1330,7 +1330,15 @@ public:
 
 6) Sets
 <br>
-Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as Binary Search Tree. A multiset allows storage of multiple elements. <u>**More in Graph Theory.**</u>
+Stores values in sorted order. Stores only unique. Elements can be only inserted and removed (not modified). Sets are implemented as Binary Search Tree. A multiset allows storage of multiple elements. <u>**More in Graph Theory.**</u> While inserting it checks for if the value is unique and it returns an iterator
+```c++
+// This loop will continue inserting until a duplicate value is reached
+while (true)
+{
+    auto check = s.insert(n);
+    if (!check.second) break;
+}
+```
 
 7) Maps
 <br>

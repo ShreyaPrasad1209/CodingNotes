@@ -3,29 +3,6 @@
 #define ll long long
 using namespace std;
 
-vector<ll> primes;
-void findPrimes(ll n)
-{
-    ll i;
-    ll sqrtn = sqrt(n);
-    vector<bool> is_prime(n+1, true);
-
-    for (i = 3; i <= sqrtn; i += 2)
-    {
-        if (is_prime[i])
-        {
-            ll increment = i+i;
-            primes.push_back(i);
-            for (int j = i * i; j <= n; j += increment)
-                is_prime[j] = false;
-        }
-    }
-    for (; i <= n; i += 2)
-    {
-        if (is_prime[i])
-            primes.push_back(i);
-    }
-}
 void segmentedSeive(ll m, ll n)
 {
     ll range = n - m;

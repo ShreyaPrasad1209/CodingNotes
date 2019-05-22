@@ -19,6 +19,12 @@ Disadvantage Of File System:
 
 In a database it can happen tha 90% of data is historic 10% is new which is used daily. So we seperately store them in order to reduce space ultimately reducing the memory access time. OLAP (Online Analytical Processing) - Historic, OLTP (Online Transaction Processing)
 
+Query Language - Procedural (Relational Algebra), Non Procedural (Relational Calculus)<br>
+Structured Query Language (SQL)
+- In practical implementation we use RDBMS, SQL is to write query on it
+- So relational model is a conceptual/theoretical framework and RDBMS is it's implementation
+- Relational algebra and calculus are mathematical system of query language used on relational model.
+
 ## Data Models:
 1) **Relational Model:** Data is stored in tables called relational. Attributes (Columns) Tuple (Rows). Degree = no. of attributes. Cardinality = no. of tuples. Advantages: Simplicity, Structural Independance (only concerned about data and not with structure), Easy to use, Query capability, Scalable. Disadvantages: Structured limit (field length limit, type, etc), Cost (of softwares and implementing).
 2) **ER (Entity Relationship) Model:** It defines the conceptual view of a database. It works around real world entities and the assosiation among them. At view level it is considered a good option for designing database. An entity is a person or a thing which has logical or physical existence in the real world. For example, in a school database, students, teachers, classes, and courses. An entity set is a collection of similar types of entities. Entities are represented by means of their properties, called attributes. For example, a student entity may have name, class, and age as attributes. Advantages: Better understanding (graphical), Easy conversion to other models, easy and straightforward. Disadvantages: Popular for high-level design, No industry standard for notation.
@@ -118,6 +124,10 @@ G<sub>sum (Marks)</sub>(student_course_grade)
 ![](res/Screenshot&#32;from&#32;2019-03-04&#32;21-51-48.png)<br>
 ![](res/Screenshot&#32;from&#32;2019-03-04&#32;21-51-57.png)<br>
 ![](res/Screenshot&#32;from&#32;2019-03-04&#32;21-52-05.png)<br>
+
+> Relational Algebra do not considers duplicacy as it is based on set theory matlab table me same tuple hue toh sql will show it but relational algebra won't
+
+> Natural join, division, intersection these are derived operators and it means that other operators can make these but still these derived ones are there to speed up the task
 
 https://cs.stackexchange.com/questions/29897/use-count-in-relational-algebra
 
@@ -370,3 +380,25 @@ To check this we basically make all possible arrangements, then compare it with 
 
 ## Strict Schedule
 Dirty read kehta tha ki write ho raha he kisi pe toh bina commit ke read nahi, strict kehta he read write dono nahi. It doesn't mean serial ho pura see S3. S1 is not strict schedule. S2-S3 are<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;18-50-13.png)
+
+## B and B+ Trees:
+https://www.youtube.com/watch?v=aZjYr87r1b8<br>
+![](res/Screenshot&#32;from&#32;2019-05-02&#32;11-13-43.png)<br>M way search tree are simmilar to BST we can say that a 2 degree M way ST is BST.
+
+![](res/Screenshot&#32;from&#32;2019-05-02&#32;11-17-40.png)<br> We need to modify the m way ST to use as Index. It stores now child pointer, key, and record pointer.
+
+Now B Trees are the above tree but with rules since in above tree we can put it like this then it will have more time complexity<br>![](res/Screenshot&#32;from&#32;2019-05-02&#32;11-21-37.png) so we have rules while insertion in B trees
+
+- Next node can be created if current node is atleast ceil(m/2) filled except root and leafs
+- All leafs must be at same level
+- Creation process is bottom-up
+
+> In B+ Trees we will not have record pointer at every node, we'll just have record pointers at leaf nodes
+
+- A B/B+ tree with order p has maximum p pointers and hence maximum p children.
+- A B/B+ tree with order p has minimum ceil(p/2) pointers and hence minimum ceil(p/2) children.
+- A B/B+ tree with order p has maximum (p – 1) and minimum ceil(p/2) – 1 keys.
+
+https://www.youtube.com/watch?v=k3ODdIez0-8<br>
+https://www.youtube.com/watch?v=TXIqXYUT2NE<br>
+https://www.youtube.com/watch?v=YZECPU-3iHs

@@ -366,7 +366,8 @@ Kabhi kabhi inconsistency aasakti he due to concurrency, manage karna mushkil ho
 
 ## Conflict Serializability in DBMS
 ![](res/Screenshot&#32;from&#32;2019-04-21&#32;16-02-28.png)<br>
-Basically we want to check humara non-serial schedule consistent he ya nahi (problems naa hona is consistent). If we can swap instructions within transactions (transaction ke andar ki relative ordering nahi that we should never change) and swaps ke baad if it becomes serial kyuki serial is always consistent then we can say S1 is consistent as well. If it fails then we are not sure it may or may not be consistent. Like in the image we can do it. If instructions happen on different variable then it won't matter order. Or if it's read-read then no matter konsa transaction pehle read karta he swap can be done, but if its read-write, write-read or write-write then we cannot swap.<br>https://youtu.be/QkROSmKbVFQ?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV<br>https://youtu.be/6feqtT3e-vA?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
+Basically we want to check humara non-serial schedule consistent he ya nahi (problems naa hona is consistent). If we can swap instructions within transactions (transaction ke andar ki relative ordering nahi that we should never change) and swaps ke baad if it becomes serial kyuki serial is always consistent then we can say S1 is consistent as well. If it fails then we are not sure it may or may not be consistent. Like in the image we can do it. If instructions happen on different variable then it won't matter order. Or if it's read-read then no matter konsa transaction pehle read \
+karta he swap can be done, but if its read-write, write-read or write-write then we cannot swap.<br>https://youtu.be/QkROSmKbVFQ?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV<br>https://youtu.be/6feqtT3e-vA?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
 
 ## View Serializability
 It is weaker than conflict serializability that means if a schedule is VS then it may or may not CS but if it's CS then it's definitely VS. VS is an NP complete problem so that's why we tend to go with CS first. Agar CS nahi he but usme blind write nahi he then VS nahi hoga but agar he blind write then wo ho sakta he.<br>![](res/Screenshot&#32;from&#32;2019-04-21&#32;16-49-32.png)<br>https://youtu.be/FJteasXARxg?list=PLmXKhU9FNesR1rSES7oLdJaNFgmuj0SYV
@@ -402,3 +403,26 @@ Now B Trees are the above tree but with rules since in above tree we can put it 
 https://www.youtube.com/watch?v=k3ODdIez0-8<br>
 https://www.youtube.com/watch?v=TXIqXYUT2NE<br>
 https://www.youtube.com/watch?v=YZECPU-3iHs
+
+## Lock based protocols
+A transaction begin by acquiring a lock on the entire database, other transaction cannot acquire the lock and only after the end of first transaction the lock gets unlocked this way isolation is achieved. It becomes trivially serial. poor performance. cascedless schedule.
+
+Modes in which data item may be locked:
+- Shared: Transacation can read but cannot write ---- lock-S(Q)
+- Exclusive: Both Read Write ----- lock-X(Q)
+- unlock(Q)
+
+Transaction proceed by making request to concruenct-control manager which grants the lock to the transaction. Agar turant grant hojaye toh it's compatible function
+
+```
+lock-X(B)
+read(B)
+B = B-50
+write(B)
+unlock(B)
+lock-X(A)
+read(A)
+A = A+50
+write(A)
+unlock(A4+-)
+```

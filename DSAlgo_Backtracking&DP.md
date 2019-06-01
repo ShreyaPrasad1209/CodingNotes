@@ -317,7 +317,7 @@ int solve(int arr[], int n)
 4   0       0       0       0       20
 */
 
-// Quick way to do diagonal filling
+// Quick way to do diagonal filling (excludes diagonal)
 for (int i = 1; i < n; ++i)
     for (int j = 0, k = i; k < n; ++k, ++j)
 

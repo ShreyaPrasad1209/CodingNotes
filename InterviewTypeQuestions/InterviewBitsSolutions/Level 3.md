@@ -1,6 +1,6 @@
 # Binary Search
 
-## Matrix Median
+## 16. Matrix Median
 https://www.interviewbit.com/problems/matrix-median/
 ```c++
 //We are basically finding desired value (desired as in which index on sorted array is middle)
@@ -27,7 +27,7 @@ int Solution::findMedian(vector<vector<int> > &A)
 }
 ```
 
-## Square Root Of Integer
+## 17. Square Root Of Integer
 https://www.interviewbit.com/problems/square-root-of-integer/
 ```c++
 int Solution::sqrt(int A)
@@ -45,7 +45,7 @@ int Solution::sqrt(int A)
 }
 ```
 
-## Rotated Sorted Array Search
+## 18. Rotated Sorted Array Search
 https://www.interviewbit.com/problems/rotated-sorted-array-search/
 ```c++
 int search2(const vector<int> &A, int l, int h, int key)
@@ -69,7 +69,7 @@ int Solution::search(const vector<int> &A, int B)
 }
 ```
 
-## Median of Array
+## 19. Median of Array
 https://www.interviewbit.com/problems/median-of-array/<br>
 ```c++
 // MEDIAN OF ARRAY OF SAME SIZE
@@ -148,7 +148,7 @@ N = 2, M = even : then new cases for ex: {5, 10, 12, 15}
 Rest do the implementation of same size
 ```
 
-## Painter Partition Problem
+## 20. Painter Partition Problem
 ```c++
 /*
 Given boards and we have 3 painters: 100 200 300 400 500 | 600 700 | 800 900
@@ -216,7 +216,7 @@ int partition(vector<int> arr, int n, int k)
 Simmilar question Allocate Books - https://www.youtube.com/watch?v=Ss9ta1zmiZo
 
 # Bit Manipulation
-## Min XOR Value
+## 21. Min XOR Value
 https://www.interviewbit.com/problems/min-xor-value/
 ```c++
 // O(nlog) solution
@@ -265,7 +265,7 @@ int Solution::divide(int dividend, int divisor)
 }
 ```
 
-## Different Bits Sum Pairwise
+## 22. Different Bits Sum Pairwise
 https://www.interviewbit.com/problems/different-bits-sum-pairwise/
 ```c++
 int Solution::cntBits(vector<int> &A)
@@ -289,7 +289,7 @@ int Solution::cntBits(vector<int> &A)
 ```
 
 # Strings
-## Amazing Subarrays
+## 23. Amazing Subarrays
 https://www.interviewbit.com/problems/amazing-subarrays/
 ```c++
 const int MOD = 10003;
@@ -336,7 +336,7 @@ https://www.interviewbit.com/problems/valid-number/
 See string addition, subtraction, multiplication, division, modulo, exponentation. Also big integer implementation
 
 # Two Pointers
-## Minimize the absolute difference
+## 24. Minimize the absolute difference
 https://www.interviewbit.com/problems/minimize-the-absolute-difference/
 ```c++
 int Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C)
@@ -355,7 +355,7 @@ int Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C)
 }
 ```
 
-## 3 Sum
+## 25. 3 Sum
 https://www.interviewbit.com/problems/3-sum/
 ```c++
 int Solution::threeSumClosest(vector<int> &A, int B)
@@ -377,7 +377,7 @@ int Solution::threeSumClosest(vector<int> &A, int B)
 }
 ```
 
-## DiffK
+## 26. DiffK
 https://www.interviewbit.com/problems/diffk/
 ```c++
 int Solution::diffPossible(vector<int> &A, int B)
@@ -394,7 +394,7 @@ int Solution::diffPossible(vector<int> &A, int B)
 }
 ```
 
-## Max Continuous Series Of 1
+## 27. Max Continuous Series Of 1
 https://www.interviewbit.com/problems/max-continuous-series-of-1s/
 ```c++
 vector<int> Solution::maxone(vector<int> &A, int B)
@@ -430,7 +430,7 @@ vector<int> Solution::maxone(vector<int> &A, int B)
 }
 ```
 
-## Array 3 Pointers
+## 28. Array 3 Pointers
 https://www.interviewbit.com/problems/array-3-pointers/
 ```c++
 int getMax(int a, int b, int c) { return max(a, max(b,c)); }
@@ -461,7 +461,7 @@ int Solution::minimize(const vector<int> &A, const vector<int> &B, const vector<
 }
 ```
 
-## Container With Most Water
+## 29. Container With Most Water
 https://www.interviewbit.com/problems/container-with-most-water/
 ```c++
 int Solution::maxArea(vector<int> &A)

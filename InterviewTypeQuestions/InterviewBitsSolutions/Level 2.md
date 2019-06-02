@@ -1,6 +1,6 @@
 # Arrays
 
-## Merge Overlap
+## 1. Merge Overlap
 https://www.interviewbit.com/problems/merge-overlapping-intervals/
 ```c++
 bool mycomp(Interval a, Interval b)
@@ -25,7 +25,7 @@ vector<Interval> Solution::merge(vector<Interval> &A)
 
 ```
 
-## Hotel-Booking Possible
+## 2. Hotel-Booking Possible
 https://www.interviewbit.com/problems/hotel-bookings-possible/
 ```c++
 bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K)
@@ -48,7 +48,7 @@ bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K)
 }
 ```
 
-## Largest Number
+## 3. Largest Number
 https://www.interviewbit.com/problems/largest-number/
 ```c++
 int myCompare(string X, string Y)
@@ -72,7 +72,7 @@ string Solution::largestNumber(const vector<int> &A)
 }
 ```
 
-## Max Distance
+## 4. Max Distance
 https://www.interviewbit.com/problems/max-distance/
 ```c++
 int Solution::maximumGap(const vector<int> &A)
@@ -94,7 +94,7 @@ int Solution::maximumGap(const vector<int> &A)
 }
 ```
 
-## First Missing Integer
+## 5. First Missing Integer
 This question is easy if it was not in O(1) space. Idea now is to map the presence of an integer to same array by making it negative instead of mapping to other array<br>
 https://www.interviewbit.com/problems/first-missing-integer/
 ```c++
@@ -124,7 +124,7 @@ int firstMissingPositive(vector<int> &A)
 }
 ```
 
-## Find duplicate in Array
+## 6. Find duplicate in Array
 https://www.interviewbit.com/problems/find-duplicate-in-array/<br>
 https://medium.com/solvingalgo/solving-algorithmic-problems-find-a-duplicate-in-an-array-3d9edad5ad41
 ```c++
@@ -149,7 +149,7 @@ int repeatedNumber(const vector<int> &A)
 }
 ```
 
-## Maximum Consecutive Gap
+## 7. Maximum Consecutive Gap
 https://www.interviewbit.com/problems/maximum-consecutive-gap/
 ```c++
 /*
@@ -206,7 +206,7 @@ int maximumGap(const vector<int> &A)
 }
 ```
 
-## Flip
+## 8. Flip
 https://www.interviewbit.com/problems/flip/
 ```c++
 /*
@@ -254,7 +254,7 @@ vector<int> Solution::flip(string A)
 }
 ```
 
-## Set Matrix Zero
+## 9. Set Matrix Zero
 https://www.interviewbit.com/problems/set-matrix-zeros/
 ```c++
 void Solution::setZeroes(vector<vector<int> > &matrix)
@@ -323,7 +323,7 @@ void Solution::setZeroes(vector<vector<int> > &matrix)
 }
 ```
 
-## Next Permutation
+## 10. Next Permutation
 https://www.interviewbit.com/problems/next-permutation/<br>
 https://www.nayuki.io/page/next-lexicographical-permutation-algorithm<br>
 
@@ -365,7 +365,7 @@ void Solution::nextPermutation(vector<int> &A)
 }
 ```
 
-## N/3 Repeat Number
+## 11. N/3 Repeat Number
 Moore's Voting Algorithm (This algo seems really weird how does that even works lol remember PMI proof exists for this thing) : https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
 ```python
 # Say in array we need to find majority element (one with count >= n/2)
@@ -431,7 +431,7 @@ int repeatedNumber(const vector<int> &A)
 
 # Math
 
-## Prime Sum
+## 12. Prime Sum
 https://www.interviewbit.com/problems/prime-sum/
 ```c++
 vector<int> Solution::primesum(int n)
@@ -462,7 +462,7 @@ vector<int> Solution::primesum(int n)
 }
 ```
 
-## Sum of pairwise Hamming Distance
+## 13. Sum of pairwise Hamming Distance
 https://www.interviewbit.com/problems/sum-of-pairwise-hamming-distance/
 ```c++
 int Solution::hammingDistance(const vector<int> &A)
@@ -483,7 +483,7 @@ int Solution::hammingDistance(const vector<int> &A)
 }
 ```
 
-## Rearrange Array
+## 14. Rearrange Array
 https://www.interviewbit.com/problems/rearrange-array/
 ```c++
 void Solution::arrange(vector<int> &A)
@@ -494,7 +494,7 @@ void Solution::arrange(vector<int> &A)
 }
 ```
 
-## Largest Coprime Divisor
+## 15. Largest Coprime Divisor
 https://www.interviewbit.com/problems/largest-coprime-divisor/
 ```c++
 // A is greatest number dividing A so we keep dividing x by gcd

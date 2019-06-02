@@ -1,6 +1,6 @@
 # Backtracking
 
-## Combination Sum
+## 40. Combination Sum
 https://www.interviewbit.com/problems/combination-sum/
 ```c++
 void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
@@ -35,7 +35,7 @@ vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
 }
 ```
 
-## Combination Sum II
+## 41. Combination Sum II
 https://www.interviewbit.com/problems/combination-sum-ii/
 ```c++
 void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
@@ -70,7 +70,7 @@ vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
 }
 ```
 
-## Letter Phone
+## 42. Letter Phone
 https://www.interviewbit.com/problems/letter-phone/
 ```c++
 string temp = "";
@@ -109,7 +109,7 @@ vector<string> Solution::letterCombinations(string A)
 }
 ```
 
-## Palindrome Partitioning
+## 43. Palindrome Partitioning
 https://www.interviewbit.com/problems/palindrome-partitioning/
 ```c++
 bool isPalindrome(const string s, int i, int j)
@@ -155,7 +155,7 @@ vector<vector<string> > Solution::partition(string A)
 }
 ```
 
-## Generate all parantheses II
+## 44. Generate all parantheses II
 https://www.interviewbit.com/problems/generate-all-parentheses-ii/
 ```c++
 vector<string> res;
@@ -179,7 +179,7 @@ vector<string> Solution::generateParenthesis(int A)
 }
 ```
 
-## Kth permutation sequence
+## 45. Kth permutation sequence
 https://www.interviewbit.com/problems/kth-permutation-sequence/
 ```c++
 int fact(int n)
@@ -210,7 +210,7 @@ string Solution::getPermutation(int n, int k)
 
 # Hashing
 
-## 2 Sum
+## 46. 2 Sum
 https://www.interviewbit.com/problems/2-sum/
 ```c++
 vector<int> Solution::twoSum(const vector<int> &A, int B)
@@ -243,7 +243,7 @@ vector<int> Solution::twoSum(const vector<int> &A, int B)
 }
 ```
 
-## Anagrams
+## 47. Anagrams
 https://www.interviewbit.com/problems/anagrams/
 ```c++
 vector<vector<int> > Solution::anagrams(const vector<string> &A)
@@ -269,7 +269,7 @@ vector<vector<int> > Solution::anagrams(const vector<string> &A)
 }
 ```
 
-## Equal
+## 48. Equal
 https://www.interviewbit.com/problems/equal/
 ```c++
 vector<int> Solution::equal(vector<int> &A)
@@ -325,7 +325,7 @@ vector<int> Solution::equal(vector<int> &A)
 }
 ```
 
-## Longest Substring Without Repeat
+## 49. Longest Substring Without Repeat
 https://www.interviewbit.com/problems/longest-substring-without-repeat/
 ```c++
 int Solution::lengthOfLongestSubstring(string A)
@@ -359,7 +359,7 @@ int Solution::lengthOfLongestSubstring(string A)
 }
 ```
 
-## Window String
+## 50. Window String
 https://www.interviewbit.com/problems/window-string/
 ```c++
 string Solution::minWindow(string S, string T)
@@ -392,7 +392,7 @@ string Solution::minWindow(string S, string T)
 }
 ```
 
-## Points on the Straight Line
+## 51. Points on the Straight Line
 https://www.interviewbit.com/problems/points-on-the-straight-line/
 ```c++
 int Solution::maxPoints(vector<int> &A, vector<int> &B)
@@ -430,7 +430,7 @@ int Solution::maxPoints(vector<int> &A, vector<int> &B)
 }
 ```
 
-## Substring Concatenation
+## 52. Substring Concatenation
 https://www.interviewbit.com/problems/substring-concatenation/
 ```c++
 vector<int> Solution::findSubstring(string A, const vector<string> &B)

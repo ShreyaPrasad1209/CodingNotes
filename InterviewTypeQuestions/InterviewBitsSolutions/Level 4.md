@@ -1,5 +1,5 @@
 # Linked List
-## Linked List Palindrome
+## 30. Linked List Palindrome
 ```c++
 /*
 In O(N) time and O(1) space
@@ -18,7 +18,7 @@ while (cur != NULL)
 head = prev;
 ```
 
-## Reverse Link List II
+## 31. Reverse Link List II
 https://www.interviewbit.com/problems/reverse-link-list-ii/
 ```c++
 ListNode* Solution::reverseBetween(ListNode* A, int B, int C)
@@ -54,7 +54,7 @@ ListNode* Solution::reverseBetween(ListNode* A, int B, int C)
 }
 ```
 
-## K Reverse Linked List
+## 32. K Reverse Linked List
 https://www.interviewbit.com/problems/k-reverse-linked-list/
 ```c++
 ListNode* Solution::reverseList(ListNode* A, int B)
@@ -90,7 +90,7 @@ ListNode* Solution::reverseList(ListNode* A, int B)
 }
 ```
 
-## Insertion Sort List
+## 33. Insertion Sort List
 ```c++
 ListNode* Solution::insertionSortList(ListNode* A)
 {
@@ -135,7 +135,7 @@ ListNode* Solution::insertionSortList(ListNode* A)
 }
 ```
 
-## Merge Sort List
+## 34. Merge Sort List
 ```c++
 ListNode* merge(ListNode* A, ListNode* B)
 {
@@ -189,7 +189,7 @@ ListNode* Solution::sortList(ListNode* A)
 }
 ```
 
-## Reorder List
+## 35. Reorder List
 https://www.interviewbit.com/problems/reorder-list/
 ```c++
 ListNode* Solution::reorderList(ListNode* A)
@@ -238,7 +238,7 @@ ListNode* Solution::reorderList(ListNode* A)
 }
 ```
 
-## List Cycle
+## 36. List Cycle
 https://www.interviewbit.com/problems/list-cycle/
 ```c++
 // Floyd’s Cycle detection
@@ -265,7 +265,7 @@ ListNode* Solution::detectCycle(ListNode* A)
 ```
 
 # Stacks & Queues
-## Largest Rectangle In Histogram
+## 37. Largest Rectangle In Histogram
 https://www.interviewbit.com/problems/largest-rectangle-in-histogram/
 ```c++
 int Solution::largestRectangleArea(vector<int> &A)
@@ -289,7 +289,7 @@ int Solution::largestRectangleArea(vector<int> &A)
 }
 ```
 
-## Sliding Window Maximum
+## 38. Sliding Window Maximum
 https://www.interviewbit.com/problems/sliding-window-maximum/
 ```c++
 vector<int> Solution::slidingMaximum(const vector<int> &A, int k)
@@ -308,7 +308,7 @@ vector<int> Solution::slidingMaximum(const vector<int> &A, int k)
 }
 ```
 
-## Min Stack
+## 39. Min Stack
 https://www.interviewbit.com/problems/min-stack/
 ```c++
 stack<int> st;

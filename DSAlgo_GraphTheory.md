@@ -89,7 +89,8 @@ Time can be O(E) for accessing link since traversal on list is required.
 **Preorder:** 0, 1, 3, 4, 2<br>
 
 ```c++
-void print(struct Node* node)
+// Recursive
+void print(Node* node)
 {
     if (node == NULL)
         return;
@@ -107,8 +108,64 @@ void print(struct Node* node)
     print(node->right);
 }-
 ```
+```c++
+// Iterative
+void inOrder(Node *root)
+{
+    stack<Node *> s;
+    Node *curr = root;
+    while (curr != NULL || !s.empty())
+    {
+        while (curr != NULL)
+        {
+            s.push(curr);
+            curr = curr->left;
+        }
+        curr = s.top();
+        s.pop();
+        cout << curr->data << " ";
+        curr = curr->right;
+    }
+}
+void preOrder(Node *root)
+{
+    stack<Node *> s;
+    s.push(root);
+    while (!s.empty())
+    {
+        Node *curr = s.top();
+        cout << curr->data << " ";
+        s.pop();
 
-To construct a binary tree we need either 
+        if (curr->right) s.push(curr->right);
+        if (curr->left) s.push(curr->left);
+    }
+}
+void postOrder(Node *root)
+{
+    stack<Node*> s;
+    stack<int> out;
+    s.push(root);
+
+    while (!s.empty())
+    {
+        Node *curr = s.top();
+        out.push(curr->data);
+        s.pop();
+
+        if (curr->left) s.push(curr->left);
+        if (curr->right) s.push(curr->right);
+    }
+
+    while (!out.empty())
+    {
+        cout << out.top() << " ;
+        out.pop();
+    }
+}
+```
+
+To construct a binary tree we need either
 1) **Preorder + Inorder:**<br>
    ABCDEFCGHJLK, DBFEAGCLJHK
 
@@ -197,6 +254,29 @@ void BFS(vector<int> adj[], bool visited[],
         int top = nodeVisited.front();
         nodeVisited.pop();
         BFS(adj, visited, nodeVisited, top);
+    }
+}
+
+// Itterative
+void BFS(vector<int> adj[], bool visited[], int node)
+{
+    queue<int> q;
+    visited[node] = true;
+    q.push(node);
+
+    while (!q.empty())
+    {
+        node = q.front();
+        q.pop();
+        cout << node << " ";
+        for (int x : adj[node])
+        {
+            if (!visited[x])
+            {
+                visited[x] = true;
+                q.push(x);
+            }
+        }
     }
 }
 ```

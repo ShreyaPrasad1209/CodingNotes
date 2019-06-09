@@ -4,6 +4,8 @@ https://www.interviewbit.com/problems/n-max-pair-combinations/
 ```c++
 vector<int> Solution::solve(vector<int> &A, vector<int> &B)
 {
+    // priority_queue<int, int> my_max_heap;
+    // priority_queue<int, vector<int>, greater<int> > my_min_heap;
     priority_queue<pair<int, pair<int, int> > > hp;
     set<pair<int, int> > S;
     int n = A.size();
@@ -216,4 +218,351 @@ void LRUCache::set(int key, int value)
     }
 }
 ```
+
 # Tree Data Structure
+## 57. Hotel Reviews
+https://www.interviewbit.com/problems/hotel-reviews/
+```c++
+struct node
+{
+    char data;
+    unordered_map<char, node*> next;
+    bool isTerminal;
+    node(char d)
+    {
+        data = d;
+        isTerminal = false;
+    }
+};
+
+class Trie
+{
+    node* root;
+public:
+    Trie()
+    {
+        root = new node('\0');
+    }
+    void addWord(string word)
+    {
+        node* temp = root;
+        for (int i = 0; word[i] != '\0'; ++i)
+        {
+            char ch = word[i];
+            if (temp -> next.count(ch) == 0)
+            {
+                node* child = new node(ch);
+                temp -> next[ch] = child;
+                temp = child;
+            }
+            else
+                temp = temp -> next[ch];
+        }
+        temp->isTerminal = true;
+    }
+    bool search(string word)
+    {
+        node* temp = root;
+        for (int i = 0; word[i] != '\0'; ++i)
+        {
+            char ch = word[i];
+            if (temp -> next.count(ch))
+                temp = temp -> next[ch];
+            else
+                return false;
+        }
+        return temp -> isTerminal;
+    }
+};
+
+vector<string> tokenize(string x)
+{
+    vector<string> res;
+    string temp = "";
+    for (int i = 0; i < x.size(); ++i)
+    {
+        if (x[i] == '_')
+        {
+            res.push_back(temp);
+            temp = "";
+        }
+        else temp += x[i];
+    }
+    res.push_back(temp);
+    return res;
+}
+
+vector<int> Solution::solve(string A, vector<string> &B)
+{
+    Trie trie;
+    vector<string> goodWords = tokenize(A);
+    for (string x : goodWords) trie.addWord(x);
+    vector< pair<int, int> > ans;
+    for (string x : B)
+    {
+        vector<string> words = tokenize(x);
+        int score = 0;
+        for (string y : words) score += (trie.search(y)) ? 1 : 0;
+        ans.push_back(make_pair(score, ans.size()));
+    }
+    sort(ans.begin(), ans.end(), [](const pair<int, int> &a, const pair<int, int> &b)
+    {
+        if (a.first == b.first) return a.second < b.second;
+        else return a.first > b.first;
+    });
+    vector<int> out;
+    for (auto x : ans) out.push_back(x.second);
+    return out;
+}
+```
+
+## 58. Identical Binary Tree
+https://www.interviewbit.com/problems/identical-binary-trees/
+```c++
+int checkSame (TreeNode* A, TreeNode* B)
+{
+    if (A == NULL && B == NULL) return 1;
+    else if ((A == NULL && B != NULL) || (A != NULL && B == NULL)) return 0;
+    else if (A->val == B->val) return min(checkSame(A->left, B->left), checkSame(A->right, B->right));
+    return 0;
+}
+```
+
+## 59. Symmetric Binary Tree
+https://www.interviewbit.com/problems/symmetric-binary-tree/
+```c++
+int check(TreeNode *A, TreeNode *B)
+{
+    if (A == NULL && B == NULL) return 1;
+    else if ((A == NULL && B != NULL) || (A != NULL && B == NULL)) return 0;
+    else if (A->val == B->val) return min(check(A->left, B->right), check(A->right, B->left));
+    return 0;
+}
+int Solution::isSymmetric(TreeNode* A)
+{
+    if (A == NULL) return 1;
+    return check(A->left, A->right);
+}
+```
+
+## 60. Inorder Traversal Of Cartesian Tree
+https://www.interviewbit.com/problems/inorder-traversal-of-cartesian-tree/
+```c++
+int findMax(vector<int> &A, int start, int end)
+{
+    int max = A[start];
+    int index = start;
+    for (int i = start; i <= end; ++i)
+    {
+        if (max < A[i])
+        {
+            max = A[i];
+            index = i;
+        }
+    }
+    return index;
+}
+TreeNode* makeCart(vector<int> &A, int start, int end)
+{
+    if (start > end) return NULL;
+    int maxIn = findMax(A, start, end);
+    TreeNode* root = new TreeNode(A[maxIn]);
+    root->left = makeCart(A, start, maxIn-1);
+    root->right = makeCart(A, maxIn+1, end);
+    return root;
+}
+TreeNode* Solution::buildTree(vector<int> &A)
+{
+    return makeCart(A, 0, A.size()-1);
+}
+```
+Simmilarly https://www.interviewbit.com/problems/binary-tree-from-inorder-and-postorder/
+```c++
+TreeNode* solve(vector<int> &A, unordered_map<int, int> &B, int l, int r)
+{
+    if (l > r) return NULL;
+    int index = l;
+    int rightmost = INT_MIN;
+    for (int i = l; i <= r; ++i)
+    {
+        if (B[A[i]] > rightmost)
+        {
+            rightmost = B[A[i]];
+            index = i;
+        }
+    }
+    TreeNode *root = new TreeNode(A[index]);
+    root->left = solve(A, B, l, index-1);
+    root->right = solve(A, B, index+1, r);
+    return root;
+}
+TreeNode* Solution::buildTree(vector<int> &A, vector<int> &B)
+{
+    unordered_map<int, int> mp;
+    for (int i = 0; i < B.size(); ++i)
+        mp[B[i]] = i;
+
+    return solve(A, mp, 0, A.size()-1);
+}
+```
+
+## 61. 2 Sum Binary Tree
+https://www.interviewbit.com/problems/2sum-binary-tree/
+```c++
+if (!A) return 0;
+stack<TreeNode *> s1, s2;
+TreeNode* temp1 = A, *temp2 = A;
+while (temp1)
+{
+    s1.push(temp1);
+    temp1 = temp1->left;
+}
+while (temp2)
+{
+    s2.push(temp2);
+    temp2 = temp2->right;
+}
+temp1 = s1.top(), temp2 = s2.top();
+while (temp1 && temp2 && temp1->val < temp2->val)
+{
+    if (temp1->val + temp2->val == B) return 1;
+    if (temp1->val + temp2->val < B)
+    {
+        s1.pop();
+        temp1 = temp1->right;
+        while (temp1)
+        {
+            s1.push(temp1);
+            temp1 = temp1->left;
+        }
+        temp1 = s1.top();
+    }
+    else
+    {
+        s2.pop();
+        temp2 = temp2->left;
+        while (temp2)
+        {
+            s2.push(temp2);
+            temp2 = temp2->right;
+        }
+        temp2 = s2.top();
+    }
+}
+return 0;
+```
+
+## 62. Invert The Binary Tree
+https://www.interviewbit.com/problems/invert-the-binary-tree/
+```c++
+void invert(TreeNode* root)
+{
+    if (root == NULL) return;
+    invert(root->left);
+    invert(root->right);
+
+    TreeNode* temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+}
+```
+
+## 63. Max & Min Depth
+https://www.interviewbit.com/problems/max-depth-of-binary-tree/<br>
+https://www.interviewbit.com/problems/min-depth-of-binary-tree/
+```c++
+int maxdepth(TreeNode* root)
+{
+    if(root == NULL) return 0;
+    return max(1 + depth(root->left), 1 + depth(root->right));
+}
+int mindepth(TreeNode* root)
+{
+    if(root == NULL) return 0;
+    else if(root->left == NULL && root->right == NULL) return 1;
+    else if(root->left == NULL && root->right != NULL) return 1 + depth(root->right);
+    else if(root->left != NULL && root->right == NULL) return 1 + depth(root->left);
+    return min(1 + depth(root->left), 1 + depth(root->right));
+}
+```
+
+## 64. Shortest Unique Prefix
+https://www.interviewbit.com/problems/shortest-unique-prefix/
+```c++
+struct Node
+{
+    char data;
+    unordered_map<char, Node*> next;
+    Node(char d) { data = d; };
+};
+
+class Trie
+{
+    Node* root;
+public:
+    Trie() { root = new Node('\0'); }
+    void addWord(string word)
+    {
+        Node *temp = root;
+        for (int i = 0; word[i] != '\0'; ++i)
+        {
+            char ch = word[i];
+            if (temp->next.count(ch) == 0)
+            {
+                Node *child = new Node(ch);
+                temp->next[ch] = child;
+                temp = child;
+            }
+            else temp = temp->next[ch];
+        }
+    }
+    string findPref(string word)
+    {
+        Node* temp = root;
+        int merged = 0;
+        for (int i = 0; word[i] != '\0'; ++i)
+        {
+            char ch = word[i];
+            if (temp->next.size() > 1) merged = i+1;
+            temp = temp->next[ch];
+        }
+        return word.substr(0, merged);
+    }
+};
+
+vector<string> Solution::prefix(vector<string> &A)
+{
+    Trie trie;
+    for (string s : A) trie.addWord(s);
+    vector<string> sol;
+    for (string s : A) sol.push_back(trie.findPref(s));
+    return sol;
+}
+```
+
+## 65. Least Common Ancestor
+https://www.interviewbit.com/problems/least-common-ancestor/
+```c++
+bool find(TreeNode* root, int val)
+{
+    if (!root) return false;
+    if (root->val == val) return true;
+    if ((root->left && find(root->left, val)) || (root->right && find(root->right, val))) return true;
+    return false;
+}
+TreeNode* LCA(TreeNode* root, int val1, int val2)
+{
+    if (!root || root->val == val1 || root->val == val2) return root;
+    auto L = LCA(root->left, val1, val2);
+    auto R = LCA(root->right, val1, val2);
+    if (L && R) return root;
+    return L ? L : R;
+}
+int Solution::lca(TreeNode* A, int B, int C)
+{
+    if (!find(A, B) || !find(A, C)) return -1;
+    auto ancesstor = LCA(A, B, C);
+    if (ancesstor) return ancesstor->val;
+    return -1;
+}
+```

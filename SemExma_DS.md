@@ -1013,7 +1013,7 @@ void BFS(vector<int> *adj, bool *visited, queue<int> *nodeVisited, int node)
     if (!visited[node])
     {
         cout << node << " ";
-        
+
         visited[node] = true;
         for (int i = 0; i < adj[node].size(); ++i)
         {

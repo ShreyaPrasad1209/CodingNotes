@@ -333,12 +333,12 @@ int search(int arr[], int n, int x)
 }
 ```
 
-**Other important things**<br>
+**Other important things from std namespace**<br>
 std::rotate (in algorithm): 1 2 3 4 5 6 7 8 9 -> 4 5 6 7 8 9 1 2 3 <br>
 std::rotate(vec.begin(), vec.begin() + 3, vec.end());<br>
 1 2 3 4 5 6 7 8 9 -> 6 7 8 9 1 2 3 4 5 <br>
 std::rotate(vec.begin(), vec.begin() + vec.size() - 4, vec.end());<br>
-
+std::reverse(vecA.begin(), vecA.end()); //reverses vector
 std::lower_bound(vec.begin(), vec.end(), 5) will return an itterator to the first occurence of 5 in vector like wise there is std::upper_bound<br>
 auto low = lowerbound(vec.begin(), vec.end(), 5);<br>
 cout << low - vec.begin() << endl;

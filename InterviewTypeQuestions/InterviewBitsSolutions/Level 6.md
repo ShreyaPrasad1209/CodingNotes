@@ -552,7 +552,8 @@ bool find(TreeNode* root, int val)
 }
 TreeNode* LCA(TreeNode* root, int val1, int val2)
 {
-    if (!root || root->val == val1 || root->val == val2) return root;
+    if (!root) return NULL;
+    if (root->val == val1 || root->val == val2) return root;
     auto L = LCA(root->left, val1, val2);
     auto R = LCA(root->right, val1, val2);
     if (L && R) return root;
@@ -566,3 +567,119 @@ int Solution::lca(TreeNode* A, int B, int C)
     return -1;
 }
 ```
+
+## 66. Flatten Binary Tree to Linked List
+https://www.interviewbit.com/problems/flatten-binary-tree-to-linked-list/
+```c++
+TreeNode* Solution::flatten(TreeNode* A)
+{
+    if (!A) return A;
+    TreeNode *root = A;
+    while (A)
+    {
+        if (A->left)
+        {
+            TreeNode *temp = A->left;
+            while (temp->right) temp = temp->right;
+            temp->right = A->right;
+            A->right = A->left;
+            A->left = NULL;
+        }
+        A = A->right;
+    }
+    return root;
+}
+```
+
+## 67. BST Iterator
+https://www.interviewbit.com/problems/bst-iterator/
+```c++
+stack<TreeNode*> path;
+void pushAll(TreeNode *root)
+{
+    while (root)
+    {
+        path.push(root);
+        root = root->left;
+    }
+}
+BSTIterator::BSTIterator(TreeNode *root) { pushAll(root); }
+bool BSTIterator::hasNext() { return !path.empty(); }
+int BSTIterator::next()
+{
+    TreeNode *temp = path.top();
+    path.pop();
+    pushAll(temp->right);
+    return temp->val;
+}
+```
+
+## 68. Recover Binary Search Tree
+https://www.interviewbit.com/problems/recover-binary-search-tree/
+```c++
+vector<int> Solution::recoverTree(TreeNode* A)
+{
+    vector<int> sol;
+    TreeNode *first = NULL, *last = NULL, *prev = NULL, *curr = A;
+    stack<TreeNode*> st;
+    while (true)
+    {
+        if (curr)
+        {
+            st.push(curr);
+            curr = curr->left;
+        }
+        else
+        {
+            curr = st.top();
+            st.pop();
+            if (prev)
+            {
+                if (prev->val > curr->val)
+                {
+                    if (!first) first = prev;
+                    last = curr;
+                }
+            }
+            prev = curr;
+            curr = curr->right;
+        }
+        if (st.empty() &&  !curr) break;
+    }
+    sol.push_back(first->val);
+    sol.push_back(last->val);
+    sort(sol.begin(), sol.end());
+    return sol;
+}
+```
+
+## 69. Populate Next Right Pointers Tree
+https://www.interviewbit.com/problems/populate-next-right-pointers-tree/
+```c++
+void Solution::connect(TreeLinkNode* A)
+{
+    if (A == NULL) return;
+    queue< pair<int, TreeLinkNode*> > q;
+    q.push({0, A});
+    while (!q.empty())
+    {
+        pair<int, TreeLinkNode*> temp = q.front();
+        int level = temp.first;
+        q.pop();
+        while (!q.empty() && q.front().first == level)
+        {
+            if (temp.second->left) q.push({level+1, temp.second->left});
+            if (temp.second->right) q.push({level+1, temp.second->right});
+            temp.second->next = q.front().second;
+            temp = q.front();
+            q.pop();
+        }
+        temp.second->next = NULL;
+        if (temp.second->left) q.push({level+1, temp.second->left});
+        if (temp.second->right) q.push({level+1, temp.second->right});
+    }
+}
+```
+
+https://amortizedminds.wordpress.com/2016/08/25/order-of-people-height-interviewbit/<br>
+(No need of segment tree, N square solution also gets accepted. Just the question's language is confusing)

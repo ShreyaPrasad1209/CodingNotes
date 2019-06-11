@@ -366,7 +366,7 @@ void Solution::nextPermutation(vector<int> &A)
 ```
 
 ## 11. N/3 Repeat Number
-Moore's Voting Algorithm (This algo seems really weird how does that even works lol remember PMI proof exists for this thing) : https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
+Moore's Voting Algorithm [Greedy approach] (This algo seems really weird how does that even works lol remember PMI proof exists for this thing) : https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
 ```python
 # Say in array we need to find majority element (one with count >= n/2)
 answer = 0

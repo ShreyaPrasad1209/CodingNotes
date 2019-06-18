@@ -48,24 +48,22 @@ int Solution::sqrt(int A)
 ## 18. Rotated Sorted Array Search
 https://www.interviewbit.com/problems/rotated-sorted-array-search/
 ```c++
-int search2(const vector<int> &A, int l, int h, int key)
+int search(const vector<int> &arr, int l, int r, int x)
 {
-    if (l > h) return -1;
-    int mid = (l+h)/2;
-    if (A[mid] == key) return mid;
-    if (A[l] <= A[mid])
+    if (l > r) return -1;
+    int mid = l + (r-l)/2;
+    if (arr[mid] == x) return mid;
+
+    if (arr[l] <= arr[mid])
     {
-        if (key >= A[l] && key <= A[mid]) return search2(A, l, mid-1, key);
-        else return search2(A, mid+1, h, key);
+        if (arr[l] <= x && arr[mid] >= x) return search(arr, l, mid-1, x);
+        else return search(arr, mid+1, r, x);
     }
-    if (key >= A[mid] && key <= A[h])
-        return search2(A, mid+1, h, key);
-    return search2(A, l, mid-1, key);
-}
-int Solution::search(const vector<int> &A, int B)
-{
-    int i = search2(A, 0, A.size()-1, B);
-    return i;
+    else if (arr[mid] <= arr[r])
+    {
+        if (arr[mid] <= x && arr[r] >= x) return search(arr, mid+1, r, x);
+        else return search(arr, l, mid-1, x);
+    }
 }
 ```
 

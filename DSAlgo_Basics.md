@@ -424,7 +424,7 @@ void sort(int arr[], int n)
 
 There's unstable & stable sorting: eg: 5 9 3 9 8 4 here there are duplicate item (9s) if we sort in an unstable sorting the second 9 will not come after the first 9. The relative ordering will change. **Bubble sort is stable.**
 
-**Problem #3 (Insertion Sort)**
+**Problem #3 (Insertion Sort)** STABLE
 <br>In insertion sort we keep a partion of sorted and unsorted parts of array. initially first element is sorted and rest are unsorted. Then we take element from unsorted and insert it on sorted by traversing from right to left.
 <br><u>20</u> 35 -15 7 55 1 -22     [key: 35]
 <br><u>20 35</u> -15 7 55 1 -22     [key: -15]
@@ -491,77 +491,92 @@ We use divide and conquer to divide entire array (half to then other half) into 
 <br>Time: O(nlogn)
 <br>Space: O(n)
 
-https://www.geeksforgeeks.org/counting-inversions/
 ```c++
-void merge(int arr[], int l, int m, int r)
+//Counting inversion merge sort
+int invCount(vector<int> &arr)
 {
-    //Setting temp arrays for two merges
-    int n1 = m - l + 1;
-    int n2 =  r - m;
-    int L[n1], R[n2];
-    for (i = 0; i < n1; ++i)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; ++j)
-        R[j] = arr[m + 1+ j];
-
-    int i = 0;  //Initial index of first subarray
-    int j = 0;  //Initial index of second subarray
-    int k = 1;  //Initial index of merged subarray
-    while (i < n1 && j < n2)
+    int inv_count = 0;
+    for (int i = 0; i < arr.size(); ++i)
     {
-        if (L[i] <= R[j])
-        {
-            arr[k] = L[i];
-            ++i;
-        }
-        else
-        {
-            arr[k] = R[j];
-            ++j;
-        }
-        ++k;
+        for (int j = i+1; j < arr.size(); ++j)
+            if (arr[i] > arr[j]) inv_count++;
     }
-
-    while (i < n1)
-    {
-        arr[k] = L[i];
-        ++i;
-        ++k;
-    }
-    while (j < n2)
-    {
-        arr[k] = R[j];
-        ++j;
-        ++k;
-    }
-    /*
-    // In place merge:
-    int i = 0, j = 0;
-    while((i < A.size()) && (j < B.size()))
-    {
-        if(A[i] > B[i])
-        {
-            A.insert(A.begin()+i, B[j]);
-            i++;
-            j++;
-        }
-        else i++;
-    }
-    while(j != B.size())
-    {
-        A.push_back(B[j]);
-        j++;
-    }
-    */
+    return inv_count;
 }
-void sort(int arr[], int l, int r)
+
+int merge(vector<int> &arr, int l, int m, int r)
+{
+    vector<int> temp = arr;
+    int i = l, j = m+1, k = l, inv_count = 0;
+    while (i <= m && j <= r)
+    {
+        if (temp[i] > temp[j]) arr[k++] = temp[j++], inv_count += m-i+1;
+        else arr[k++] = temp[i++];
+    }
+    while (i <= m) arr[k++] = temp[i++];
+    while (j <= r) arr[k++] = temp[j++];
+    return inv_count;
+}
+
+int mergeSort(vector<int> &arr, int l, int r)
+{
+    int inv_count = 0, m = (l+r)/2;
+    if (l < r)
+    {
+        inv_count += mergeSort(arr, 0, m);
+        inv_count += mergeSort(arr, m+1, r);
+        inv_count += merge(arr, 0, m, r);
+    }
+    return inv_count;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        vector<int> arr(n);
+        for (int i = 0; i < n; ++i) cin >> arr[i];
+        int ans = invCount(arr);
+        int found = mergeSort(arr, 0, n-1);
+        if (ans != found)
+        {
+            cout << ans << " " << found << endl;
+            for (int i : arr) cout << i << " ";
+            cout << endl;
+        }
+    }
+    return 0;
+}
+```
+```c++
+// Inplace merge sort
+void merge(vector<int> &arr, int l, int m, int r)
+{
+    int i = l, j = m+1;
+    while (i <= m && j <= r)
+    {
+        if (arr[i] > arr[j])
+        {
+            arr.insert(arr.begin()+i, arr[j]);
+            arr.erase(arr.begin()+j+1);
+            ++i, ++j;
+        }
+        else ++i;
+    }
+}
+
+void sort(vector<int> &arr, int l, int r)
 {
     if (l < r)
     {
-        int m = (l + r) / 2;
-        sort(arr, l, m);
-        sort(arr, m+1, r);
-        merge(arr, l, m, r);
+        int mid = (l + r) / 2;
+        sort(arr, l, mid);
+        sort(arr, mid+1, r);
+        merge(arr, l, mid, r);
     }
 }
 ```
@@ -573,23 +588,20 @@ void sort(int arr[], int l, int r)
 <br>Time: O(n<sup>2</sup>) worst case in average case we get O(nlogn) the worst case senerio is avoided usually by a randmised version of quick sort.
 <br>![](res/quicksortpartition.jpg)<br>
 ```c++
-int partition(int arr[], int l, int r)
+int partition(vector<int> &arr, int l, int r)
 {
     int pivot = arr[r];
-    int i = l-1;
-    for (int j = l; j <= r-1; ++j)
+    int j = l-1;
+    for (int i = l; i <= r-1; ++i)
     {
-        if (arr[j] <= pivot)
-        {
-            i++;
-            swap(arr[i], arr[j]);
-        }
+        if (arr[i] <= pivot)
+            swap(arr[++j], arr[i]);
     }
-    swap(arr[i+1], arr[r]);
-    return i+1;
+    swap(arr[j+1], arr[r]);
+    return j+1;
 }
 
-void sort(int arr[], int l, int r)
+void sort(vector<int> &arr, int l, int r)
 {
     if (l < r)
     {
@@ -608,7 +620,8 @@ In heap sort the algorithm idea is to take array and build heap out of it.
 Then depending on ascending or descending we make max or min heap this is called heapify.
 <br>After heapifying top element will be max or min we swap it with last node and then delete it putting in our sorted array. Then we again do heapify
 <br>We keep repeating this until heap is completely deleted.
-<br>Time: Heapify takes logn time and then traversing all elements takes n so time complexity will be nlogn. However that's not the case and that is because heapify time will shorten with time as the elements will decrease making it O(n)
+<br>Time: Heapify takes logn time and then traversing all elements takes n so time complexity will be nlogn. However that's not the case and that is because heapify time will shorten with time as the elements will decrease making it O(n)<br>
+https://www.youtube.com/watch?v=HqPJF2L5h9U<br>
 https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/
 
 **Problem #8 (Counting Sort)**
@@ -1260,7 +1273,7 @@ In a queue there's one disadvantage that if we do deletion it will happen in fro
 STL priority queue by default is a max heap pass greater<int> comparator to make it min heap
 ```c++
 priority_queue <int> max_heap;
-priority_queue <Type, vector<Type>, ComparisonType > min_heap;
+priority_queue <int, vector<int>, greater<int> > min_heap;
 ```
 <br>![](res/circularqueue.png)<br>
 
@@ -1355,13 +1368,13 @@ A hashmap maps giving direct access by hashing the key to a value now two keys m
 There is also Load Factor which tells how full is our array which stores hashtable. Now we don't want it too low because that will mean our space getting waste and also we don't want it too hight because that will mean that collision will happen more. 
 <center>
 
-| Task              | Map           | Unordered_Map  |
-| ----------------- |:-------------:| --------------:|
-| Ordering          | Increasing order <br> by default | No ordering          |
-| Implementation    | Self balancing tree <br> like Red Black Tree      |   Hash Table          |
-| Search Time       | log(n)      |    O(1) -> Average <br>O(n) -> Worst          |
-| Insertion Time       | log(n) + Rebalance      |    Same as search         |
-| Deletion Time       | log(n) + Rebalance      |    Same as search          |
+| Task           |                     Map                      |                     Unordered_Map |
+| -------------- | :------------------------------------------: | --------------------------------: |
+| Ordering       |       Increasing order <br> by default       |                       No ordering |
+| Implementation | Self balancing tree <br> like Red Black Tree |                        Hash Table |
+| Search Time    |                    log(n)                    | O(1) -> Average <br>O(n) -> Worst |
+| Insertion Time |              log(n) + Rebalance              |                    Same as search |
+| Deletion Time  |              log(n) + Rebalance              |                    Same as search |
 
 </center>
 
@@ -1369,8 +1382,9 @@ There is also Load Factor which tells how full is our array which stores hashtab
 9) Graphs - <u>**Graph Theory.**</u>
 10)  Heaps - <u>**Graph Theory.**</u>
 11)   Disjoint Sets<br>
-Disjoint sets are seperate sets which are represented by 1 identity. Example - 1, 2, 3, 4 initially all 4 are dijoint sets. If we apply make union to 1 & 2 we get (1 2), 3, 4 in (1 2) the identity of both 1 & 2 on calling findSet will be same.
+Disjoint sets are seperate sets which are represented by 1 identity. Example - 1, 2, 3, 4 initially all 4 are dijoint sets. If we apply make union to 1 & 2 we get (1 2), 3, 4 in (1 2) the identity of both 1 & 2 on calling findSet will be same. RANK AND PATH COMPRESSION
 
+https://www.youtube.com/watch?v=ID00PMy0-vE
 ```c++
 template<typename T>
 class DisjointSet
@@ -1382,26 +1396,24 @@ private:
         Node* parent;
         int rank;
     };
-    unordered_map<T, Node*> map;
+    unordered_map<T, Node*> rec;
 
 public:
     void makeSet(T _data)
     {
-        Node* node = new Node();
-        node->data = _data;
-        node->parent = node;
-        node->rank = 0;
-        map.insert(make_pair<T, Node*>((T)_data, (Node*)node));
+        Node* node = new Node{_data, node, 0};
+        rec[_data] = node;
     }
-
-    void makeUnion(T _data1, T _data2)
+    Node* findSet(T _data)
     {
-        Node* parent1 = findSet(map.find(_data1) -> second);
-        Node* parent2 = findSet(map.find(_data2) -> second);
-
-        if (parent1->data == parent2->data)
-            return;
-        else if (parent1->rank >= parent2->rank)
+        if (rec.find(_data) == rec.end()) return NULL;
+        else return rec[_data]->parent;
+    }
+    void makeUnion(T data1, T data2)
+    {
+        Node* parent1 = findSet(data1);
+        Node* parent2 = findSet(data2);
+        if (parent1->rank >= parent2->rank)
         {
             parent1->rank = (parent1->rank == parent2->rank) ? parent1->rank + 1 : parent1->rank;
             parent2->parent = parent1;
@@ -1409,73 +1421,53 @@ public:
         else
             parent1->parent = parent2;
     }
-
-    Node* findSet(Node* _node)
-    {
-        Node* parent = _node->parent;
-        if (parent == _node)
-            return parent;
-        _node->parent = findSet(_node->parent);
-        return _node->parent;
-    }
-
-    T find(T _data) { return findSet(map.find(_data) -> second)->data; }
 };
 ```
 
-12) Tries<br>
+1)  Tries<br>
 It's an information retrieval data structure also known as radix/prefix tree.
 <br>![](res/trie.jpg)<br>
 ```c++
-struct node
-{
-    char data;
-    unordered_map<char, node*> next;
-    bool isTerminal;
-    node(char d)
-    {
-        data = d;
-        isTerminal = false;
-    }
-};
-
 class Trie
 {
-    node* root;
-public:
-    Trie()
+private:
+    struct Node
     {
-        root = new node('\0');
-    }
+        char data;
+        bool isTerminal;
+        unordered_map<char, Node*> next;
+        Node(char d) : data(d), isTerminal(false) { }
+    };
+    Node* root = new Node('\0');
+
+public:
     void addWord(string word)
     {
-        node* temp = root;
-        for (int i = 0; word[i] != '\0'; ++i)
+        Node* temp = root;
+        for (char ch : word)
         {
-            char ch = word[i];
-            if (temp -> next.count(ch) == 0)
+            if (temp->next.find(ch) == temp->next.end())
             {
-                node* child = new node(ch);
-                temp -> next[ch] = child;
+                Node* child = new Node(ch);
+                temp->next[ch] = child;
                 temp = child;
             }
             else
-                temp = temp -> next[ch];
+                temp = temp->next[ch];
         }
         temp->isTerminal = true;
     }
     bool search(string word)
     {
-        node* temp = root;
-        for (int i = 0; word[i] != '\0'; ++i)
+        Node* temp = root;
+        for (char ch : word)
         {
-            char ch = word[i];
-            if (temp -> next.count(ch))
-                temp = temp -> next[ch];
+            if (temp->next.find(ch) != temp->next.end())
+                temp = temp->next[ch];
             else
                 return false;
         }
-        return temp -> isTerminal;
+        return temp->isTerminal;
     }
 };
 ```

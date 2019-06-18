@@ -805,4 +805,5 @@ int main()
 }
 ```
 https://www.youtube.com/watch?v=JE0JE8ce1V0<br>
-https://medium.com/basecs/speeding-up-the-traveling-salesman-using-dynamic-programming-b76d7552e8dd
+https://medium.com/basecs/speeding-up-the-traveling-salesman-using-dynamic-programming-b76d7552e8dd<br>
+https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>

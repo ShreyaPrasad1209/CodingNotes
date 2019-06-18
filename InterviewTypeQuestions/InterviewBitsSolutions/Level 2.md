@@ -51,23 +51,29 @@ bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K)
 ## 3. Largest Number
 https://www.interviewbit.com/problems/largest-number/
 ```c++
-int myCompare(string X, string Y)
-{
-    string XY = X.append(Y);
-    string YX = Y.append(X);
-    return XY.compare(YX) > 0 ? 1: 0;
-}
 string Solution::largestNumber(const vector<int> &A)
 {
     vector<string> b;
     for(int i = 0; i < A.size(); ++i)
         b.push_back(to_string(A[i]));
-    sort(b.begin(), b.end(), myCompare);
+    sort(b.begin(), b.end(), [](string x, string y)
+    {
+        string xy = x.append(y);
+        string yx = y.append(x);
+        return xy.compare(yx) > 0 ? 1 : 0;
+    });
     string ans = "";
     for(int i=0;i<b.size();i++) ans += b[i];
-    int i = 0;
-    while(ans[i] == '0') i++;
-    if(i == ans.length()) ans = "0";
+    bool allzero = true;
+    for (char i : ans)
+    {
+        if (i != '0')
+        {
+            allzero = false;
+            break;
+        }
+    }
+    if (allzero) return "0";
     return ans;
 }
 ```
@@ -126,7 +132,8 @@ int firstMissingPositive(vector<int> &A)
 
 ## 6. Find duplicate in Array
 https://www.interviewbit.com/problems/find-duplicate-in-array/<br>
-https://medium.com/solvingalgo/solving-algorithmic-problems-find-a-duplicate-in-an-array-3d9edad5ad41
+https://medium.com/solvingalgo/solving-algorithmic-problems-find-a-duplicate-in-an-array-3d9edad5ad41<br>
+https://www.youtube.com/watch?v=LUm2ABqAs1w
 ```c++
 int repeatedNumber(const vector<int> &A)
 {
@@ -150,7 +157,8 @@ int repeatedNumber(const vector<int> &A)
 ```
 
 ## 7. Maximum Consecutive Gap
-https://www.interviewbit.com/problems/maximum-consecutive-gap/
+https://www.interviewbit.com/problems/maximum-consecutive-gap/<br>
+https://leetcode.com/articles/maximum-gap/
 ```c++
 /*
 Say given [1, 10, 5] find min and max i.e. 1 and 10
@@ -259,68 +267,20 @@ https://www.interviewbit.com/problems/set-matrix-zeros/
 ```c++
 void Solution::setZeroes(vector<vector<int> > &matrix)
 {
-    int rownum = matrix.size();
-    if (rownum == 0)  return;
-    int colnum = matrix[0].size();
-    if (colnum == 0)  return;
+    set<int> rows, columns;
+    for (int i = 0; i < matrix.size(); ++i)
+        for (int j = 0; j < matrix[0].size(); ++j)
+            if (!matrix[i][j]) rows.insert(i), columns.insert(j);
 
-    bool hasZeroFirstRow = false, hasZeroFirstColumn = false;
+    for (int x : rows)
+        for (int i = 0; i < matrix[x].size(); ++i)
+            matrix[x][i] = 0;
 
-    // Does first row have zero?
-    for (int j = 0; j < colnum; ++j)
-    {
-        if (matrix[0][j] == 0)
-        {
-            hasZeroFirstRow = true;
-            break;
-        }
-    }
-
-    // Does first column have zero?
-    for (int i = 0; i < rownum; ++i)
-    {
-        if (matrix[i][0] == 0)
-        {
-            hasZeroFirstColumn = true;
-            break;
-        }
-    }
-
-    // find zeroes and store the info in first row and column
-    for (int i = 1; i < rownum; ++i)
-    {
-        for (int j = 1; j < colnum; ++j)
-        {
-            if (matrix[i][j] == 0)
-            {
-                matrix[i][0] = 0;
-                matrix[0][j] = 0;
-            }
-        }
-    }
-
-    // set zeroes except the first row and column
-    for (int i = 1; i < rownum; ++i)
-    {
-        for (int j = 1; j < colnum; ++j)
-        {
-            if (matrix[i][0] == 0 || matrix[0][j] == 0)
-                matrix[i][j] = 0;
-        }
-    }
-
-    // set zeroes for first row and column if needed
-    if (hasZeroFirstRow)
-    {
-        for (int j = 0; j < colnum; ++j)
-            matrix[0][j] = 0;
-    }
-    if (hasZeroFirstColumn)
-    {
-        for (int i = 0; i < rownum; ++i)
-            matrix[i][0] = 0;
-    }
+    for (int x : columns)
+        for (int i = 0; i < matrix.size(); ++i)
+            matrix[i][x] = 0;
 }
+
 ```
 
 ## 10. Next Permutation

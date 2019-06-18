@@ -391,7 +391,8 @@ then sum of all divisors are
 
 ### Segmented Sieve:
 If we want to calculate prime numbers between a range say 10<sup>8</sup> to 10<sup>9</sup>(L to R)<br>
-We will create a sieve for 2 to root R and then we will make every number within it's sieve along with it's multiple as non-prime in resulted sieve (containing R-L elements)
+We will create a sieve for 2 to root R and then we will make every number within it's sieve along with it's multiple as non-prime in resulted sieve (containing R-L elements)<br>
+https://www.youtube.com/watch?v=fByR5N-TseY
 ```c++
 vector<ll> primes;
 void findPrimes(ll n)

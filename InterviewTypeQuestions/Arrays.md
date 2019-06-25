@@ -143,3 +143,34 @@ TODO: https://www.geeksforgeeks.org/median-of-stream-of-running-integers-using-s
 
 ## 18. Counting Inversions - Microsoft, Flipkart, Amazon, Adobe
 https://www.geeksforgeeks.org/counting-inversions/
+
+## 19. Rotate Matrix
+```
+int n;
+cin >> n;
+vector< vector<int> > mat(n, vector<int>(n));
+for (int i = 0; i < n; ++i)
+    for (int j = 0; j < n; ++j)
+        cin >> mat[i][j];
+
+for (int i = 0; i < n/2; ++i)
+{
+    int x = n-i-1;
+    for (int j = i; j < x; ++j)
+    {
+        int offset = j-i;
+        int top = mat[i][j];
+        mat[i][j] = mat[x-offset][i];
+        mat[x-offset][i] = mat[x][x-offset];
+        mat[x][x-offset] = mat[j][x];
+        mat[j][x] = top;
+    }
+}
+
+for (int i = 0; i < n; ++i)
+{
+    for (int j = 0; j < n; ++j)
+        cout << setw(3) << mat[i][j];
+    cout << endl;
+}
+```

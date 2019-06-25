@@ -1,19 +1,10 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define ll long long
-
-int main()
+int partition(vector<int> arr, int l, int r)
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; ++i) cin >> arr[i];
-    int answer = 0, count = 0;
-    for (int i : arr)
-    {
-        if (count == 0) answer = i;
-        if (i == answer) ++count;
-        else --count;
-    }
-    return 0;
+    int pivot = arr[r];
+    int j = l-1;
+    for (int i = l; i <= r-1; ++i)
+        if (arr[i] <= pivot)
+            swap(arr[++j], arr[i]);
+    swap(arr[++j], arr[r]);
+    return j;
 }

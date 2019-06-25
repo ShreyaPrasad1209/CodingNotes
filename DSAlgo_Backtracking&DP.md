@@ -495,6 +495,23 @@ Also in a different array maintain every time if it's possible to stack at i the
 https://www.youtube.com/watch?v=lDYIvtBVmgo<br>
 https://www.youtube.com/watch?v=_nCsPn7_OgI
 
+```
+https://www.geeksforgeeks.org/minimum-insertions-to-form-a-palindrome-dp-28/
+
+if (l > h) return INT_MAX;
+if (l == h) return 0;
+if (l == h - 1) return (str[l] == str[h])? 0 : 1;
+
+// Check if the first and last characters are
+// same. On the basis of the comparison result,
+// decide which subrpoblem(s) to call
+return (str[l] == str[h])
+        ? findMinInsertions(str, l + 1, h - 1)
+        : (min(findMinInsertions(str, l, h - 1), findMinInsertions(str, l + 1, h)) + 1);
+
+find LCS of string and it's reverse's say it's x. n - length(x) is ans;
+```
+
 10)   **Maximum Subset Problem:**
 Here the return function two operation will give entire possibilities for the recurssion.
 ```c++

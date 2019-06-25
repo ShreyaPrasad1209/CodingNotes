@@ -124,26 +124,51 @@ int findMedian(vector<int> arr1, vector<int> arr2, int l1, int l2, int n)
     }
 }
 ```
-```
-FIND MEDIAN OF DIFFERENT SIZE ARRAY: O(N) solution is same using merge sort O(N)
-For O(logN) solution it will be same though size is not same so we have to take care of many base cases
-N = 0, M : return median of arr2
-N = 1, M = 1 : return avg of arr1[0] arr2[0]
-N = 1, M = odd : then new cases for ex: {5, 10, 12, 15, 20}
-                 if (arr1[0] < 10) return avg 10 12
-                 if (arr1[0] is b/w 10 12) return avg arr1[0] and 12
-                 if (arr1[0] is b/w 12 15) return avg 12 and arr1[0]
-                 if (arr1[0] > 15) return avg 12 15
-N = 1, M = even : then new cases for ex: {5, 10, 12, 15}
-                 if (arr1[0] < 10) return 10
-                 if (arr1[0] is b/w 10 12) return arr1[0]
-                 if (arr1[0] > 12) return 12
-N = 2, M = 2 : find median of all 4
-N = 2, M = odd : then new cases for ex: {5, 10, 12, 15, 20}
-                 median of - arr2[M/2], max(arr1[0], B[M/2 - 1]), min(arr1[1], B[M/2 + 1])
-N = 2, M = even : then new cases for ex: {5, 10, 12, 15}
-                 median of - arr2[M/2], arr2[M/2 - 1], max(arr1[0], B[M/2 - 2]), min(arr1[1], B[M/2 + 1])
-Rest do the implementation of same size
+```c++
+// FIND MEDIAN OF DIFFERENT SIZE ARRAY: O(N) solution is same using merge sort O(N)
+// For O(logN)
+int f(int count, int s, int e, const vector<int> &A, const vector<int> &B)
+{
+    int ans = -1;
+    while (s <= e)
+    {
+        int mid = (s+e)/2;
+        int c = (upper_bound(A.begin(), A.end(), mid) - A.begin()) + 
+            (upper_bound(B.begin(), B.end(), mid) - B.begin());
+        if(c >= count)
+        {
+            ans = mid;
+            e = mid-1;
+        }
+        else s = mid+1;
+    }
+    return ans;
+}
+
+double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B)
+{
+    int m = A.size(), n = B.size();
+    int s, e;
+    if (m != 0 && n != 0)
+    {
+        s = min(A[0], B[0]);
+        e = max(A[m-1], B[n-1]);
+    }
+    else if (m == 0)
+    {
+        s = (B[0]);
+        e = (B[n-1]);
+    }
+    else if(n == 0)
+    {
+        s = (A[0]);
+        e = (A[m-1]);
+    }
+
+    if ((m+n)%2 == 1) return f((m+n)/2+1, s, e, A, B);
+    else return ((f((m+n)/2, s, e, A, B) + f((m+n)/2+1, s, e, A, B))*1.0)/2;
+}
+
 ```
 
 ## 20. Painter Partition Problem
@@ -229,7 +254,7 @@ int Solution::findMinXor(vector<int> &A)
 ```
 > Repeating elements of Array Problems from DSAlgo_NumberTheory&BitManipulation.md
 
-## Divide Integers
+## 22.for Divide Integers
 ```c++
 int Solution::divide(int dividend, int divisor)
 {
@@ -260,29 +285,6 @@ int Solution::divide(int dividend, int divisor)
     }
 
     return (sign*res >= INT_MAX ||  sign*res < INT_MIN) ? INT_MAX : sign*res;
-}
-```
-
-## 22. Different Bits Sum Pairwise
-https://www.interviewbit.com/problems/different-bits-sum-pairwise/
-```c++
-int Solution::cntBits(vector<int> &A)
-{
-    long long int ans = 0;
-    int count;
-
-    for(int i = 0; i < 31; i++)
-    {
-        count = 0;
-        for(int j = 0; j < A.size(); j++)
-        {
-            if(A[j] & (1 << i))
-                count++;
-        }
-        ans = (ans + (2*count*(A.size()-count))) % 1000000007;
-    }
-
-    return (int)ans;
 }
 ```
 

@@ -23,34 +23,40 @@ https://www.interviewbit.com/problems/reverse-link-list-ii/
 ```c++
 ListNode* Solution::reverseBetween(ListNode* A, int B, int C)
 {
-    ListNode *cur = A, *start = NULL, *startTemp = NULL, *prev = NULL;
-    int length = 0;
-    while (length < B)
+    ListNode *head = A, *cur = A, *next = NULL, *prev = NULL;
+    int i = 0;
+    if (B == 1)
     {
-        length++;
-        if (length == B-1) start = cur;
-        else if (length == B) startTemp = cur;
-        prev = cur;
-        cur = cur->next;
-    }
-    ListNode *end = NULL, *endTemp = NULL, *temp = NULL;
-    while (length < C)
-    {
-        length++;
-        temp = cur->next;
-        cur->next = prev;
-        prev = cur;
-        cur = temp;
-        if (length == C)
+        ListNode *temp = A;
+        while (cur != NULL && i < C)
         {
-            endTemp = prev;
-            end = cur;
-            startTemp->next = end;
-            if (start != NULL) start->next = endTemp;
-            else if (start == NULL) A = endTemp;
+            ++i;
+            next = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
         }
+        temp->next = next;
+        head = prev;
     }
-    return A;
+    else
+    {
+        while (cur != NULL && i < B-2) ++i, cur = cur->next;
+        ListNode *temp = cur;
+        cur = cur->next;
+        prev = NULL;
+        while (cur != NULL && i < C-1)
+        {
+            ++i;
+            next = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+        }
+        temp->next->next = next;
+        temp->next = prev;
+    }
+    return head;
 }
 ```
 
@@ -92,46 +98,37 @@ ListNode* Solution::reverseList(ListNode* A, int B)
 
 ## 33. Insertion Sort List
 ```c++
-ListNode* Solution::insertionSortList(ListNode* A)
+ListNode* Solution::insertionSortList(ListNode* head)
 {
-    if (A == NULL) return A;
-    ListNode *cur = A->next, *prev = A, *head = A;
-    ListNode *temp, *check, *checkPrev;
-    while (cur != NULL)
+    ListNode *sorted = NULL, *list = head;
+    while (list)
     {
-        temp = cur->next;
-        if (cur->val < prev->val)
+        ListNode *curr = list;
+        list = list->next;
+
+        if (sorted == NULL || sorted->val > curr->val)
         {
-            check = head;
-            checkPrev = NULL;
-            while (check != cur)
-            {
-                if (check->val > cur->val) break;
-                checkPrev = check;
-                check = check->next;
-            }
-            if (checkPrev == NULL)
-            {
-                head = cur;
-                cur->next = check;
-                prev->next = temp;
-                cur = temp;
-            }
-            else
-            {
-                checkPrev->next = cur;
-                cur->next = check;
-                prev->next = temp;
-                cur = temp;
-            }
+            curr->next = sorted;
+            sorted = curr;
         }
         else
         {
-            prev = cur;
-            cur = temp;
+            ListNode *tmp = sorted;
+            while (tmp)
+            {
+                ListNode *c = tmp;
+                tmp = tmp->next;
+
+                if (c->next == NULL || c->next->val > curr->val)
+                {
+                    c->next = curr;
+                    curr->next = tmp;
+                    break;
+                }
+            }
         }
     }
-    return head;
+    return sorted;
 }
 ```
 
@@ -139,49 +136,45 @@ ListNode* Solution::insertionSortList(ListNode* A)
 ```c++
 ListNode* merge(ListNode* A, ListNode* B)
 {
-    if (A == NULL) return B;
-    if (B == NULL) return A;
-    ListNode *head = NULL;
-    if (A->val < B->val)
+    ListNode *head = NULL, *cur = head, *itA = A, *itB = B;
+    while (itA && itB)
     {
-        head = A;
-        A = A->next;
-    }
-    else
-    {
-        head = B;
-        B = B->next;
-    }
-    ListNode *temp = head;
-    while (A != NULL && B != NULL)
-    {
-        if (A->val < B->val)
+        if (itA->val < itB->val)
         {
-            temp->next = A;
-            A = A->next;
+            if (!head) head = itA, cur = itA;
+            else cur->next = itA, cur = cur->next;
+            itA = itA->next;
         }
         else
         {
-            temp->next = B;
-            B = B->next;
+            if (!head) head = itB, cur = itB;
+            else cur->next = itB, cur = cur->next;
+            itB = itB->next;
         }
-        temp = temp->next;
     }
-    if (A != NULL) temp->next = A;
-    else temp->next = B;
+    while (itA)
+    {
+        if (!head) head = itA, cur = itA;
+        else cur->next = itA, cur = cur->next;
+        itA = itA->next;
+    }
+    while (itB)
+    {
+        if (!head) head = itB, cur = itB;
+            else cur->next = itB, cur = cur->next;
+            itB = itB->next;
+    }
     return head;
 }
 
 ListNode* Solution::sortList(ListNode* A)
 {
-    ListNode *head = A;
-    if (head == NULL || head->next == NULL) return head;
-    ListNode *start = A;
-    ListNode *end = A->next;
-    while (end != NULL && end->next != NULL)
+    if (!A || !A->next) return A;
+    ListNode *head = A, *start = A, *end = A->next;
+    while (start && end && end->next)
     {
         start = start->next;
-        end = (end->next)->next;
+        end = end->next->next;
     }
     end = start->next;
     start->next = NULL;
@@ -194,47 +187,39 @@ https://www.interviewbit.com/problems/reorder-list/
 ```c++
 ListNode* Solution::reorderList(ListNode* A)
 {
-    if (A == NULL || A->next == NULL) return A;
-    ListNode *temp, *prev, *mid = A, *cur = A, *newCur, *newHead, *newTemp, *newPrev;
-    while (cur != NULL && cur->next != NULL)
+    if (!A || !A->next) return A;
+    ListNode *leftHalf = A, *rightHalf;
+    ListNode *slow = A, *fast = A, *prev = NULL;
+    // Split list from middle to left and right halves
+    while (slow && fast && fast->next)
+        prev = slow, slow = slow->next, fast = fast->next->next;
+    rightHalf = slow;
+    if (prev) prev->next = NULL;
+
+    // Reverse right half
+    ListNode *cur = rightHalf, *next = NULL;
+    prev = NULL;
+    while (cur)
     {
-        prev = mid;
-        mid = mid->next;
-        cur = (cur->next)->next;
-    }
-    prev->next = NULL;
-    newCur = mid;
-    while (newCur != NULL)
-    {
-        newTemp = newCur->next;
-        if (newCur == mid)
-        {
-            newPrev = newCur;
-            newCur->next = NULL;
-            newCur = newTemp;
-        }
-        else
-        {
-            newCur->next = newPrev;
-            newPrev = newCur;
-            newCur = newTemp;
-        }
-    }
-    newHead = newPrev;
-    newCur = newHead;
-    cur = A;
-    while (newCur != NULL && cur != NULL)
-    {
+        next = cur->next;
+        cur->next = prev;
         prev = cur;
-        newPrev = newCur;
-        temp = cur->next;
-        newTemp = newCur->next;
-        cur->next = newCur;
-        if (temp != NULL) newCur->next = temp;
-        cur = temp;
-        newCur = newTemp;
+        cur = next;
     }
-    return A;
+    rightHalf = prev;
+
+    //Simply merge and end this shit
+    ListNode *ans = NULL;
+    cur = ans;
+    while (leftHalf && rightHalf)
+    {
+        if (!ans) ans = leftHalf, cur = leftHalf;
+        else cur->next = leftHalf, cur = cur->next;
+        leftHalf = leftHalf->next;
+        cur->next = rightHalf, cur = cur->next;
+        rightHalf = rightHalf->next;
+    }
+    return ans;
 }
 ```
 

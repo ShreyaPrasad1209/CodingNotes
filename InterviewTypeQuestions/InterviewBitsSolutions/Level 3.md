@@ -237,6 +237,33 @@ int partition(vector<int> arr, int n, int k)
 }
 ```
 Simmilar question Allocate Books - https://www.youtube.com/watch?v=Ss9ta1zmiZo
+```c++
+bool isPossible(vector<int> A, int B, int C)
+{
+    int count = 1, sum = B, i = 0;
+    while (i < A.size())
+    {
+        if (sum-A[i] < 0) count++, sum = B;
+        else sum -= A[i++];
+        if (count > C) return false;
+    }
+    return true;
+}
+
+int Solution::books(vector<int> &A, int B)
+{
+    if (A.size() < B) return -1;
+    int l = 0, r = accumulate(A.begin(), A.end(), 0);
+    int ans = -1;
+    while (l <= r)
+    {
+        int mid = l + (r-l)/2;
+        if (isPossible(A, mid, B)) ans = mid, r = mid-1;
+        else l = mid+1;
+    }
+    return ans;
+}
+```
 
 # Bit Manipulation
 ## 21. Min XOR Value

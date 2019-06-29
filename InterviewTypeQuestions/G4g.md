@@ -195,3 +195,29 @@ int main()
     return 0;
 }
 ```
+
+## Remove Loop In Linked List
+```c++
+void removeTheLoop(Node *A)
+{
+    Node *slow = A, *fast = A;
+    while (slow && fast)
+    {
+        slow = slow->next;
+        if (!fast || !slow || !fast->next) return;
+        fast = fast->next->next;
+        if (!fast || !slow || !fast->next) return;
+        if (slow == fast) break;
+    }
+    if (!fast || !slow || !fast->next) return;
+    fast = A;
+    Node* prev = NULL;
+    while (slow !=fast)
+    {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next;
+    }
+    prev->next = NULL;
+}
+```

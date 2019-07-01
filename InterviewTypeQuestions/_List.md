@@ -46,6 +46,7 @@ while (n)
     - Subarray with given sum: https://practice.geeksforgeeks.org/problems/subarray-with-given-sum/0
 22) Voting Algorithm: https://www.interviewbit.com/problems/majority-element/
     - N/3 Repeat Number: https://www.interviewbit.com/problems/n3-repeat-number/
+23) Kth Smallest Element: https://practice.geeksforgeeks.org/problems/kth-smallest-element/0
 
 Avoid TLE: Use printf/scanf, use array instead of vectors
 
@@ -72,11 +73,52 @@ Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why
     - Next Larger Number: https://practice.geeksforgeeks.org/problems/next-larger-element/0
 10) Largest Rectangle In Histogram: https://www.interviewbit.com/problems/largest-rectangle-in-histogram/
 11) Sliding Window: https://www.interviewbit.com/problems/sliding-window-maximum/
+    - Maximum of all subarrays of size k: https://practice.geeksforgeeks.org/problems/maximum-of-all-subarrays-of-size-k/0
 12) Min Stack: https://www.interviewbit.com/problems/min-stack/
-13) Queue using 2 stacks: https://practice.geeksforgeeks.org/problems/queue-using-two-stacks/1
-14) Stack using 2 queues: https://practice.geeksforgeeks.org/problems/stack-using-two-queues/1
-15) LRU Cache: https://practice.geeksforgeeks.org/problems/lru-cache/1
+13) Queue using 2 stacks: https://www.youtube.com/watch?v=t6XzDmXzSFY
+    - Stack using 2 queues: https://www.youtube.com/watch?v=Wn45fJKBTTc
+14) LRU Cache: https://www.interviewbit.com/problems/lru-cache/
+15) Circular Tour: https://practice.geeksforgeeks.org/problems/circular-tour/1
+16) First Non Repeating Character In a Stream: https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream/0
+17) Median Of Stream Of Running Integers: https://practice.geeksforgeeks.org/problems/find-median-in-a-stream/0
+    - Kth Largest In a Stream: https://practice.geeksforgeeks.org/problems/kth-largest-element-in-a-stream/0
+18) Heap Sort:
+19) N Max Pair Combinations: https://www.interviewbit.com/problems/n-max-pair-combinations/
+20) Ways To Form Max Heap: https://www.interviewbit.com/problems/ways-to-form-max-heap/
+21) Merge K Sorted Linked List: https://www.interviewbit.com/problems/merge-k-sorted-lists/
+22) Rearrange characters: https://practice.geeksforgeeks.org/problems/rearrange-characters/0
 
 # Level 3 (Hashing, Greedy, Trees, Graph):
+1) 2 Sum: https://www.interviewbit.com/problems/2-sum/
+2) Anagrams: https://www.interviewbit.com/problems/anagrams/
+3) Equal: https://www.interviewbit.com/problems/equal/
+4) Longest Substring Without Repeat: https://www.interviewbit.com/problems/longest-substring-without-repeat/
+5) Window String: https://www.interviewbit.com/problems/window-string/
+6) Points On The Straight Line: https://www.interviewbit.com/problems/points-on-the-straight-line/
+7) Substring Concatenation: https://www.interviewbit.com/problems/substring-concatenation/
+8) Bulbs: https://www.interviewbit.com/problems/bulbs/
+9) Distributing Candy: https://www.interviewbit.com/problems/distribute-candy/
+10) Gas Station: https://www.interviewbit.com/problems/gas-station/
+11) Tushar Birthday Bombs: https://www.interviewbit.com/problems/tushars-birthday-bombs/
+12) Identical Binary Tree: https://www.interviewbit.com/problems/identical-binary-trees/
+13) Symmetric Binary Tree: https://www.interviewbit.com/problems/symmetric-binary-tree/
+---[Incomplete]---
 
-# Level 4 (Dynamic Programming):
+# Level 4 (Backtracking & Dynamic Programming):
+1) Combination Sum: https://www.interviewbit.com/problems/combination-sum/
+2) Combination Sum II: https://www.interviewbit.com/problems/combination-sum-ii/
+3) Letter Phone: https://www.interviewbit.com/problems/letter-phone/
+4) Palindrome Partition: https://www.interviewbit.com/problems/palindrome-partitioning/
+5) Generate All Paranthesis: https://www.interviewbit.com/problems/generate-all-parentheses-ii/
+6) Kth Permutation Sequence: https://www.interviewbit.com/problems/kth-permutation-sequence/
+7) Largest Area Of Rectangle With Permutation: https://www.interviewbit.com/problems/largest-area-of-rectangle-with-permutations/
+8) Ways to Decode: https://www.interviewbit.com/problems/ways-to-decode/
+9) Intersecting Chords In a circle: https://www.interviewbit.com/problems/intersecting-chords-in-a-circle/
+10) Max Sum Without Adjacent Elements: https://www.interviewbit.com/problems/max-sum-without-adjacent-elements/
+11) Repeating Subsequence: https://www.interviewbit.com/problems/repeating-subsequence/
+12) Min Jumps Array: https://www.interviewbit.com/problems/min-jumps-array/
+13) Longest Arithemetic Progression: https://www.interviewbit.com/problems/longest-arithmetic-progression/
+14) N digit number with digit sum: https://www.interviewbit.com/problems/n-digit-numbers-with-digit-sum-s-/
+---[Incomplete]---
+
+# Level 5 (God):

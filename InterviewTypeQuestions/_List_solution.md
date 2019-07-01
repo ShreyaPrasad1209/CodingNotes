@@ -55,12 +55,6 @@ bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K)
 Simply sorting won't do it because 548 is greater than 60 par wo smaller aayega sort karke string ko
 toh we use this compare function 548 ko 60 se compare kare toh compare 54860 and 60548 XY.compare(YX) > 0 means XY bada he kya YX se (it will check lexiographically)
 */
-int myCompare(string X, string Y)
-{
-    string XY = X.append(Y);
-    string YX = Y.append(X);
-    return XY.compare(YX) > 0 ? 1: 0;
-}
 string Solution::largestNumber(const vector<int> &A)
 {
     vector<string> b;
@@ -936,6 +930,52 @@ int Solution::repeatedNumber(const vector<int> &A)
 }
 ```
 
+## 23. Kth Smallest Element
+```c++
+// Simple quick sort question
+using namespace std;
+
+int partition(int arr[], int l, int r)
+{
+    int pivot = arr[r];
+    int j = l-1;
+    for (int i = l; i <= r-1; ++i)
+        if (arr[i] <= pivot)
+            swap(arr[++j], arr[i]);
+
+    swap(arr[++j], arr[r]);
+    return j;
+}
+
+int k_th_smallest(int arr[], int l, int r, int k)
+{
+    if (k > 0 && k <= r-l+1)
+    {
+        int pos = partition(arr, l, r);
+        if (pos-l == k-1) return arr[pos];
+        if (pos-l > k-1) return k_th_smallest(arr, l, pos-1, k);
+        return k_th_smallest(arr, pos+1, r, k-pos+l-1);
+    }
+    return INT_MAX;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, k;
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i < n; ++i) cin >> arr[i];
+        cin >> k;
+        cout << k_th_smallest(arr, 0, n-1, k) << endl;
+    }
+    return 0;
+}
+```
+
 # Level 2
 ## 1. Hotel Review
 ```c++
@@ -1359,5 +1399,328 @@ ListNode* Solution::reorderList(ListNode* A)
         rightHalf = rightHalf->next;
     }
     return ans;
+}
+```
+
+## 9. Nearest Smallest Element
+```c++
+// Coming up with brute force O(N^2) solution (taking inner loop from i-1 to 0) then optimizing it here by using smallestIndex helps a lot
+vector<int> Solution::prevSmaller(vector<int> &A)
+{
+    int n = A.size(), smallestIndex = 0, smallestVal = A[0];
+    vector<int> res(n);
+    res[0] = -1;
+    for (int i = 1; i < n; ++i)
+    {
+        int minSmallest = -1;
+        for (int j = i-1; j >= smallestIndex; --j)
+        {
+            if (A[j] < A[i])
+            {
+                minSmallest = A[j];
+                break;
+            }
+        }
+        res[i] = minSmallest;
+        if (A[i] < smallestVal) smallestVal = A[i], smallestIndex = i;
+    }
+    return res;
+}
+
+// Next Larger Number
+#include<bits/stdc++.h>
+#define ll long long
+
+using namespace std;
+
+int main()
+{
+	int t, n;
+	cin >> t;
+	while(t--)
+	{
+	    cin >> n;
+	    ll arr[n], ans[n];
+	    for (int i = 0; i < n; ++i) cin >> arr[i];
+	    stack<ll> st;
+	    for (int i = n-1; i >= 0; --i)
+	    {
+	        while (!st.empty() && arr[i] >= st.top()) st.pop();
+	        ans[i] = st.empty() ? -1 : st.top();
+	        st.push(arr[i]);
+	    }
+
+	    for (ll i : ans) cout << i << " ";
+	    cout << endl;
+	}
+	return 0;
+}
+```
+
+## 10. Largest Area In Histogram
+https://www.youtube.com/watch?v=MhQPpAoZbMc
+```c++
+/*
+Basically har st.top() jiske liye while loop chal raha he we are finding an area which can be maximum area rectangle for it.
+*/
+int Solution::largestRectangleArea(vector<int> &A)
+{
+    stack<int> st;
+    int ans = 0;
+    A.push_back(-1);
+    for (int i = 0; i < A.size(); ++i)
+    {
+        while (!st.empty() && A[i] < A[st.top()])
+        {
+            int height = A[st.top()];
+            st.pop();
+            // i is rightmost smaller element, st.top() is prev top leftmost
+            int width = i - (st.empty() ? -1 : st.top()) - 1;
+            ans = max(ans, height * width);
+        }
+        st.push(i);
+    }
+    A.pop_back();
+    return ans;
+}
+```
+
+## 11. Sliding Window Maximum
+```c++
+/*
+Deque will have a capacity of k and at an instance it's front will store maximum and back will store minimum
+*/
+vector<int> Solution::slidingMaximum(const vector<int> &A, int k)
+{
+    deque <int> q;
+    vector <int> res;
+    int n = A.size();
+    for(int i = 0; i < n; ++i)
+    {
+        while (!q.empty() && q.front() < i-k+1) q.pop_front();
+        while (!q.empty() && A[i] > A[q.back()]) q.pop_back();
+        q.push_back(i);
+        if(i >= k-1) res.push_back(A[q.front()]);
+    }
+    return res;
+}
+```
+
+## 12. Min Stack
+```c++
+stack<int> st, minSt;
+MinStack::MinStack()
+{
+    while (!st.empty()) st.pop();
+    while (!minSt.empty()) minSt.pop();
+}
+void MinStack::push(int x)
+{
+    st.push(x);
+    if (minSt.size() == 0) minSt.push(x);
+    else
+    {
+        if (x <= minSt.top()) minSt.push(x);
+        else minSt.push(minSt.top());
+    }
+}
+void MinStack::pop()
+{
+    if (!st.empty())
+    {
+        st.pop();
+        minSt.pop();
+    }
+}
+int MinStack::top()
+{
+    return (st.empty() ? -1 : st.top();
+}
+int MinStack::getMin()
+{
+    return (minSt.empty() ? -1 : minSt.top();
+}
+```
+
+## 14. LRU Cache
+```c++
+/*
+LRU = Least Recently Used Cache
+say a cache of size 4 we insert 0 then 1 then 2 then 3 i.e our cache becomes 3 2 1 0
+if we insert another item size becomes 5 we can only have a capacity of 4 so while insertion least recently used gets deleted i.e. 4 3 2 1 [0 gets deleted]
+If we access say 2 then it becomes 2 4 3 1 Now if we insert 5, 1 gets removed i.e. 5 2 4 3
+
+this get & set function should be in O(1)
+*/
+struct Node { int val; Node *next, *prev; };
+unordered_map<int, int> rec;
+int maxI, current;
+Node *first, *lru;
+
+LRUCache::LRUCache(int capacity)
+{
+    rec.erase(rec.begin(), rec.end());
+    maxI = capacity;
+    current = 0;
+    first = NULL;
+    lru = NULL;
+}
+int LRUCache::get(int key)
+{
+    if (current > 0)
+    {
+        auto it = rec.find(key);
+        if (it != rec.end())
+        {
+            int val = it->second;
+            Node *cur = first;
+            while (cur && cur->val != key) cur = cur->next;
+            Node *next = cur->next;
+            Node *prev = cur->prev;
+            if (prev)
+            {
+                prev->next = next;
+                if (next) next->prev = prev;
+                else lru = prev;
+                cur->next = first;
+                cur->prev = NULL;
+                first->prev = cur;
+                first = cur;
+            }
+            return val;
+        }
+    }
+    return -1;
+}
+void LRUCache::set(int key, int value)
+{
+    if (rec.find(key) != rec.end())
+    {
+        rec[key] = value;
+        Node *cur = first;
+        while (cur && cur->val != key) cur = cur->next;
+        Node *next = cur->next;
+        Node *prev = cur->prev;
+        if (prev)
+        {
+            prev->next = next;
+            if (next) next->prev = prev;
+            else lru = prev;
+            cur->next = first;
+            cur->prev = NULL;
+            first->prev = cur;
+            first = cur;
+        }
+    }
+    else
+    {
+        Node *temp = new Node{key, NULL, NULL};
+        rec[key] = value;
+        if (current != maxI)
+        {
+            current++;
+            if (current == 1) lru = temp, first = temp;
+            else temp->next = first, first->prev = temp, first = temp;
+        }
+        else
+        {
+            int lru_key = lru->val;
+            rec.erase(rec.find(lru_key));
+            if (lru->prev)
+            {
+                Node *toDelete = lru;
+                lru = lru->prev;
+                lru->next = NULL;
+                temp->next = first;
+                first->prev = temp;
+                first = temp;
+                delete(toDelete);
+            }
+            else
+            {
+                lru = temp;
+                first = lru;
+            }
+        }
+    }
+}
+```
+
+## 15. Circular Tour
+```c++
+int tour(petrolPump p[], int n)
+{
+    int dp[n];
+    int lastStationReqd = 0;
+    int lastStationVal = p[n-1].petrol;
+    if (p[n-1].distance > lastStationVal)
+    {
+        int incr = p[n-1].distance - lastStationVal;
+        lastStationReqd += incr;
+        lastStationVal += incr;
+    }
+    lastStationVal -= p[n-1].distance;
+    for (int i = 0; i < n-1; ++i)
+    {
+        lastStationVal += p[i].petrol;
+        if (p[i].distance > lastStationVal)
+        {
+            int incr = p[i].distance - lastStationVal;
+            lastStationReqd += incr;
+            lastStationVal += incr;
+        }
+        lastStationVal -= p[i].distance;
+    }
+    dp[n-1] = lastStationReqd;
+
+    for (int i = n-2; i >= 0; --i)
+    {
+        dp[i] = dp[i+1] - (p[i].petrol - p[i].distance);
+        if (dp[i] < 0) dp[i] = 0;
+    }
+
+    for (int i = 0; i < n; ++i)
+        if (dp[i] == 0) return i;
+    return -1;
+}
+```
+
+## 16. First Non Repeating character in a stream
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        char arr[n];
+        for (int i = 0; i < n; ++i) cin >> arr[i];
+        unordered_map<char, int> freq;
+
+        queue<char> q;
+        for (int i = 0; i < n; ++i)
+        {
+            freq[arr[i]]++;
+            q.push(arr[i]);
+            while (!q.empty())
+            {
+                if (freq[q.front()] > 1) q.pop();
+                else
+                {
+                    cout << q.front() << " ";
+                    break;
+                }
+            }
+            if (q.empty()) cout << -1 << " ";
+        }
+        cout << endl;
+    }
+    return 0;
 }
 ```

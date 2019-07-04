@@ -144,6 +144,7 @@ void preOrder(Node *root)
 void postOrder(Node *root)
 {
     stack<Node*> s;
+    stack<int> out;
     s.push(root);
 
     while (!s.empty())
@@ -154,6 +155,12 @@ void postOrder(Node *root)
 
         if (curr->left) s.push(curr->left);
         if (curr->right) s.push(curr->right);
+    }
+
+    while (!out.empty())
+    {
+        cout << out.top() << " ;
+        out.pop();
     }
 }
 ```

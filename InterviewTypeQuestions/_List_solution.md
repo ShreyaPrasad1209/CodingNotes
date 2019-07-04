@@ -1648,6 +1648,8 @@ void LRUCache::set(int key, int value)
 
 ## 15. Circular Tour
 ```c++
+// Find out how many petrol additionally is required to finish tour from last index
+// Then fill rest of dp simply
 int tour(petrolPump p[], int n)
 {
     int dp[n];
@@ -1682,6 +1684,19 @@ int tour(petrolPump p[], int n)
     for (int i = 0; i < n; ++i)
         if (dp[i] == 0) return i;
     return -1;
+}
+// Above solution basically works but there's even simpler approach
+// This is greedy approach
+int Solution::canCompleteCircuit(const vector<int> &gas, const vector<int> &cost)
+{
+    int fuel = 0, start_i = 0, sum = 0;
+    for (int i = 0; i < gas.size(); ++i)
+    {
+        sum += (gas[i] - cost[i]);
+        fuel += (gas[i] - cost[i]);
+        if (fuel < 0) fuel = 0, start_i = i+1;
+    }
+    return (sum >= 0) ? start_i : -1;
 }
 ```
 
@@ -1722,5 +1737,606 @@ int main()
         cout << endl;
     }
     return 0;
+}
+```
+
+## 17. Median Of Stream Of Running Integers
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        if (n < 1) continue;
+
+        priority_queue<double> maxHeap; //maintains lower half
+        priority_queue<double, vector<double>, greater<double> > minHeap;   //maintains upper half
+        double med;
+        cin >> med;
+        cout << floor(med) << endl;
+        maxHeap.push(med);
+        for (int i = 1; i < n; ++i)
+        {
+            double x;
+            cin >> x;
+            //case1 (left side heap has more elements)
+            if (maxHeap.size() > minHeap.size())
+            {
+                if (x < med) minHeap.push(maxHeap.top()), maxHeap.pop(), maxHeap.push(x);
+                else minHeap.push(x);
+            }
+            //case2 (both heaps are balanced)
+            if (maxHeap.size() == minHeap.size())
+            {
+                if (x < med) maxHeap.push(x);
+                else minHeap.push(x);
+            }
+            //case3 (right side heap has more elements)
+            else
+            {
+                if (x > med) maxHeap.push(minHeap.top()), minHeap.pop(), minHeap.push(x);
+                else maxHeap.push(x);
+            }
+            med = (maxHeap.top() + minHeap.top()) / 2.0;
+            cout << floor(med) << endl;
+        }
+    }
+    return 0;
+}
+```
+
+## 19. N Max Pair Combinations
+```c++
+vector<int> Solution::solve(vector<int> &A, vector<int> &B)
+{
+    priority_queue<pair<int, pair<int, int> > > hp;
+    set<pair<int, int> > S;
+    int n = A.size();
+    sort(A.begin(), A.end());
+    sort(B.begin(), B.end());
+
+    hp.push(make_pair(A[n-1]+B[n-1], make_pair(n-1, n-1)));
+    S.insert(make_pair(n-1, n-1));
+
+    vector<int> ans;
+    int k=n;
+    while(k--)
+    {
+        pair<int, pair<int, int> > top = hp.top();
+        hp.pop();
+        ans.push_back(top.first);
+        int L = top.second.first;
+        int R = top.second.second;
+
+        if( R>0 && L>=0  && S.find(make_pair(L,R-1)) == S.end() )
+        {
+            hp.push(make_pair(A[L]+B[R-1], make_pair(L,R-1)));
+            S.insert(make_pair(L,R-1));
+        }
+        if( R>=0  && L>0 && S.find(make_pair(L-1, R))==S.end())
+        {
+            hp.push(make_pair(A[L-1]+B[R], make_pair(L-1,R)));
+            S.insert(make_pair(L-1, R));
+        }
+    }
+    return ans;
+}
+```
+
+## 21. Rearrange Characters:
+Very simple heap question. Count each letters of given string. Like in geeksforgeeks there are g-2, e-4, k-2, s-2, f-1, o-1, r-1. Put it on a max heap. pick e then again pick max one since top element is same as previous we will pick second top.
+
+# Level 3
+## 6. Equal:
+```c++
+struct fourpair{ int a, b, c, d; };
+bool mycmp(fourpair S1, fourpair S2)
+{
+    return (S1.a < S2.a || (S1.a == S2.a && S1.b < S2.b) || (S1.a == S2.a && S1.b == S2.b && S1.c < S2.c) ||
+        (S1.a == S2.a && S1.b == S2.b && S1.c == S2.c && S1.d < S2.d));
+}
+vector<int> Solution::equal(vector<int> &A)
+{
+    unordered_map<int, vector< pair<int, int> > > rec;
+    vector<fourpair> temp;
+    vector<int> ans;
+    for (int i = 0; i < A.size(); ++i)
+    {
+        for (int j = i+1; j < A.size(); ++j)
+        {
+            int sum = A[i] + A[j];
+            if (rec.find(sum) == rec.end()) rec[sum].push_back(make_pair(i, j));
+            else
+            {
+                for (int x = 0; x < rec[sum].size(); ++x)
+                {
+                    int A1 = rec[sum][x].first, B1 = rec[sum][x].second, C1 = i, D1 = j;
+                    if (A1 < B1 && C1 < D1 && A1 < C1 && B1 != D1 && B1 != C1)
+                    {
+                        temp.push_back({A1, B1, C1, D1});
+                        rec[sum].erase(rec[sum].begin(), rec[sum].end());
+                    }
+                }
+            }
+        }
+    }
+
+    if (temp.size() > 0)
+    {
+        fourpair cur = *min_element(temp.begin(), temp.end(), mycmp);
+        ans.push_back(cur.a);
+        ans.push_back(cur.b);
+        ans.push_back(cur.c);
+        ans.push_back(cur.d);
+    }
+    return ans;
+}
+```
+
+## 7. Window String
+```c++
+string Solution::minWindow(string S, string T)
+{
+    unordered_map<char, int> rec;
+    for (char ch : T) rec[ch]++;
+
+    int i = 0, j = 0, len = T.size(), minSize = INT_MAX, lastI;
+    while(j < S.size())
+    {
+        if (rec[S[j++]]-- > 0) len--;
+        while (len == 0)
+        {
+            if (j-i < minSize) minSize = j-i, lastI = i;
+            if (rec[S[i++]]++ == 0) len++;
+        }
+    }
+    if (minSize == INT_MAX) return "";
+    return S.substr(lastI, minSize);
+}
+```
+
+## 8. Points On The Straight Line
+```c++
+int Solution::maxPoints(vector<int> &A, vector<int> &B)
+{
+    if (A.size() == 0 || B.size() == 0) return 0;
+    unordered_map<double, int> rec;
+    int sol = 1;
+    for (int i = 0; i < A.size(); ++i)
+    {
+        int duplicate = 1;
+        int vertical = 0;
+        for (int j = i+1; j < A.size(); ++j)
+        {
+            if (A[i] == A[j])
+            {
+                if (B[i] == B[j]) duplicate++;
+                else vertical++;
+            }
+            else
+            {
+                double slope = 0.0;
+                double x = A[j] - A[i];
+                double y = B[j] - B[i];
+                if (x != 0) slope = y/x;
+                rec[slope]++;
+            }
+        }
+
+        for (auto tmp : rec) sol = max(sol, tmp.second + duplicate);
+        sol = max(vertical + duplicate, sol);
+        rec.clear();
+    }
+    return sol;
+}
+```
+
+## 9. Substring Concatenation
+```c++
+vector<int> Solution::findSubstring(string A, const vector<string> &B)
+{
+    vector<int> sol;
+    int wsize = B[0].size();
+    int lsize = B.size();
+    if (A.size() == 0 || B.size() == 0) return sol;
+    unordered_map<string, int> rec;
+    for (int i = 0; i < B.size(); ++i) rec[B[i]]++;
+
+    int i = 0;
+    while ((i + (wsize*lsize) - 1) < A.size())
+    {
+        unordered_map<string, int> tmp;
+        int j = 0;
+        while (j < A.size())
+        {
+            string t = A.substr(i + (j*wsize), wsize);
+            if (rec.find(t) == rec.end()) break;
+            else
+            {
+                tmp[t]++;
+                if (tmp[t] > rec[t]) break;
+                j++;
+            }
+            if (j == lsize) sol.push_back(i);
+        }
+        ++i;
+    }
+    return sol;
+}
+```
+
+## 10. Activity Selection
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        pair<int, int> arr[n];
+        for (int i = 0; i < n; ++i) cin >> arr[i].second;
+        for (int i = 0; i < n; ++i) cin >> arr[i].first;
+        sort(arr, arr+n);
+        int count = 1, timer = arr[0].first;
+        for (int i = 1; i < n; ++i)
+            if (arr[i].second >= timer)
+                count++, timer = arr[i].first;
+        cout << count << endl;
+    }
+    return 0;
+}
+```
+
+## 11. Largest Number Possible
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, s;
+        cin >> n >> s;
+        if (s == 0 || s > 9*n)
+        {
+            cout << -1 << endl;
+            continue;
+        }
+        string num = "";
+        while (n--)
+        {
+            num += to_string(min(9, s));
+            s -= min(9, s);
+        }
+        if (s < 0) cout << -1 << endl;
+        else cout << num << endl;
+    }
+    return 0;
+}
+```
+
+## 12. Minimize The Heights
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, k;
+        cin >> k >> n;
+        int arr[n];
+        for (int i = 0; i < n; ++i) cin >> arr[i];
+        int maxV = *max_element(arr, arr+n), minV = *min_element(arr, arr+n);
+        int x = (maxV + minV)/2, ans = maxV - minV;
+        for (int i = 0; i < n; ++i) arr[i] += (arr[i] < x) ? k : (-k);
+        maxV = *max_element(arr, arr+n), minV = *min_element(arr, arr+n);
+        ans = min(ans, maxV - minV);
+        cout << ans << endl;
+    }
+    return 0;
+}
+```
+
+## 13. Bulbs
+```c++
+int Solution::bulbs(vector<int> &A)
+{
+    int ans = 0;
+    bool isFlipped = false;
+    for (int i : A)
+    {
+        if ((i && isFlipped) || (!i && !isFlipped))
+        {
+            isFlipped = !isFlipped;
+            ans++;
+        }
+    }
+    return ans;
+}
+```
+
+## 14. Distributing Candies
+```c++
+int Solution::candy(vector<int> &ratings)
+{
+    vector<int> val(ratings.size(), 1);
+    for (int i = 0; i < ratings.size(); ++i)
+    {
+        if (i == 0)
+        {
+            if (ratings[i] > ratings[i+1])
+                val[i] = val[i+1] + 1;
+        }
+        else if (i == ratings.size()-1)
+        {
+            if (ratings[i] > ratings[i-1])
+                val[i] = val[i-1] + 1;
+        }
+        else
+        {
+            if (ratings[i] > ratings[i+1] && ratings[i] > ratings[i-1])
+                val[i] = max(val[i+1], val[i-1]) + 1;
+            else if (ratings[i] > ratings[i+1])
+                val[i] = val[i+1] + 1;
+            else if (ratings[i] > ratings[i-1])
+                val[i] = val[i-1] + 1;
+        }
+    }
+    for (int i = ratings.size()-1; i >= 0; --i)
+    {
+        if (i == 0)
+        {
+            if (ratings[i] > ratings[i+1])
+                val[i] = val[i+1] + 1;
+        }
+        else if (i == ratings.size()-1)
+        {
+            if (ratings[i] > ratings[i-1])
+                val[i] = val[i-1] + 1;
+        }
+        else
+        {
+            if (ratings[i] > ratings[i+1] && ratings[i] > ratings[i-1])
+                val[i] = max(val[i+1], val[i-1]) + 1;
+            else if (ratings[i] > ratings[i+1])
+                val[i] = val[i+1] + 1;
+            else if (ratings[i] > ratings[i-1])
+                val[i] = val[i-1] + 1;
+        }
+    }
+    int ans = 0;
+    for (int i : val) ans += i;
+    return ans;
+}
+```
+
+## 15. Tushar Birthday Bombs
+```c++
+vector<int> Solution::solve(int A, vector<int> &B)
+{
+    auto minV = min_element(B.begin(), B.end());
+    int maxKicks = A/(*minV);
+    vector<int> ans;
+    for (int i = 0; i < maxKicks; ++i) ans.push_back(minV - B.begin());
+    int rem = A - ((*minV) * maxKicks);
+    int i = 0, j;
+    while (i < maxKicks)
+    {
+        int pos = ans[i];
+        int index = -1;
+        for (j = 0; j < B.size(); ++j)
+        {
+            if (rem - (B[j] - B[pos]) >= 0)
+            {
+                index = j;
+                rem -= B[j] - B[pos];
+                break;
+            }
+        }
+        if (j == B.size()) break;
+        ans[i] = j;
+        ++i;
+    }
+    return ans;
+}
+```
+
+## 16. Identical Binary Tree
+```c++
+bool check (TreeNode* A, TreeNode* B)
+{
+    if (A == NULL && B == NULL) return true;
+    else if ((A == NULL && B != NULL) || (A != NULL && B == NULL)) return false;
+    else if (A->val == B->val) return check(A->left, B->left) & check(A->right, B->right);
+    //Change above line to
+    //else if (A->val == B->val) return check(A->left, B->right) & check(A->right, B->left);
+    //for symmetric binary tree
+    return false;
+}
+int Solution::isSameTree(TreeNode* A, TreeNode* B)
+{
+    return check(A, B);
+}
+```
+
+## 17. Inorder Traversal Of Cartesian Tree
+```c++
+TreeNode* makeTree(vector<int> &A, int start, int end)
+{
+    if (start > end) return NULL;
+    int maxIndex = max_element(A.begin()+start, A.begin()+end+1) - A.begin();
+    TreeNode* root = new TreeNode(A[maxIndex]);
+    root->left = makeTree(A, start, maxIndex-1);
+    root->right = makeTree(A, maxIndex+1, end);
+    return root;
+}
+TreeNode* Solution::buildTree(vector<int> &A)
+{
+    return makeTree(A, 0, A.size()-1);
+}
+
+// Construct using Inorder and Preorder
+unordered_map<int, int> indexes;
+TreeNode* makeTree(vector<int> &A, vector<int> &B, int start, int end)
+{
+    if (start > end) return NULL;
+    int indexA = INT_MAX, indexB;
+    for (int i = start; i <= end; ++i)
+        if (indexes[B[i]] < indexA)
+            indexA = indexes[B[i]], indexB = i;
+
+    TreeNode* parent = new TreeNode(A[indexA]);
+    parent->left = makeTree(A, B, start, indexB-1);
+    parent->right = makeTree(A, B, indexB+1, end);
+    return parent;
+}
+
+TreeNode* Solution::buildTree(vector<int> &A, vector<int> &B)
+{
+    for (int i = 0; i < A.size(); ++i) indexes[A[i]] = i;
+    return makeTree(A, B, 0, A.size()-1);
+}
+```
+
+## 18. Invert The Binary Tree
+```
+void invert(TreeNode* root)
+{
+    if (root == NULL) return;
+    invert(root->left);
+    invert(root->right);
+
+    TreeNode* temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+}
+
+TreeNode* Solution::invertTree(TreeNode* root)
+{
+    invert(root);
+    return root;
+}
+```
+
+## 19. 2 Sum Binary Tree
+```c++
+int Solution::t2Sum(TreeNode* A, int B)
+{
+    if (!A) return 0;
+    stack<TreeNode *> st1, st2;
+    TreeNode *cur1 = A, *cur2 = A;
+    while(cur1) st1.push(cur1), cur1 = cur1->left;
+    while(cur2) st2.push(cur2), cur2 = cur2->right;
+    cur1 = st1.top(), cur2 = st2.top();
+    while(cur1 && cur2 && cur1->val < cur2->val)
+    {
+        if (cur1->val + cur2->val == B) return 1;
+        if (cur1->val + cur2->val < B)
+        {
+            st1.pop();
+            cur1 = cur1->right;
+            while (cur1) st1.push(cur1), cur1 = cur1->left;
+            cur1 = st1.top();
+        }
+        else
+        {
+            st2.pop();
+            cur2 = cur2->left;
+            while (cur2) st2.push(cur2), cur2 = cur2->right;
+            cur2 = st2.top();
+        }
+    }
+    return 0;
+}
+```
+
+## 21. Least Common Ancestor
+```c++
+bool find(TreeNode* root, int val)
+{
+    if (!root) return false;
+    if (root->val == val) return true;
+    if ((root->left && find(root->left, val)) || (root->right && find(root->right, val))) return true;
+    return false;
+}
+TreeNode* LCA(TreeNode* root, int val1, int val2)
+{
+    if (!root || root->val == val1 || root->val == val2) return root;
+    auto L = LCA(root->left, val1, val2);
+    auto R = LCA(root->right, val1, val2);
+    if (L && R) return root;
+    return L ? L : R;
+}
+int Solution::lca(TreeNode* A, int B, int C)
+{
+    if (!find(A, B) || !find(A, C)) return -1;
+    auto ancesstor = LCA(A, B, C);
+    if (ancesstor) return ancesstor->val;
+    return -1;
+}
+```
+
+## 22. Flatten BST
+```c++
+TreeNode* Solution::flatten(TreeNode* A)
+{
+    TreeNode *root = A;
+    while (A)
+    {
+        if (A->left)
+        {
+            TreeNode *temp = A->left;
+            while (temp->right) temp = temp->right;
+            temp->right = A->right;
+            A->right = A->left;
+            A->left = NULL;
+        }
+        A = A->right;
+    }
+    return root;
+}
+```
+
+## 23. BST Iterator
+```c++
+stack<TreeNode*> path;
+void pushAll(TreeNode *root)
+{
+    while (root)
+    {
+        path.push(root);
+        root = root->left;
+    }
+}
+BSTIterator::BSTIterator(TreeNode *root) { pushAll(root); }
+bool BSTIterator::hasNext() { return !path.empty(); }
+int BSTIterator::next()
+{
+    TreeNode *temp = path.top();
+    path.pop();
+    pushAll(temp->right);
+    return temp->val;
 }
 ```

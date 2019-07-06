@@ -2403,7 +2403,37 @@ void Solution::connect(TreeLinkNode* A)
 }
 ```
 
-## 27. Intresting Numbers
+## 27. Maximum Width Of Binary Tree
+```c++
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root)
+    {
+        if (!root) return 0;
+        queue< pair<TreeNode*, int> > q;
+        q.push({root, 1});
+        int ans = 0;
+        while (!q.empty())
+        {
+            int n = q.size();
+            int a = q.front().second, b = a;
+            for (int i = 0; i < n; ++i)
+            {
+                auto node = q.front();
+                b = node.second;
+                q.pop();
+                if (b == INT_MAX) continue;
+                if (node.first->left) q.push({node.first->left, node.second * 2});
+                if (node.first->right) q.push({node.first->right, node.second * 2 + 1});
+            }
+            ans = max(ans, b - a + 1);
+        }
+        return ans;
+    }
+};
+```
+
+## 28. Intresting Numbers
 ```c++
 #include <bits/stdc++.h>
 using namespace std;
@@ -2520,7 +2550,7 @@ string Solution::multiple(int n)
 }
 ```
 
-## 29. Cycle detection:
+## 30. Cycle detection:
 [Directed Graph] Apply DFS and maintain a visited set. If during traversing DFS we encounter an already visited node then it means the graph has cycle. [Undirected Graph] We also need to maintain a complete visited set and for cycle the node should be in visited but not in completely visited set.<br><br>
 Another way is with the help of Disjoint Sets. We make disjoint sets for all nodes and then for each connections we make union. If we found that before making union both edges already belong in same disjoint set means there is a cycle.
 ```c++
@@ -2592,3 +2622,212 @@ Above code is basically for topological sort using Kahn's algorithm
 - This makes sense because we are only going to neighbour if it's last path we haven't discovered
 - If in the end topological sort cannot visit every node means there was a cycle in the path
 */
+
+# Level 4
+## 1. Combination Sum
+https://www.interviewbit.com/problems/combination-sum/
+```c++
+void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
+{
+    if (sum >= B)
+    {
+        if (sum==B) res.emplace_back(row);
+        return;
+    }
+
+    if (start == A.size()) return;
+    row.emplace_back(A[start]);
+    sum += A[start];
+    backtracking(start, row, sum, res, A, B);
+    sum -= row[row.size()-1];
+    row.pop_back();
+    backtracking(start+1, row, sum, res, A, B);
+}
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
+{
+    vector<vector<int> > res;
+    vector<int> row, a;
+    sort(A.begin(), A.end());
+
+    a.emplace_back(A[0]);
+    for (auto i = 1; i<A.size(); ++i)
+        if (A[i-1] != A[i])
+            a.emplace_back(A[i]);
+
+    backtracking(0, row, 0, res, a, B);
+    return res;
+}
+```
+
+## 2. Combination Sum II
+https://www.interviewbit.com/problems/combination-sum-ii/
+```c++
+void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
+{
+    if (sum==B)
+    {
+        res.emplace_back(row);
+        return;
+    }
+    if (sum > B || start == A.size()) return;
+
+    row.emplace_back(A[start]);
+    sum += A[start];
+    backtracking(start+1, row, sum, res, A, B);
+    sum -= row[row.size()-1];
+    row.pop_back();
+
+    int endIndex = 0;
+    for (endIndex = start+1; endIndex < A.size() && A[endIndex]==A[start]; ++endIndex)
+        ++start;
+
+    backtracking(start+1, row, sum, res, A, B);
+}
+
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
+{
+    vector<vector<int> > res;
+    vector<int> row;
+    sort(A.begin(), A.end());
+    backtracking(0, row, 0, res, A, B);
+    return res;
+}
+```
+
+## 3. Letter Phone
+https://www.interviewbit.com/problems/letter-phone/
+```c++
+string temp = "";
+unordered_map<char, string> keypad =
+{
+    { '1', "1" },
+    { '2', "abc" },
+    { '3', "def" },
+    { '4', "ghi" },
+    { '5', "jkl" },
+    { '6', "mno" },
+    { '7', "pqrs" },
+    { '8', "tuv" },
+    { '9', "wxyz" },
+    { '0', "0" }
+};
+void backtracking(string digits, int i, vector<string>& res)
+{
+    if (digits[i] - '0' > -1 && digits[i] - '0' < 10)
+    {
+        string str = keypad[digits[i]];
+        for (auto j = 0; j<str.length(); ++j)
+        {
+            temp += str[j];
+            if (i == digits.length() - 1) res.emplace_back(temp);
+            else backtracking(digits, i+1, res);
+            temp.pop_back();
+        }
+    }
+}
+vector<string> Solution::letterCombinations(string A)
+{
+    vector<string> res;
+    backtracking(A, 0, res);
+    return res;
+}
+```
+
+## 4. Palindrome Partitioning
+https://www.interviewbit.com/problems/palindrome-partitioning/
+```c++
+bool isPalindrome(const string s, int i, int j)
+{
+    while (i<j)
+    {
+        if (s[i] == s[j])
+        {
+            ++i;
+            --j;
+        }
+        else
+            return false;
+    }
+    return true;
+}
+
+void backtracking(const string& s, int i, vector<string>& row, vector<vector<string> >& res)
+{
+    if (i == s.length())
+    {
+        res.emplace_back(row);
+        return;
+    }
+
+    for (auto x = i; x < s.length(); ++x)
+    {
+        if (isPalindrome(s, i, x))
+        {
+            row.emplace_back(s.substr(i, x-i+1));
+            backtracking(s, x+1, row, res);
+            row.pop_back();
+        }
+    }
+}
+
+vector<vector<string> > Solution::partition(string A)
+{
+    vector<string> row;
+    vector<vector<string> > res;
+    backtracking(A, 0, row, res);
+    return res;
+}
+```
+
+## 5. Generate all parantheses II
+https://www.interviewbit.com/problems/generate-all-parentheses-ii/
+```c++
+vector<string> res;
+void solve(int n, int l, int r, string tmp = "(")
+{
+    if (tmp.size() == 2*n)
+    {
+        res.push_back(tmp);
+        return;
+    }
+    if (r > 0) solve(n, l, r-1, tmp + ")");
+    if (l > 0) solve(n, l-1, r+1, tmp + "(");
+}
+
+vector<string> Solution::generateParenthesis(int A)
+{
+    res.clear();
+    solve(A, A-1, 1);
+    sort(res.begin(), res.end());
+    return res;
+}
+```
+
+## 6. Kth permutation sequence
+https://www.interviewbit.com/problems/kth-permutation-sequence/
+```c++
+int fact(int n)
+{
+    if (n > 12) return INT_MAX;
+    int f = 1;
+    for (auto i = 2; i<=n; ++i) f *= i;
+    return f;
+}
+string backtracking(int k, vector<int>& numlist)
+{
+    auto n = numlist.size();
+    if (n==0 || k > fact(n)) return "";
+    int f = fact(n-1);
+    int pos = k / f;
+    k %= f;
+    string ch = to_string(numlist[pos]);
+    numlist.erase(numlist.begin() + pos);
+    return ch + backtracking(k, numlist);
+}
+string Solution::getPermutation(int n, int k)
+{
+    vector<int> numlist;
+    for (auto i = 1; i<n+1; ++i) numlist.emplace_back(i);
+    return backtracking(k-1, numlist);
+}
+```

@@ -83,7 +83,7 @@ Avoid TLE: Use printf/scanf, use array instead of vectors
 ## Theory:
 Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why Floyd's Algorithm work (https://www.youtube.com/watch?v=LUm2ABqAs1w), Infix, Prefix, Postfix, Arithematic solver type problems, Delete without a head pointer just a node which has to be deleted will be given [ ans: (*node) = *(node->next); ] also free that node's memory
 
-## Questions(33):
+## Questions(34):
 1) [Trie] Hotel Reviews: https://www.interviewbit.com/problems/hotel-reviews/
     - Shortest Unique Prefix: https://www.interviewbit.com/problems/shortest-unique-prefix/
 2) [Trie] Palindrome Pair in array of word: https://www.geeksforgeeks.org/palindrome-pair-in-an-array-of-words-or-strings
@@ -177,9 +177,64 @@ void postOrder(Node *root)
         out.pop();
     }
 }
+void BFS(Node *root)
+{
+    queue< pair<Node*, int> > q;
+    q.push({A, 0});
+    while (!q.empty())
+    {
+        int cur_level = q.front().second;
+        while (!q.empty() && q.front().second == cur_level)
+        {
+            Node *cur = q.front().first;
+            q.pop();
+            cout << cur->val << " ";
+            if (cur->left) q.push({cur->left, cur_level+1});
+            if (cur->right) q.push({cur->right, cur_level+1});
+        }
+        cout << endl;
+    }
+}
+```
+Prims Algorithm (https://www.youtube.com/watch?v=4ZlRH0eK-qQ), Kruskal's Algorithm. Prims have complexity of O(N square) while kruskal O(ElogV). Kruskal is implemented through Disjoint Set (https://www.youtube.com/watch?v=fAuF0EuZVCk)
+```c++
+//Disjoint Set
+struct Node
+{
+    int data;
+    Node *parent;
+    int rank;
+};
+class DisjointSet
+{
+public:
+    unordered_map<int, Node*> rec;
+    void makeSet(int data)
+    {
+        Node *node = new Node{data, NULL, 0};
+        node->parent = node;
+        rec[data] = node;
+    }
+    Node *findSet(int data)
+    {
+        if (rec.find(data) == rec.end()) return NULL;
+        else return rec[data]->parent;
+    }
+    void makeUnion(int a, int b)
+    {
+        if (a == b) return;
+        Node *x = findSet(a), *y = findSet(b);
+        if (x->rank >= y->rank)
+        {
+            x->rank = (x->rank == y->rank) ? x->rank + 1 : x->rank;
+            y->parent = x;
+        }
+        else x->parent = y;
+    }
+};
 ```
 
-## Questions(32):
+## Questions(38):
 1) 2 Sum: https://www.interviewbit.com/problems/2-sum/
 2) Relative Sorting (Simmilar to counting sort): https://practice.geeksforgeeks.org/problems/relative-sorting/0
 3) Array Pair Sum Divisibility Problem: https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem/0
@@ -209,8 +264,15 @@ void postOrder(Node *root)
 22) Flatten Binary Tree to Linked List: https://www.interviewbit.com/problems/flatten-binary-tree-to-linked-list/
 23) BST Iterator: https://www.interviewbit.com/problems/bst-iterator/
 24) Recover Binary Search Tree: https://www.interviewbit.com/problems/recover-binary-search-tree/
-25) Populate Next Right Pointers Tree: https://www.interviewbit.com/problems/populate-next-right-pointers-tree/<br>
----[Incomplete]---
+25) Populate Next Right Pointers Tree: https://www.interviewbit.com/problems/populate-next-right-pointers-tree/
+26) Bottom View: https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
+    - Binary Tree in vertical order: https://practice.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+    - Check for balanced tree: https://practice.geeksforgeeks.org/problems/check-for-balanced-tree/1
+27) Interesting Number: https://www.spoj.com/problems/INUMBER/
+    - Smallest Multiple with 0 and 1: https://www.interviewbit.com/problems/smallest-multiple-with-0-and-1/
+28) Commutable Island(Find MST): https://www.interviewbit.com/problems/commutable-islands/
+29) Possibility of finishing all courses given pre-requisites: https://www.interviewbit.com/problems/possibility-of-finishing-all-courses-given-prerequisites/
+30) Black Shapes: https://www.interviewbit.com/problems/black-shapes/
 
 # Level 4 (Backtracking & Dynamic Programming):
 1) Combination Sum: https://www.interviewbit.com/problems/combination-sum/

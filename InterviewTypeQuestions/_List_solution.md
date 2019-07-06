@@ -2340,3 +2340,255 @@ int BSTIterator::next()
     return temp->val;
 }
 ```
+
+## 24. Recover Binary Tree
+```c++
+// Inorder traversal me previous value zyada nahi honi chahiye he toh matlab gadbad hui
+vector<int> Solution::recoverTree(TreeNode* A)
+{
+    stack<TreeNode*> st;
+    TreeNode *cur = A, *prev = NULL, *first = NULL, *last = NULL;
+    while(!st.empty() || cur)
+    {
+        while (cur) st.push(cur), cur = cur->left;
+        cur = st.top();
+        st.pop();
+        if (prev)
+        {
+            if (prev->val > cur->val)
+            {
+                //This part is tricky we could have just written first = prev, last = cur and then break BUT
+                //agar non immediate child se swap hua he tab uss case me ek toh humesha fixed rahega dusra badalta rahega
+                if (!first) last = prev;
+                first = cur;
+            }
+        }
+        prev = cur;
+        cur = cur->right;
+    }
+    vector<int> sol;
+    if (first && last)
+    {
+        sol.push_back(first->val);
+        sol.push_back(last->val);
+    }
+    sort(sol.begin(), sol.end());
+    return sol;
+}
+```
+
+## 25. Populate Next Right Pointers Tree
+```c++
+void Solution::connect(TreeLinkNode* A)
+{
+    queue< pair<int, TreeLinkNode*> > q;
+    q.push({0, A});
+    while (!q.empty())
+    {
+        auto temp = q.front();
+        int level = temp.first;
+        q.pop();
+        while (!q.empty() && q.front().first == level)
+        {
+            if (temp.second->left) q.push({level+1, temp.second->left});
+            if (temp.second->right) q.push({level+1, temp.second->right});
+            temp.second->next = q.front().second;
+            temp = q.front();
+            q.pop();
+        }
+        temp.second->next = NULL;
+        if (temp.second->left) q.push({level+1, temp.second->left});
+        if (temp.second->right) q.push({level+1, temp.second->right});
+    }
+}
+```
+
+## 27. Intresting Numbers
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+int dp_ds[1011][1011], dp_lst_no[1011][1011], dp_lst_mo[1011][1011];
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        memset(dp_ds, -1, sizeof(dp_ds));
+        memset(dp_lst_mo, 0, sizeof(dp_lst_mo));
+
+        int n;
+        cin >> n;
+        queue< pair<int, int> > q;
+        for (int i = 1; i <= 9; ++i)
+        {
+            q.push({i%n, i});
+            dp_ds[i%n][i] = i;
+            dp_lst_no[i%n][i] = i;
+        }
+
+        while (!q.empty())
+        {
+            auto temp = q.front();
+            q.pop();
+            int rem = temp.first, ds = temp.second;
+            if (rem == 0 && ds == n) break;
+            for (int i = 0; i <= 9; ++i)
+            {
+                temp.first = ((rem * 10) + i) % n;
+                temp.second = ds + i;
+                // Check if we have already covered this state or if it's impossible then skip
+                if (dp_ds[temp.first][temp.second] != -1 || temp.second > n) continue;
+                q.push(temp);
+                dp_ds[temp.first][temp.second] = ds + i;
+                dp_lst_no[temp.first][temp.second] = i;
+                dp_lst_mo[temp.first][temp.second] = rem;
+            }
+        }
+
+        stack<int> ans;
+        int m = 0, s = n;
+        while (m != 0 || s != 0)
+        {
+            ans.push(dp_lst_no[m][s]);
+            int m1 = dp_lst_mo[m][s], s1 = dp_ds[m][s] - dp_lst_no[m][s];
+            m = m1, s = s1;
+        }
+
+        while (!ans.empty())
+        {
+            cout << ans.top();
+            ans.pop();
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
+//Interviewbit problem is like the easiest version of above question. try solving it yourself if you can understand above
+char dp[50506][16];
+int dp_last[50506][16];
+string Solution::multiple(int n)
+{
+    queue< pair<int, int> > q;
+    q.push({1%n, 0});
+    dp[1%n][0] = '1';
+    int y;
+    while (!q.empty())
+    {
+        auto temp = q.front();
+        q.pop();
+        if (temp.first == 0)
+        {
+            y = temp.second;
+            break;
+        }
+        q.push({(temp.first * 10) % n, temp.second + 1});
+        dp[(temp.first * 10) % n][temp.second + 1] = '0';
+        dp_last[(temp.first * 10) % n][temp.second + 1] = temp.first;
+        q.push({(temp.first * 10 + 1) % n, temp.second + 1});
+        dp[(temp.first * 10 + 1) % n][temp.second + 1] = '1';
+        dp_last[(temp.first * 10 + 1) % n][temp.second + 1] = temp.first;
+    }
+
+    int x = 0;
+    string ans= "";
+    while (x != 1%n || y != 0)
+    {
+        ans = dp[x][y] + ans;
+        int x0 = dp_last[x][y];
+        x = x0, y = y-1;
+    }
+    ans = dp[x][y] + ans;
+    return ans;
+}
+//Or a quick hack XD
+string Solution::multiple(int n)
+{
+    queue< pair<int, string> > q;
+    q.push({1%n, "1"});
+    while (!q.empty())
+    {
+        auto temp = q.front();
+        q.pop();
+        if (temp.first == 0) return temp.second;
+        q.push({(temp.first * 10) % n, temp.second + "0"});
+        q.push({(temp.first * 10 + 1) % n, temp.second + "1"});
+    }
+    return "";
+}
+```
+
+## 29. Cycle detection:
+[Directed Graph] Apply DFS and maintain a visited set. If during traversing DFS we encounter an already visited node then it means the graph has cycle. [Undirected Graph] We also need to maintain a complete visited set and for cycle the node should be in visited but not in completely visited set.<br><br>
+Another way is with the help of Disjoint Sets. We make disjoint sets for all nodes and then for each connections we make union. If we found that before making union both edges already belong in same disjoint set means there is a cycle.
+```c++
+// O(N)
+int main()
+{
+    int n, e;
+    cin >> n >> e;
+    DisjointSet<int> ds;
+    for (int i = 0; i < n; ++i)
+        ds.makeSet(i);
+
+    for (int i = 0; i < e; ++i)
+    {
+        int a, b;
+        cin >> a >> b;
+        if (ds.find(a) == ds.find(b))
+        {
+            cout << "CYCLE FOUND"
+            return;
+        }
+        ds.makeUnion(a, b);
+    }
+
+    cout << "CYCLE NOT FOUND";
+    return;
+}
+```
+Using BFS to detect cycle in directed graph we use Kahn's Algorithm for Topological Sorting
+```c++
+bool Graph::isCyclic()
+{
+    vector<int> inDegree(V, 0);
+    for (int i = 0; i < V; ++i)
+    {
+        for (int j = 0; j < adj[i].size(); ++j)
+            ++inDegree[adj[i][j]];
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; ++i)
+    {
+        if (inDegree[i] == 0)
+            q.push(i);
+    }
+
+    vector<int> topOrder;
+    while (!q.empty())
+    {
+        int front = q.front();
+        q.pop();
+        topOrder.push_back(front);
+        for (int i = 0; i < adj[front].size(); ++i)
+        {
+            --inDegree[adj[front][i]];
+            if (inDegree[adj[front][i]] == 0)
+                q.push(adj[front][i]);
+        }
+    }
+
+    return (topOrder.size() != V);
+}
+/*
+O(V+E)
+Above code is basically for topological sort using Kahn's algorithm
+- Compute indegree for all nodes and add those with 0 to the queue
+- Visit queue until its empty. Remove visited element from queue add it to topological Order
+- Visit neighbous and reduce their indegree since that path is now chosen and if indegree reduces down to 0 we add it to queu
+- This makes sense because we are only going to neighbour if it's last path we haven't discovered
+- If in the end topological sort cannot visit every node means there was a cycle in the path
+*/

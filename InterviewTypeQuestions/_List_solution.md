@@ -1400,6 +1400,37 @@ ListNode* Solution::reorderList(ListNode* A)
     }
     return ans;
 }
+
+// Second ques
+Node *copyList(Node *start)
+{
+    Node* curr = start, *temp;
+    while (curr)
+    {
+        temp = curr->next;
+        curr->next = new Node(curr->data);
+        curr->next->next = temp;
+        curr = temp;
+    }
+
+    curr = start;
+    while (curr)
+    {
+        if(curr->arb) curr->next->arb = curr->arb;
+        curr = curr->next ? curr->next->next : curr->next;
+    }
+
+    Node* original = start, *copy = start->next;
+    temp = copy;
+    while (original && copy)
+    {
+        if (original->next) original->next = original->next->next;
+        if (copy->next) copy->next = copy->next->next;
+        original = original->next;
+        copy = copy->next;
+    }
+    return temp;
+}
 ```
 
 ## 9. Nearest Smallest Element

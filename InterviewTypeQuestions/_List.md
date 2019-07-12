@@ -1,7 +1,85 @@
 # Level 1 (Arrays, String, Binary Search, Two Pointer):
 
 ## Theory:
-Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace), Inversion count using merge sort, duplicate value problems in bit manipulation, Quick Sort, Counting Sort, Radix Sort, Why Kaden Algorithm Work (https://www.youtube.com/watch?v=86CQq3pKSUw)
+Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace), Inversion count using merge sort, duplicate value problems in bit manipulation (one variation: https://www.geeksforgeeks.org/find-the-element-that-appears-once-in-a-sorted-array/)
+
+Given array [1, 2, 4, 2, 1] finding xor 1^2^4^2^1 = xor(1^1)^(2^2)^(4) = 0^0^4 = 4
+
+Given Array [1, 1, 2, 2, 4, 5] we need to find both 4 & 5<br>
+If we simply xor all numbers we will get 4^5 which will definitely be non zero. (100)^(101)=(001) Now if we divide the array elements into two one having 1 at unit place other having 0. [1, 1, 5], [2, 2, 4] take xor of both to get the ans<br>
+If 100(4) & 110(6) are non repeating numbers we need to divide the array based on tense (check rightmost set bit pos) place set or unset
+```c++
+int arr[] = {1, 1, 2, 2, 3, 9};
+int n = sizeof(arr) / sizeof(int);
+int xors = 0;
+for (int i = 0; i < n; ++i) xors ^= arr[i];
+
+int temp = 0;
+while(xors > 0)
+{
+    if (xors&1) break;
+    ++temp;
+    xors >>= 1;
+}
+int mask = 1<<temp;
+
+int num1 = 0, num2 = 0;
+for (int i = 0; i < n; ++i)
+{
+    if (((arr[i]&mask)>>temp)&1) num1 ^= arr[i];
+    else num2 ^= arr[i];
+}
+cout << num1 << " " << num2 << endl;
+```
+
+Given array [7, 7, 3, 4, 2, 4, 3, 3, 4, 7] all numbers except one is occuring thrice we need to find that number.<br>
+add binary position values (111 + 111 + 011 + 100 + 010 + 100 + 011 + 011 + 100 + 111) = 676 %3 all digit = 010 = 0.2<sup>0</sup> + 1.2<sup>1</sup> + 0.2<sup>2</sup> = 2
+```c++
+int arr[] = {7, 11, 3, 4, 9, 4, 3, 3, 4, 7, 9, 9, 7};
+    int n = sizeof(arr) / sizeof(int);
+
+    int count[32] {};
+    for (int i = 0; i < n; ++i)
+    {
+        int cur = arr[i], pos = 0;
+        while (cur > 0)
+        {
+            if (cur&1) ++count[pos];
+            ++pos;
+            cur >>= 1;
+        }
+    }
+    int ans = 0;
+    for (int i = 0; i < 32; ++i) ans += pow(2, i) * (count[i] % 3);
+    cout << ans << endl;
+```
+
+### Calculating number of set bits
+```c++
+int countBits(int n)
+{
+    //Time: O(number of bits)
+    int count = 0;
+    while (n > 0)
+    {
+        count += (n&1);
+        n = n>>1;
+    }
+    return count;
+
+    //Time: O(number of set bits)
+    int count = 0;
+    while(n)
+    {
+        ++count;
+        n = n&(n-1);
+    }
+
+    // __builtin_popcount(n); or __builtin_popcountl or __builtin_popcountll
+}
+```
+
+Quick Sort, Counting Sort, Radix Sort, Why Kaden Algorithm Work (https://www.youtube.com/watch?v=86CQq3pKSUw)
 ```c++
 //counting set bit n&(n-1) technique, n&(n-1) means closest set bit
 while (n)
@@ -37,8 +115,9 @@ while (t--)
     cout << result << endl;
 }
 ```
+Difference Array
 
-## Questions(37):
+## Questions(38):
 1) Merge Overlap: https://www.interviewbit.com/problems/merge-overlapping-intervals/
 2) Hotel Booking Problem: https://www.interviewbit.com/problems/hotel-bookings-possible/
     - Same question but check if consecutive values are equal: https://practice.geeksforgeeks.org/problems/minimum-platforms/0
@@ -76,14 +155,22 @@ while (t--)
     - N/3 Repeat Number: https://www.interviewbit.com/problems/n3-repeat-number/
 23) Kth Smallest Element: https://practice.geeksforgeeks.org/problems/kth-smallest-element/0
     - Kth Largest In a Stream: https://practice.geeksforgeeks.org/problems/kth-largest-element-in-a-stream/0
+24) https://www.geeksforgeeks.org/count-number-of-triplets-with-product-equal-to-given-number-with-duplicates-allowed-set-2/
+25) Longest subarray having average greater than or equal to x: https://www.geeksforgeeks.org/longest-subarray-having-average-greater-than-or-equal-to-x/
 
 Avoid TLE: Use printf/scanf, use array instead of vectors
 
 # Level 2 (String, Linked List, Stacks, Queues, Heap, Map):
 ## Theory:
-Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why Floyd's Algorithm work (https://www.youtube.com/watch?v=LUm2ABqAs1w), Infix, Prefix, Postfix, Arithematic solver type problems, Delete without a head pointer just a node which has to be deleted will be given [ ans: (*node) = *(node->next); ] also free that node's memory
+String Builder & String Stream(ostringstream), Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why Floyd's Algorithm work (https://www.youtube.com/watch?v=LUm2ABqAs1w), Infix, Prefix, Postfix, Arithematic solver type problems, Delete without a head pointer just a node which has to be deleted will be given [ ans: (*node) = *(node->next); ] also free that node's memory
 
-## Questions(34):
+Trie, Suffix Tree, Suffix Array (Only basics not in depth) https://www.hackerearth.com/practice/notes/trie-suffix-tree-suffix-array/
+```
+Implement Google spell-corrector. What data structure will you use and how will it work?
+(I suggested the first trie but later on made it more efficient by using suffix array data structure. They asked me to implement all operation of suffix array).(They liked my approach).
+```
+
+## Questions(35):
 1) [Trie] Hotel Reviews: https://www.interviewbit.com/problems/hotel-reviews/
     - Shortest Unique Prefix: https://www.interviewbit.com/problems/shortest-unique-prefix/
 2) [Trie] Palindrome Pair in array of word: https://www.geeksforgeeks.org/palindrome-pair-in-an-array-of-words-or-strings
@@ -100,6 +187,7 @@ Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why
 7) Merge Sort Linked List: https://www.interviewbit.com/problems/sort-list/
     - Insertion Sort: https://www.interviewbit.com/problems/insertion-sort-list/
 8) Reorder List: https://www.interviewbit.com/problems/reorder-list/
+    - https://practice.geeksforgeeks.org/problems/clone-a-linked-list-with-next-and-random-pointer/1
 9) Nearest Smallest Element: https://www.interviewbit.com/problems/nearest-smaller-element/
     - Next Larger Number: https://practice.geeksforgeeks.org/problems/next-larger-element/0
 10) Largest Rectangle In Histogram: https://www.interviewbit.com/problems/largest-rectangle-in-histogram/
@@ -233,8 +321,11 @@ public:
     }
 };
 ```
+Kosaraju Algorithm for strongly connected graph: Apply DFS to all unvisited nodes. As the node get's exit put it in a stack. Then find transpose of graph, transpose simply means reverse the graph arrows. Apply DFS again to the stack as per new visited set. DFS on nodes from stack.
 
-## Questions(38):
+Shortest Path finding - BFS, Dijikstra (N square). Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
+
+## Questions(39):
 1) 2 Sum: https://www.interviewbit.com/problems/2-sum/
 2) Relative Sorting (Simmilar to counting sort): https://practice.geeksforgeeks.org/problems/relative-sorting/0
 3) Array Pair Sum Divisibility Problem: https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem/0
@@ -242,6 +333,7 @@ public:
 5) Anagrams: https://www.interviewbit.com/problems/anagrams/
 6) Equal: https://www.interviewbit.com/problems/equal/
 7) Window String: https://www.interviewbit.com/problems/window-string/
+    - given 2 strings str1 and str2, you have to find the length of the smallest circular substring in str1 containing all characters of str2. For example given strings ‘hackerrank’ and ‘kh’, the answer should be 2 (and not 4 because circular substrings are allowed).
 8) Points On The Straight Line: https://www.interviewbit.com/problems/points-on-the-straight-line/
 9) Substring Concatenation: https://www.interviewbit.com/problems/substring-concatenation/
 10) Activity Selection: https://practice.geeksforgeeks.org/problems/activity-selection/0
@@ -274,6 +366,8 @@ public:
 29) Commutable Island(Find MST): https://www.interviewbit.com/problems/commutable-islands/
 30) Possibility of finishing all courses given pre-requisites: https://www.interviewbit.com/problems/possibility-of-finishing-all-courses-given-prerequisites/
 31) Black Shapes: https://www.interviewbit.com/problems/black-shapes/
+32) https://www.geeksforgeeks.org/find-maximum-path-sum-in-a-binary-tree/
+33) https://www.geeksforgeeks.org/minimum-number-of-given-operations-required-to-make-two-strings-equal/
 
 # Level 4 (Backtracking & Dynamic Programming):
 ## Theory(DP):
@@ -908,6 +1002,12 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 14) N digit number with digit sum: https://www.interviewbit.com/problems/n-digit-numbers-with-digit-sum-s-/<br>
 ---[Incomplete]---
 
+# Puzzles:
+
+# Extras:
+- https://www.geeksforgeeks.org/design-a-chess-game/
+
 # Level 5 (God):
 1) Ways To Form Max Heap: https://www.interviewbit.com/problems/ways-to-form-max-heap/
 2) Order Of People Height: https://amortizedminds.wordpress.com/2016/08/25/order-of-people-height-interviewbit
+3) https://www.careercup.com/question?id=5840928073842688

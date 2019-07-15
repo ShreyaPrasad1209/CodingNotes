@@ -171,7 +171,7 @@ while (t--)
 ```
 Difference Array
 
-## Questions(38):
+## Questions(39):
 1) Merge Overlap: https://www.interviewbit.com/problems/merge-overlapping-intervals/
 2) Hotel Booking Problem: https://www.interviewbit.com/problems/hotel-bookings-possible/
     - Same question but check if consecutive values are equal: https://practice.geeksforgeeks.org/problems/minimum-platforms/0
@@ -416,7 +416,7 @@ Kosaraju Algorithm for strongly connected graph: Apply DFS to all unvisited node
 
 Shortest Path finding - BFS, Dijikstra (N square), A Star. Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
 
-## Questions(39):
+## Questions(42):
 1) 2 Sum: https://www.interviewbit.com/problems/2-sum/
 2) Relative Sorting (Simmilar to counting sort): https://practice.geeksforgeeks.org/problems/relative-sorting/0
 3) Array Pair Sum Divisibility Problem: https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem/0
@@ -1093,7 +1093,8 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 14) N digit number with digit sum: https://www.interviewbit.com/problems/n-digit-numbers-with-digit-sum-s-/<br>
 ---[Incomplete]---
 
-# Puzzles:
+# Puzzles:<br>
+---[Incomplete]---
 
 # Extras:
 - https://www.geeksforgeeks.org/design-a-chess-game/

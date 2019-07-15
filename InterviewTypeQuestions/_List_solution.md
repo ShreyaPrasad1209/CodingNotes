@@ -624,7 +624,7 @@ int Solution::minimize(const vector<int> &A, const vector<int> &B, const vector<
     int i = 0, j = 0, k = 0;
     int sol = INT_MAX;
     int temp, temp1, temp2, temp3;
-    while(i < A.size() || j < B.size() || k < C.size())
+    while(i < A.size() && j < B.size() && k < C.size())
     {
         sol = min(sol, getMax(abs(A[i]-B[j]), abs(B[j]-C[k]), abs(C[k]-A[i])));
         temp1 = (i+1 < A.size()) ?
@@ -1458,6 +1458,20 @@ vector<int> Solution::prevSmaller(vector<int> &A)
     return res;
 }
 
+// OR Other approach
+vector<int> Solution::prevSmaller(vector<int> &A)
+{
+    stack<int> st;
+    vector<int> ans(A.size());
+    for (int i = 0; i < A.size(); ++i)
+    {
+        while (!st.empty() && st.top() >= A[i]) st.pop();
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(A[i]);
+    }
+    return ans;
+}
+
 // Next Larger Number
 #include<bits/stdc++.h>
 #define ll long long
@@ -1498,10 +1512,10 @@ int Solution::largestRectangleArea(vector<int> &A)
 {
     stack<int> st;
     int ans = 0;
-    A.push_back(-1);
+    A.push_back(-1);    //To avoid single bar in histogram wala case
     for (int i = 0; i < A.size(); ++i)
     {
-        while (!st.empty() && A[i] < A[st.top()])
+        while (!st.empty() && A[i] <= A[st.top()])
         {
             int height = A[st.top()];
             st.pop();
@@ -1511,7 +1525,6 @@ int Solution::largestRectangleArea(vector<int> &A)
         }
         st.push(i);
     }
-    A.pop_back();
     return ans;
 }
 ```
@@ -1804,7 +1817,7 @@ int main()
                 else minHeap.push(x);
             }
             //case2 (both heaps are balanced)
-            if (maxHeap.size() == minHeap.size())
+            else if (maxHeap.size() == minHeap.size())
             {
                 if (x < med) maxHeap.push(x);
                 else minHeap.push(x);
@@ -1858,6 +1871,39 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B)
         }
     }
     return ans;
+}
+```
+
+## 20. Merge K sorted linked list
+```c++
+ListNode* Solution::mergeKLists(vector<ListNode*> &A)
+{
+    map<int, int> myMap;
+    for (int i = 0; i < A.size(); ++i)
+    {
+        ListNode* cur = A[i];
+        while (cur != NULL)
+        {
+            myMap[cur->val]++;
+            cur = cur->next;
+        }
+    }
+
+    ListNode* head = NULL;
+    ListNode* cur = NULL;
+    for (auto it = myMap.begin(); it != myMap.end(); ++it)
+    {
+        while (it->second != 0)
+        {
+            ListNode* list = new ListNode(it->first);
+            if (head == NULL)
+                head = list, cur = list;
+            else
+                cur->next = list, cur = cur->next;
+            it->second--;
+        }
+    }
+    return head;
 }
 ```
 

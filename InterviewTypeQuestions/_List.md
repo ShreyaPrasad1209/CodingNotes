@@ -1,7 +1,47 @@
-# Level 1 (Arrays, String, Binary Search, Two Pointer):
+# Level 1 (Arrays, Binary Search, Two Pointer):
 
 ## Theory:
 Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace), Inversion count using merge sort, duplicate value problems in bit manipulation (one variation: https://www.geeksforgeeks.org/find-the-element-that-appears-once-in-a-sorted-array/)
+
+```c++
+//Counting inversion merge sort
+int invCount(vector<int> &arr)
+{
+    int inv_count = 0;
+    for (int i = 0; i < arr.size(); ++i)
+    {
+        for (int j = i+1; j < arr.size(); ++j)
+            if (arr[i] > arr[j]) inv_count++;
+    }
+    return inv_count;
+}
+
+int merge(vector<int> &arr, int l, int m, int r)
+{
+    vector<int> temp = arr;
+    int i = l, j = m+1, k = l, inv_count = 0;
+    while (i <= m && j <= r)
+    {
+        if (temp[i] > temp[j]) arr[k++] = temp[j++], inv_count += m-i+1;
+        else arr[k++] = temp[i++];
+    }
+    while (i <= m) arr[k++] = temp[i++];
+    while (j <= r) arr[k++] = temp[j++];
+    return inv_count;
+}
+
+int mergeSort(vector<int> &arr, int l, int r)
+{
+    int inv_count = 0, m = (l+r)/2;
+    if (l < r)
+    {
+        inv_count += mergeSort(arr, 0, m);
+        inv_count += mergeSort(arr, m+1, r);
+        inv_count += merge(arr, 0, m, r);
+    }
+    return inv_count;
+}
+```
 
 Given array [1, 2, 4, 2, 1] finding xor 1^2^4^2^1 = xor(1^1)^(2^2)^(4) = 0^0^4 = 4
 
@@ -88,7 +128,21 @@ while (n)
   n = n&(n-1);
 }
 ```
-Find numbers less than 1000 divisible by 2, 3 & 5 [Inclusion Exclusion]
+| A ∪ B ∪ C | = | A | + | B | + | C | - | A ∩ B | - | B ∩ C | - | C ∩ A | + | A ∩ B ∩ C|<br>
+| A ∪ B ∪ C ∪ ... | = { SINGLE SUMS } - { DOUBLE PAIRS SUM } + { TRIPLE PAIRS SUM } - { FOUR PAIRS SUM } + ...
+
+Find numbers less than 1000 divisible by 2, 3 & 5<br>
+Numbers less then N divisible by m are floor((N - 1) / m) So:<br>
+Divisible by 2 = 449<br>
+Divisible by 3 = 333<br>
+Divisible by 5 = 199<br>
+Divisible by 2.5 = 99<br>
+Divisible by 3.5 = 66<br>
+Divisible by 2.3 = 166<br>
+Divisible by 2.3.5 = 33<br>
+| 2 ∪ 3 ∪ 5 | = 499 + 133 + 199 - 99 - 66 - 166 + 33 = 733
+
+Numbers between 1 and n which are divisible by any of the prime numbers less than 20
 ```c++
 ll t;
 cin >> t;
@@ -320,10 +374,47 @@ public:
         else x->parent = y;
     }
 };
+
+//Kruskal algo code
+int e, v;
+cin >> e >> v;
+
+DisjointSet<int> ds;
+
+for (int i=0; i<e; ++i)
+    ds.makeSet(i);
+
+vector<int> vertex[e];
+vector<Path> path(v);
+for (int i=0; i<v; ++i)
+{
+    int a, b, c;
+    cin >> a >> b >> c;
+    vertex[a].push_back(b);
+    vertex[b].push_back(a);
+    path[i] = {a, b, c};
+}
+
+sort(path.begin(), path.end(), [](Path i, Path j){
+    return (i.length < j.length);
+}]);
+
+cout << "-------" << endl;
+
+for (int i=0; i<v; ++i)
+{
+    int a = ds.find(path[i].nodeA);
+    int b = ds.find(path[i].nodeB);
+    if (a != b)
+    {
+        ds.makeUnion(a, b);
+        cout << path[i].nodeA << " " << path[i].nodeB << " - " << path[i].length << endl;
+    }
+}
 ```
 Kosaraju Algorithm for strongly connected graph: Apply DFS to all unvisited nodes. As the node get's exit put it in a stack. Then find transpose of graph, transpose simply means reverse the graph arrows. Apply DFS again to the stack as per new visited set. DFS on nodes from stack.
 
-Shortest Path finding - BFS, Dijikstra (N square). Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
+Shortest Path finding - BFS, Dijikstra (N square), A Star. Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
 
 ## Questions(39):
 1) 2 Sum: https://www.interviewbit.com/problems/2-sum/

@@ -1097,6 +1097,8 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 ---[Incomplete]---
 
 # Extras:
+- http://dgupta.us/Leetcode-Unlocked/LeetCode%20Locked/c1.html
+- http://www.learn4master.com/interview-questions/leetcode/leetcode-problems-classified-by-company
 - https://www.geeksforgeeks.org/design-a-chess-game/
 
 # Level 5 (God):

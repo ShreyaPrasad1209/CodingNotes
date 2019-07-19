@@ -1876,35 +1876,15 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B)
 
 ## 20. Merge K sorted linked list
 ```c++
-ListNode* Solution::mergeKLists(vector<ListNode*> &A)
-{
-    map<int, int> myMap;
-    for (int i = 0; i < A.size(); ++i)
-    {
-        ListNode* cur = A[i];
-        while (cur != NULL)
-        {
-            myMap[cur->val]++;
-            cur = cur->next;
-        }
-    }
+/*
+Interviewbit's version of this question is useless, it has even more tighter time constrainsts
+Way #1: Brute Force - Array me saare element daalo sort kardo then linked list banado Time: O(KNlogKN) Space: O(KN)
 
-    ListNode* head = NULL;
-    ListNode* cur = NULL;
-    for (auto it = myMap.begin(); it != myMap.end(); ++it)
-    {
-        while (it->second != 0)
-        {
-            ListNode* list = new ListNode(it->first);
-            if (head == NULL)
-                head = list, cur = list;
-            else
-                cur->next = list, cur = cur->next;
-            it->second--;
-        }
-    }
-    return head;
-}
+Way #2: Create K pointers, initially pointing to head of each linked list choose smallest increment it's pointer. Keep doing it. Time: O(KN) Space: O(K). Interview bit variation passes this. One optimization in this is use priority queue to avoid comparisons then time will become: O(NlogK)
+
+Way #3: O(NlogK) is the most optimum time complexity but what if we want O(1) space. Then merge two sorted linked list at a time till (k-1) times. Time: O(KN) Space: O(1)
+*/
+
 ```
 
 ## 21. Rearrange Characters:
@@ -2739,34 +2719,28 @@ vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
 ## 2. Combination Sum II
 https://www.interviewbit.com/problems/combination-sum-ii/
 ```c++
-void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
+void backtrack(vector< vector<int> > &res, vector<int> &A, int B, vector<int> &temp,
+    int cur_sum = 0, int cur = 0)
 {
-    if (sum==B)
+    if (cur_sum >= B)
     {
-        res.emplace_back(row);
+        if (cur_sum == B) res.push_back(temp);
         return;
     }
-    if (sum > B || start == A.size()) return;
-
-    row.emplace_back(A[start]);
-    sum += A[start];
-    backtracking(start+1, row, sum, res, A, B);
-    sum -= row[row.size()-1];
-    row.pop_back();
-
-    int endIndex = 0;
-    for (endIndex = start+1; endIndex < A.size() && A[endIndex]==A[start]; ++endIndex)
-        ++start;
-
-    backtracking(start+1, row, sum, res, A, B);
+    if (cur >= A.size()) return;
+    temp.push_back(A[cur]);
+    backtrack(res, A, B, temp, cur_sum + A[cur], cur + 1);
+    temp.pop_back();
+    backtrack(res, A, B, temp, cur_sum, cur + 1);
 }
 
 vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
 {
-    vector<vector<int> > res;
-    vector<int> row;
+    vector< vector<int> > res;
+    vector<int> temp;
     sort(A.begin(), A.end());
-    backtracking(0, row, 0, res, A, B);
+    backtrack(res, A, B, temp);
+    res.erase(unique(res.begin(), res.end()), res.end());
     return res;
 }
 ```
@@ -2774,38 +2748,23 @@ vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
 ## 3. Letter Phone
 https://www.interviewbit.com/problems/letter-phone/
 ```c++
-string temp = "";
-unordered_map<char, string> keypad =
+string keypad[] = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+void backtrack(string A, vector<string> &res, string temp = "", int cur = 0)
 {
-    { '1', "1" },
-    { '2', "abc" },
-    { '3', "def" },
-    { '4', "ghi" },
-    { '5', "jkl" },
-    { '6', "mno" },
-    { '7', "pqrs" },
-    { '8', "tuv" },
-    { '9', "wxyz" },
-    { '0', "0" }
-};
-void backtracking(string digits, int i, vector<string>& res)
-{
-    if (digits[i] - '0' > -1 && digits[i] - '0' < 10)
+    if (cur == A.size())
     {
-        string str = keypad[digits[i]];
-        for (auto j = 0; j<str.length(); ++j)
-        {
-            temp += str[j];
-            if (i == digits.length() - 1) res.emplace_back(temp);
-            else backtracking(digits, i+1, res);
-            temp.pop_back();
-        }
+        res.push_back(temp);
+        return;
     }
+    int index = A[cur] - '0';
+    for (char ch : keypad[index])
+        backtrack(A, res, temp + ch, cur + 1);
 }
+
 vector<string> Solution::letterCombinations(string A)
 {
     vector<string> res;
-    backtracking(A, 0, res);
+    backtrack(A, res);
     return res;
 }
 ```
@@ -2859,28 +2818,27 @@ vector<vector<string> > Solution::partition(string A)
 ## 5. Generate all parantheses II
 https://www.interviewbit.com/problems/generate-all-parentheses-ii/
 ```c++
-vector<string> res;
-void solve(int n, int l, int r, string tmp = "(")
+void solve(vector<string> &res, int A, string val = "", int cur = 0)
 {
-    if (tmp.size() == 2*n)
+    if (val.size() == 2*A)
     {
-        res.push_back(tmp);
+        if (cur == 0) res.push_back(val);
         return;
     }
-    if (r > 0) solve(n, l, r-1, tmp + ")");
-    if (l > 0) solve(n, l-1, r+1, tmp + "(");
+    if (cur > 0) solve(res, A, val + ")", cur-1);
+    solve(res, A, val + "(", cur+1);
 }
 
 vector<string> Solution::generateParenthesis(int A)
 {
-    res.clear();
-    solve(A, A-1, 1);
-    sort(res.begin(), res.end());
+    vector<string> res;
+    solve(res, A);
+    reverse(res.begin(), res.end());
     return res;
 }
 ```
 
-## 6. Kth permutation sequence
+## 6. Kth permutation sequence (NICE QUESTION)
 https://www.interviewbit.com/problems/kth-permutation-sequence/
 ```c++
 int fact(int n)
@@ -2890,21 +2848,22 @@ int fact(int n)
     for (auto i = 2; i<=n; ++i) f *= i;
     return f;
 }
-string backtracking(int k, vector<int>& numlist)
-{
-    auto n = numlist.size();
-    if (n==0 || k > fact(n)) return "";
-    int f = fact(n-1);
-    int pos = k / f;
-    k %= f;
-    string ch = to_string(numlist[pos]);
-    numlist.erase(numlist.begin() + pos);
-    return ch + backtracking(k, numlist);
-}
+
 string Solution::getPermutation(int n, int k)
 {
-    vector<int> numlist;
-    for (auto i = 1; i<n+1; ++i) numlist.emplace_back(i);
-    return backtracking(k-1, numlist);
+    vector<int> nums;
+    for (int i = 1; i <= n; ++i) nums.push_back(i);
+    string res = "";
+    k--;
+    while (n--)
+    {
+        int f = fact(nums.size()-1);
+        int pos = k / f;
+        k %= f;
+        res += to_string(nums[pos]);
+        nums.erase(nums.begin() + pos);
+    }
+    return res;
 }
+// Memoize factorial to save time in recalculating
 ```

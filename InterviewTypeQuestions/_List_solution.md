@@ -1877,14 +1877,84 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B)
 ## 20. Merge K sorted linked list
 ```c++
 /*
-Interviewbit's version of this question is useless, it has even more tighter time constrainsts
-Way #1: Brute Force - Array me saare element daalo sort kardo then linked list banado Time: O(KNlogKN) Space: O(KN)
+Interviebit question is bullshit gives correct answer even for high time, in reality this question has tighter constraints and is asked by Google
+
+Way #1: Brute Force - Array me yaa map me saare element daalo sort kardo then linked list banado Time: O(KNlogKN) Space: O(KN)
 
 Way #2: Create K pointers, initially pointing to head of each linked list choose smallest increment it's pointer. Keep doing it. Time: O(KN) Space: O(K). Interview bit variation passes this. One optimization in this is use priority queue to avoid comparisons then time will become: O(NlogK)
 
-Way #3: O(NlogK) is the most optimum time complexity but what if we want O(1) space. Then merge two sorted linked list at a time till (k-1) times. Time: O(KN) Space: O(1)
+Way #3: merge two sorted linked list at a time till (k-1) times. Time: O(KN) Space: O(1)
 */
 
+//Way 1: Using maps insertion will be logN so total time will be: log1 + log2 + .... + log(KN) for insertion this is integration from 1 to n logx = nlogn + n i.e. KNlogKN then inside for loop of map theres KN iteration so overall O(KNLogKN) but in case of duplicacy it stores count so it can perform better in that case
+ListNode* Solution::mergeKLists(vector<ListNode*> &A)
+{
+    map<int, int> myMap;
+    for (auto x : A)
+        while(x)
+            myMap[x->val]++, x = x->next;
+
+    ListNode *head = NULL, *cur = NULL;
+    for (auto it = myMap.begin(); it != myMap.end(); ++it)
+    {
+        while (it->second != 0)
+        {
+            ListNode *list = new ListNode(it->first);
+            if (!head) head = list, cur = list;
+            else cur->next = list, cur = cur->next;
+            it->second--;
+        }
+    }
+    return head;
+}
+
+//Way 2: Just O(K) space, O(KNK) time
+ListNode* mergeKLists(vector<ListNode*>& A)
+{
+    vector<ListNode*> ptrs;
+    for (auto x : A) ptrs.push_back(x);
+    ListNode *head = NULL, *cur = NULL;
+    while (true)
+    {
+        int minVal = INT_MAX, minIndex = 0;
+        for (int i = 0; i < ptrs.size(); ++i)
+            if (ptrs[i] && ptrs[i]->val < minVal)
+                minVal = ptrs[i]->val, minIndex = i;
+
+        if (minVal == INT_MAX) break;
+        ListNode *temp = new ListNode(minVal);
+        if (!head) head = temp, cur = head;
+        else cur->next = temp, cur = cur->next;
+        ptrs[minIndex] = ptrs[minIndex]->next;
+    }
+    return head;
+}
+
+// O(KNlogK) time, O(K) space
+typedef pair<int, ListNode*> pilist;
+ListNode* Solution::mergeKLists(vector<ListNode*> &A)
+{
+    priority_queue<pilist, vector<pilist>, greater<pilist> > ptrs;
+    for (auto x : A)
+        ptrs.push({x->val, x});
+    ListNode *head = NULL, *cur = NULL;
+    while (!ptrs.empty())
+    {
+        pilist front = ptrs.top();
+        ptrs.pop();
+        ListNode *temp = new ListNode(front.first);
+        if (!head) head = temp, cur = head;
+        else cur->next = temp, cur = cur->next;
+        if ((front.second)->next)
+        {
+            front.second = (front.second)->next;
+            front.first = (front.second)->val;
+            ptrs.push(front);
+        }
+    }
+    return head;
+}
+// Conclusion: this one is better but if there are many duplicacy present 1st one is better
 ```
 
 ## 21. Rearrange Characters:

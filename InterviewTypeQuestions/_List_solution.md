@@ -1960,6 +1960,28 @@ ListNode* Solution::mergeKLists(vector<ListNode*> &A)
 ## 21. Rearrange Characters:
 Very simple heap question. Count each letters of given string. Like in geeksforgeeks there are g-2, e-4, k-2, s-2, f-1, o-1, r-1. Put it on a max heap. pick e then again pick max one since top element is same as previous we will pick second top.
 
+## 22. Longest Consecutive Sequence:
+```c++
+int longestConsecutive(vector<int>& nums)
+{
+    unordered_set<int> rec;
+    for (int i : nums) rec.insert(i);
+    int ans = 0;
+    for (int i : nums)
+    {
+        // if current element is begining
+        if (rec.find(i-1) == rec.end())
+        {
+            int j = i+1;
+            while (rec.find(j) != rec.end())
+                j++;
+            ans = max(ans, j - i);
+        }
+    }
+    return ans;
+}
+```
+
 # Level 3
 ## 6. Equal:
 ```c++
@@ -2908,7 +2930,7 @@ vector<string> Solution::generateParenthesis(int A)
 }
 ```
 
-## 6. Kth permutation sequence (NICE QUESTION)
+## 6. Kth permutation sequence (FUCKING LOVED THIS QUESTION)
 https://www.interviewbit.com/problems/kth-permutation-sequence/
 ```c++
 int fact(int n)
@@ -2936,4 +2958,49 @@ string Solution::getPermutation(int n, int k)
     return res;
 }
 // Memoize factorial to save time in recalculating
+```
+
+## 7. Word Break
+https://leetcode.com/problems/word-break/
+```c++
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> rec;
+        for (string s : wordDict) rec.insert(s);
+        string cur = "";
+        for (int i = 0; i < s.size(); ++i)
+        {
+            cur += s[i];
+            if (i == s.size()-1)
+                return (rec.find(cur) != rec.end());
+            if (rec.find(cur) != rec.end())
+                cur = "";
+        }
+        return false;
+    }
+};
+// Above greedy solution won't work for this testcase "aaaaaaa" ["aaaa","aaa"], DP solution is needed
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> rec;
+        for (string s : wordDict) rec.insert(s);
+        bool dp[s.size()+1];
+        memset(dp, false, sizeof(dp));
+        dp[0] = true;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            for (int j = i; j >= 0; --j)
+            {
+                if (dp[j] && rec.find(s.substr(j, i-j+1)) != rec.end())
+                {
+                    dp[i+1] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.size()];
+    }
+};
 ```

@@ -23,8 +23,9 @@ Unsigned long long int can store max till 18 places so we can Big Integers in ja
 dp[0] = 1, dp[1] = 1;
 for (int i = 2; i <= n; ++i)
 {
+    dp[i] = 0;
     for (int j = 0; j < i; ++j)
-        dp[i] += dp[i] * dp[i-j-1];
+        dp[i] += dp[j] * dp[i-j-1];
 }
 ```
 2) {a, b, c, d} can be parenthesized with Cat(4) ways: (ab)(cd), a(b(cd)), ((ab)c)d, (a(bc)(d)), a((bc)d)
@@ -201,25 +202,19 @@ B(x' - floor(a/b)y') + Ay' = GCD(A, B)
 x = y'<br>
 y = x' - floor(A/B)y'
 ```c++
-//18x + 30y = GCD(18, 30)
-//30x + 18y = GCD(30, 18)
-//18x + 12y = GCD(18, 12)
-//12x + 6y = GCD(12, 6)
-//6x + 0y = GCD(6, 0)           BASE CASE always have x = 1, y = 0
-int gcdExtended(int a, int b, int *x, int *y) 
+//35x + 15y = GCD(35, 15) = 5
+int gcdExtended(int a, int b, int *x, int *y)
 {
-    if (a == 0)
+    if (b == 0)
     {
-        *x = 1;
-        *y = 0;
-        return b;
+        *x = 1, *y = 0;
+        return a;
     }
     int x1, y1;
-    int gcd = gcdExtended(b%a, a, &x1, &y1);
-    *x = y1;
-    *y = x1 - (a/b) * y1;
-    return gcd; 
-} 
+    int gcd = gcdExtended(b, a%b, &x1, &y1);
+    *x = y1, *y = x1 - (floor(a/b) * y1);
+    return gcd;
+}
 ```
 Ax + By = C<br>
 Here C is not GCD(A, B) This is called Linear Diophantine Equation<br>

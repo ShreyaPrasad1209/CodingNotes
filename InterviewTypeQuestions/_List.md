@@ -260,6 +260,7 @@ Implement Google spell-corrector. What data structure will you use and how will 
 19) N Max Pair Combinations: https://www.interviewbit.com/problems/n-max-pair-combinations/
 20) Merge K Sorted Linked List: https://www.interviewbit.com/problems/merge-k-sorted-lists/
 21) Rearrange characters: https://practice.geeksforgeeks.org/problems/rearrange-characters/0
+22) Longest consecutive subsequence: https://leetcode.com/problems/longest-consecutive-sequence/
 
 # Level 3 (Hashing, Greedy, Trees, Graph):
 ## Theory:
@@ -1083,6 +1084,11 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 4) Palindrome Partition: https://www.interviewbit.com/problems/palindrome-partitioning/
 5) Generate All Paranthesis: https://www.interviewbit.com/problems/generate-all-parentheses-ii/
 6) Kth Permutation Sequence: https://www.interviewbit.com/problems/kth-permutation-sequence/
+7) Word Break: https://leetcode.com/problems/word-break/
+
+
+----BROKEN---- :p
+
 7) Largest Area Of Rectangle With Permutation: https://www.interviewbit.com/problems/largest-area-of-rectangle-with-permutations/
 8) Ways to Decode: https://www.interviewbit.com/problems/ways-to-decode/
 9) Intersecting Chords In a circle: https://www.interviewbit.com/problems/intersecting-chords-in-a-circle/

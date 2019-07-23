@@ -976,6 +976,48 @@ int main()
 }
 ```
 
+## 26. Fraction to Recurring Decimal
+https://leetcode.com/problems/fraction-to-recurring-decimal/
+```c++
+class Solution {
+public:
+    string fractionToDecimal(int n, int d) {
+        if (n == 0) return "0";
+        if (d == 0) return "";
+
+        long long num = n, den = d;
+
+        string res = "";
+        if ((num < 0) ^ (den < 0)) res += "-";
+        num = abs(num), den = abs(den);
+        long long quo = num/den;
+        res += to_string(quo);
+        long long rem = (num % den) * 10;
+        if (rem == 0) return res;
+        res += ".";
+
+        // Calculate decimal values
+        unordered_map<long long, int> rec;
+        while (rem != 0)
+        {
+            if (rec.find(rem) != rec.end())
+            {
+                int beg = rec[rem];
+                string part1 = res.substr(0, beg);
+                string part2 = res.substr(beg, res.size());
+                res = part1 + "(" + part2 + ")";
+                return res;
+            }
+            rec[rem] = res.size();
+            long long temp = rem/den;
+            rem = (rem % den) * 10;
+            res += to_string(temp);
+        }
+        return res;
+    }
+};
+```
+
 # Level 2
 ## 1. Hotel Review
 ```c++
@@ -3001,6 +3043,167 @@ public:
             }
         }
         return dp[s.size()];
+    }
+};
+// The HARD variation is amazing
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> rec;
+        for (string s : wordDict) rec.insert(s);
+        vector<int> dp[s.size()];
+        for (int i = 0; i < s.size(); ++i)
+        {
+            for (int j = i; j >= 0; --j)
+            {
+                string cur = s.substr(j, i - j + 1);
+                if ((j == 0 || (j > 0 && dp[j-1].size() > 0)) &&
+                    rec.find(cur) != rec.end())
+                    dp[i].push_back(i-j+1);
+            }
+        }
+
+        // Backtrack dp using BFS
+        vector<string> res;
+        queue< pair<int, string> > q;
+        q.push({s.size()-1, ""});
+        while (!q.empty())
+        {
+            auto cur = q.front();
+            q.pop();
+            if (cur.first < 0)
+            {
+                res.push_back(cur.second);
+                continue;
+            }
+            for (auto i : dp[cur.first])
+            {
+                int start = cur.first - i;
+                if (cur.second == "") q.push({start, s.substr(start + 1, i)});
+                else q.push({start, s.substr(start + 1, i) + " " + cur.second});
+            }
+        }
+        return res;
+    }
+};
+```
+
+## 8. Divisor Game
+https://leetcode.com/problems/divisor-game/
+```c++
+class Solution {
+public:
+    bool divisorGame(int N) {
+        vector<int> dp(N + 1, false);
+        for(int i = 2; i <= N; ++i)
+        {
+            for(int j = 1; j < i; ++j)
+            {
+                if(i % j == 0 && !dp[i - j])
+                {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[N];
+    }
+};
+```
+
+## 10. Best Time to Buy and Sell Stock
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        if (n == 0) return 0;
+        int maxArr[n], minArr[n], ans = INT_MIN;
+        minArr[0] = prices[0], maxArr[n-1] = prices[n-1];
+        for (int i = 1; i < n; ++i) minArr[i] = min(minArr[i-1], prices[i]);
+        for (int i = n-2; i >= 0; --i) maxArr[i] = max(maxArr[i+1], prices[i]);
+        for (int i = 0; i < n; ++i) ans = max(ans, maxArr[i] - minArr[i]);
+        return ans;
+    }
+};
+// O(1) space solution: Basically draw a graph out of the given tescase you will deduce problem to finding valley followed by a peak then just subtract them.
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minPrice = INT_MAX, maxProfit = 0;
+        for (int i = 0; i < prices.size(); ++i)
+        {
+            minPrice = min(prices[i], minPrice);
+            maxProfit = max(prices[i] - minPrice, maxProfit);
+        }
+        return maxProfit;
+    }
+};
+// Variation II: This time also draw a graph. We must buy on valley and sell on immediate peak
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.size() == 0) return 0;
+        int i = 0, valley = prices[0], peak = prices[0], maxProfit = 0;
+        while (i < prices.size()-1)
+        {
+            while (i < prices.size()-1 && prices[i] >= prices[i+1]) i++;
+            valley = prices[i];
+            while (i < prices.size()-1 && prices[i] <= prices[i+1]) i++;
+            peak = prices[i];
+            maxProfit += peak - valley;
+        }
+        return maxProfit;
+    }
+};
+// Variation III
+class Solution {
+public:
+    int maxProfit(vector<int>& A) {
+        if (A.size() == 0) return 0;
+        int dp[A.size()], maxV = INT_MIN, minV = INT_MAX;
+        for (int i = A.size()-1; i >= 0; --i)
+        {
+            maxV = max(maxV, A[i]);
+            dp[i] = (i == A.size()-1) ? 0 : max(dp[i+1], maxV - A[i]);
+        }
+        for (int i = 0; i < A.size(); ++i)
+        {
+            minV = min(minV, A[i]);
+            dp[i] = (i == 0) ? 0 : max(dp[i-1], dp[i] + (A[i] - minV));
+        }
+        return dp[A.size()-1];
+    }
+};
+```
+
+# 11. House Robber
+```c++
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0) return 0;
+        int dp[nums.size()];
+        dp[0] = nums[0];
+        for (int i = 1; i < nums.size(); ++i)
+            dp[i] = (i == 1) ? max(nums[i], dp[i-1]) : max(nums[i] + dp[i-2], dp[i-1]);
+        return dp[nums.size()-1];
+    }
+};
+// Variation II: Now houses are in circle
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0) return 0;
+        if (nums.size() == 1) return nums[0];
+        int dp1[nums.size()], dp2[nums.size()];
+        dp1[0] = nums[0], dp2[nums.size()-1] = nums[nums.size()-1];
+        for (int i = 1; i < nums.size(); ++i)
+            dp1[i] = (i == 1) ? max(nums[i], dp1[i-1]) : max(nums[i] + dp1[i-2], dp1[i-1]);
+        for (int i = nums.size()-2; i >= 0; --i)
+            dp2[i] = (i == nums.size()-2) ? max(nums[i], dp2[i+1]) : max(nums[i] + dp2[i+2], dp2[i+1]);
+        return max(dp2[1], dp1[nums.size()-2]);
     }
 };
 ```

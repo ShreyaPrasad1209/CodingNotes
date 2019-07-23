@@ -171,6 +171,13 @@ while (t--)
 ```
 Difference Array
 
+Ternary Search is also there which is same as binary search except instead of dividing in 2 parts we divide it in 3 parts.
+
+Binary search is better than ternary search because <br>
+T(n) = T(n/2) + 2 [In Binary Search]<br>
+T(n) = T(n/3) + 4 [In Ternary Search]<br>
+in binary search: 2log<sub>2</sub>n complexity while in ternary search: 4log<sub>3</sub>n calculating mathematically binary search is better.
+
 ## Questions(39):
 1) Merge Overlap: https://www.interviewbit.com/problems/merge-overlapping-intervals/
 2) Hotel Booking Problem: https://www.interviewbit.com/problems/hotel-bookings-possible/
@@ -214,6 +221,27 @@ Difference Array
 
 Avoid TLE: Use printf/scanf, use array instead of vectors
 
+Find Peak Element in O(logN): https://leetcode.com/problems/find-peak-element/solution/<br>
+Doing in O(N) is very simple, for logN we will use binary search
+```c++
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int l = 0, r = nums.size() - 1;
+        while (l < r)
+        {
+            int mid = l + (r-l)/2;
+            if (nums[mid] > nums[mid + 1]) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+};
+```
+
+26) Fraction to Recurring Decimal: https://leetcode.com/problems/fraction-to-recurring-decimal/
+
+
 # Level 2 (String, Linked List, Stacks, Queues, Heap, Map):
 ## Theory:
 String Builder & String Stream(ostringstream), Tries (Node: char data, bool isTerminal, unoredered_map<char, Node*> next;), Why Floyd's Algorithm work (https://www.youtube.com/watch?v=LUm2ABqAs1w), Infix, Prefix, Postfix, Arithematic solver type problems, Delete without a head pointer just a node which has to be deleted will be given [ ans: (*node) = *(node->next); ] also free that node's memory
@@ -222,6 +250,27 @@ Trie, Suffix Tree, Suffix Array (Only basics not in depth) https://www.hackerear
 ```
 Implement Google spell-corrector. What data structure will you use and how will it work?
 (I suggested the first trie but later on made it more efficient by using suffix array data structure. They asked me to implement all operation of suffix array).(They liked my approach).
+```
+
+Kth from last element (simply ek loop me linked list ka size pata karlo then dusre me n-k pe chale jaao BUT WHAT ARE OTHER WAYS? say size allowed naaho toh simply k element tak jaao then ek aur pointer lo jo head pe ho now dono ko chalao jabktak null naa hojaye pehla wala dusra wala pointer is the ans)
+
+Sort Stack (WAP to sort a stack such that the smallest items are on the top. You can use additional temporary stack but not array or other data structure just stack)
+```c++
+/*
+One approach is to keep finding minimum put it on the stack but this will require in total of 3 stacks i.e. 2 extra but we can only use 1 extra.
+*/
+
+stack<int> addit;
+while (!st.empty())
+{
+    int temp = st.pop();
+    while (!addit.empty() && addit.top() > temp) st.push(addit.pop());
+    addit.push(temp);
+}
+while (!addit.empty()) st.push(addit.pop());
+
+// This above one is O(N square)
+// If we had infinite stacks then we could have used merge sort tab O(logN) hota complexity
 ```
 
 ## Questions(35):
@@ -1085,24 +1134,22 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 5) Generate All Paranthesis: https://www.interviewbit.com/problems/generate-all-parentheses-ii/
 6) Kth Permutation Sequence: https://www.interviewbit.com/problems/kth-permutation-sequence/
 7) Word Break: https://leetcode.com/problems/word-break/
+    - Word Break [HARD]: https://leetcode.com/problems/word-break-ii/
+8) Divisor Game: https://leetcode.com/problems/divisor-game/
+9) Paint House & Paint House [Hard]: http://tiancao.me/Leetcode-Unlocked/LeetCode%20Locked/c1.15.html
+10) Best Time to Buy and Sell Stock I: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+    - Best Time to Buy and Sell Stock II: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+    - Best Time to Buy and Sell Stock III: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+11) House Robber: https://leetcode.com/problems/house-robber/
+    - House Robber II: https://leetcode.com/problems/house-robber-ii/<br>
+----INCOMPLETE------
 
-
-----BROKEN---- :p
-
-7) Largest Area Of Rectangle With Permutation: https://www.interviewbit.com/problems/largest-area-of-rectangle-with-permutations/
-8) Ways to Decode: https://www.interviewbit.com/problems/ways-to-decode/
-9) Intersecting Chords In a circle: https://www.interviewbit.com/problems/intersecting-chords-in-a-circle/
-10) Max Sum Without Adjacent Elements: https://www.interviewbit.com/problems/max-sum-without-adjacent-elements/
-11) Repeating Subsequence: https://www.interviewbit.com/problems/repeating-subsequence/
-12) Min Jumps Array: https://www.interviewbit.com/problems/min-jumps-array/
-13) Longest Arithemetic Progression: https://www.interviewbit.com/problems/longest-arithmetic-progression/
-14) N digit number with digit sum: https://www.interviewbit.com/problems/n-digit-numbers-with-digit-sum-s-/<br>
----[Incomplete]---
-
-# Puzzles:<br>
----[Incomplete]---
+# Puzzles:
+- Josephous Problem: https://www.youtube.com/watch?v=uCsD3ZGzMgE
+- https://www.geeksforgeeks.org/form-minimum-number-from-given-sequence/
 
 # Extras:
+- Rope Data Structure (Fast String Concatenation)
 - http://dgupta.us/Leetcode-Unlocked/LeetCode%20Locked/c1.html
 - http://www.learn4master.com/interview-questions/leetcode/leetcode-problems-classified-by-company
 - https://www.geeksforgeeks.org/design-a-chess-game/
@@ -1111,3 +1158,6 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 1) Ways To Form Max Heap: https://www.interviewbit.com/problems/ways-to-form-max-heap/
 2) Order Of People Height: https://amortizedminds.wordpress.com/2016/08/25/order-of-people-height-interviewbit
 3) https://www.careercup.com/question?id=5840928073842688
+4) Read n characters given read4 (Asked in Google)
+    - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4.html
+    - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html

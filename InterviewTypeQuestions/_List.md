@@ -1161,3 +1161,10 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 4) Read n characters given read4 (Asked in Google)
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4.html
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html
+
+# Experiences (Microsoft):
+- https://www.geeksforgeeks.org/microsoft-interview-experience-set-180-on-campus/
+- https://www.geeksforgeeks.org/microsoft-interview-experience-set-179-on-campus/
+- https://www.geeksforgeeks.org/microsoft-interview-experience-set-176-on-campus/
+- https://www.geeksforgeeks.org/microsoft-interview-experience-set-175-on-campus/
+- https://www.geeksforgeeks.org/microsoft-interview-experience-set-173-on-campus/

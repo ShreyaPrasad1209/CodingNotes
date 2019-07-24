@@ -1,7 +1,25 @@
 # Level 1 (Arrays, Binary Search, Two Pointer):
 
 ## Theory:
-Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace), Inversion count using merge sort, duplicate value problems in bit manipulation (one variation: https://www.geeksforgeeks.org/find-the-element-that-appears-once-in-a-sorted-array/)
+Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace) It degrades time to N square, Inversion count using merge sort, duplicate value problems in bit manipulation (one variation: https://www.geeksforgeeks.org/find-the-element-that-appears-once-in-a-sorted-array/)
+```c++
+int l = 0, r = n-1;
+while (l < r)
+{
+    int mid = l + (r-l)/2;
+    if (mid&1)
+    {
+        if (arr[mid] == arr[mid-1]) l = mid+1;
+        else r = mid-1;
+    }
+    else
+    {
+        if (arr[mid] == arr[mid+1]) l = mid+2;
+        else r = mid;
+    }
+}
+cout << arr[l] << endl;
+```
 
 ```c++
 //Counting inversion merge sort
@@ -306,6 +324,48 @@ while (!addit.empty()) st.push(addit.pop());
 16) First Non Repeating Character In a Stream: https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream/0
 17) Median Of Stream Of Running Integers: https://practice.geeksforgeeks.org/problems/find-median-in-a-stream/0
 18) Heap Sort:
+```c++
+/*
+Heap Sort code is very easy ekk bar samjhne ke baad XD
+heap is in array form, array liya seedha uspe heapify call kardia for all non leaves i.e. from i = 0; i < n/2.
+Eesi ko but reverse me call kara he because child pe heapify call hoga then parent pe ulta kara toh gadbad ho sakti he asli heap nahi rahega
+
+Proper heap banna now uska 0th element is always maximum usse le lo aur last me daaldo now again heapify call karo but ignore kardo uss last wale ko because wo sorted he already bacche pe heapify call kara i tak hi
+*/
+// O(logN)
+void heapify(int arr[], int n, int i)
+{
+    int parent = i, left = 2*i + 1, right = 2*i + 2;
+    if (left < n && arr[parent] < arr[left])
+    {
+        swap(arr[left], arr[parent]);
+        heapify(arr, n, left);
+    }
+    else if (right < n && arr[parent] < arr[right])
+    {
+        swap(arr[right], arr[parent]);
+        heapify(arr, n, right);
+    }
+}
+
+// Heap sort overall is O(NlogN) in any case best avg worst
+void heapSort(int arr[], int n)
+{
+    for (int i = n/2-1; i >= 0; --i) heapify(arr, n, i);    //Building heap part O(N)
+    for (int i = n-1; i >= 0; --i)
+    {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
+/*
+Heap sort is unstable sort
+Time complexity analysis for building heap:
+N ke order loop and heapify is O(logN) means building heap is O(NlogN)? WRONG it's O(N)
+https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/
+Get a concrete idea out of it interview me derrivation nahi karayenge
+*/
+```
 19) N Max Pair Combinations: https://www.interviewbit.com/problems/n-max-pair-combinations/
 20) Merge K Sorted Linked List: https://www.interviewbit.com/problems/merge-k-sorted-lists/
 21) Rearrange characters: https://practice.geeksforgeeks.org/problems/rearrange-characters/0
@@ -387,8 +447,11 @@ void BFS(Node *root)
         cout << endl;
     }
 }
+// Time complexity of BFS & DFS both are O(V+E) if we use adjancey list otherwise if adjancey matrix then O(V^2)
 ```
-Prims Algorithm (https://www.youtube.com/watch?v=4ZlRH0eK-qQ), Kruskal's Algorithm. Prims have complexity of O(N square) while kruskal O(ElogV). Kruskal is implemented through Disjoint Set (https://www.youtube.com/watch?v=fAuF0EuZVCk)
+Prims Algorithm (https://www.youtube.com/watch?v=4ZlRH0eK-qQ&t=479s, https://www.youtube.com/watch?v=oP2-8ysT3QQ), Prim's basically chota edge lo then keep taking corresponding connected chote edges till all vertex are taken. Par if we itterate over all neighbours to find minimum corresponding it will make it O(N^2) in worst case for graph with n neighbours connected. This will be okay if we have dense graph but otherwise time complexity zyada he. Second video above shows using heap to find in O(1) time the minimum hence reducing complexity par still logN time toh lagega decrease karne me.
+
+Kruskal's Algorithm O(ElogV), better than Prims even optimal for sparse graph. Kruskal is implemented through Disjoint Set (https://www.youtube.com/watch?v=fAuF0EuZVCk)
 ```c++
 //Disjoint Set
 struct Node
@@ -434,14 +497,11 @@ DisjointSet<int> ds;
 for (int i=0; i<e; ++i)
     ds.makeSet(i);
 
-vector<int> vertex[e];
 vector<Path> path(v);
 for (int i=0; i<v; ++i)
 {
     int a, b, c;
     cin >> a >> b >> c;
-    vertex[a].push_back(b);
-    vertex[b].push_back(a);
     path[i] = {a, b, c};
 }
 
@@ -464,7 +524,57 @@ for (int i=0; i<v; ++i)
 ```
 Kosaraju Algorithm for strongly connected graph: Apply DFS to all unvisited nodes. As the node get's exit put it in a stack. Then find transpose of graph, transpose simply means reverse the graph arrows. Apply DFS again to the stack as per new visited set. DFS on nodes from stack.
 
-Shortest Path finding - BFS, Dijikstra (N square), A Star. Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
+Shortest Path finding - BFS, Dijikstra O((E+V)logV) - if adjancey list otherwise O(V^2 + ElogV), A Star, Bellman Ford Algorithm. Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
+
+```c++
+// Dijikstra algorithm using Adjancey list in O((E+V)logV) i.e O(ElogV) in worst case
+// Dijikstra doesn't work with negative edges
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n, e, x, y, z;
+    cin >> n >> e;
+    vector< pair<int, int> > adj[n];
+    for (int i = 0; i < e; ++i)
+    {
+        cin >> x >> y >> z;
+        adj[x].push_back({y, z});
+        adj[y].push_back({x, z});
+    }
+
+    bool visited[n];
+    memset(visited, false, sizeof(visited));
+    int shortest_path[n];
+    shortest_path[0] = 0;
+    for (int i = 1; i < n; ++i) shortest_path[i] = INT_MAX;
+
+    struct qNode {int key, level, dist;};
+    queue<qNode> q;
+    q.push({0, 0, 0});
+    while(!q.empty())
+    {
+        int cur_level = q.front().level;
+        while(!q.empty() && q.front().level == cur_level)
+        {
+            auto cur = q.front();
+            visited[cur.key] = true;
+            q.pop();
+            shortest_path[cur.key] = min(shortest_path[cur.key], cur.dist);
+            for (auto x : adj[cur.key])
+            {
+                if (visited[x.first]) continue;
+                q.push({x.first, cur.level + 1, cur.dist + x.second});
+            }
+        }
+    }
+    for (auto i : shortest_path) cout << i << " ";
+    cout << endl;
+    return 0;
+}
+// In A star algorithm we use h value which can be heuristic value like eucledian distance and minimize sum of h and normal distance
+```
 
 ## Questions(42):
 1) 2 Sum: https://www.interviewbit.com/problems/2-sum/
@@ -1141,7 +1251,8 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
     - Best Time to Buy and Sell Stock II: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
     - Best Time to Buy and Sell Stock III: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
 11) House Robber: https://leetcode.com/problems/house-robber/
-    - House Robber II: https://leetcode.com/problems/house-robber-ii/<br>
+    - House Robber II: https://leetcode.com/problems/house-robber-ii/
+12) Multiple Pattern Matching: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/<br>
 ----INCOMPLETE------
 
 # Puzzles:
@@ -1161,10 +1272,3 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 4) Read n characters given read4 (Asked in Google)
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4.html
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html
-
-# Experiences (Microsoft):
-- https://www.geeksforgeeks.org/microsoft-interview-experience-set-180-on-campus/
-- https://www.geeksforgeeks.org/microsoft-interview-experience-set-179-on-campus/
-- https://www.geeksforgeeks.org/microsoft-interview-experience-set-176-on-campus/
-- https://www.geeksforgeeks.org/microsoft-interview-experience-set-175-on-campus/
-- https://www.geeksforgeeks.org/microsoft-interview-experience-set-173-on-campus/

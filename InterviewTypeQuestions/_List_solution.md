@@ -328,26 +328,25 @@ int Solution::sqrt(int A)
 /*
 It is pretty simple, middle se dekhe toh humeshaa yahi hoga rotated array me yaato left sorted milega ya right It's like shifting the graph with positive slope along x axis.
 */
-int search2(const vector<int> &arr, int l, int r, int x)
-{
-    if (l > r) return -1;
-    int mid = l + (r-l)/2;
-    if (arr[mid] == x) return mid;
-    if (arr[l] <= arr[mid])
-    {
-        if (arr[l] <= x && arr[mid] >= x) return search2(arr, l, mid-1, x);
-        else return search2(arr, mid+1, r, x);
-    }
-    else if (arr[mid] <= arr[r])
-    {
-        if (arr[mid] <= x && arr[r] >= x) return search2(arr, mid+1, r, x);
-        else return search2(arr, l, mid-1, x);
-    }
-}
 int Solution::search(const vector<int> &A, int B)
 {
-    int i = search2(A, 0, A.size()-1, B);
-    return i;
+    int l = 0, r = A.size()-1;
+    while (l <= r)
+    {
+        int mid = l + (r-l)/2;
+        if (A[mid] == B) return mid;
+        if (A[l] <= A[mid])
+        {
+            if(A[l] <= B && A[mid] >= B) r = mid-1;
+            else l = mid+1;
+        }
+        else if (A[mid] <= A[r])
+        {
+            if (A[mid] <= B && A[r] >= B) l = mid+1;
+            else r = mid-1;
+        }
+    }
+    return -1;
 }
 ```
 
@@ -376,25 +375,21 @@ l = 5, r = 5    = ans 5
 */
 int Solution::findMedian(vector<vector<int> > &A)
 {
-    int n = A.size(), m = A[0].size();
-    int count = (n*m + 1)/2;
     int l = INT_MAX, r = INT_MIN;
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < m; ++j)
-            l = min(l, A[i][j]), r = max(r, A[i][j]);
-
+    for (auto x : A)
+        for (int i : x)
+            l = min(l, i), r = max(r, i);
     while (l < r)
     {
         int mid = l + (r-l)/2;
-        int cur = 0;
-        for (int i = 0; i < n; ++i)
-            cur += upper_bound(A[i].begin(), A[i].end(), mid) - A[i].begin();
-
-        if (cur < count) l = mid+1;
+        int places = 0;
+        for (auto x : A) places += upper_bound(x.begin(), x.end(), mid) - x.begin();
+        if (places < ((A.size()*A[0].size())+1)/2) l = mid+1;
         else r = mid;
     }
     return l;
 }
+
 /*
 Suppose there's a very big array which cannot be stored as one but only as 100 different arrays in sorted order each. find the median of it as one collective array. The answer is to treat it like a matrix and then simply do it.
 */
@@ -404,16 +399,15 @@ Suppose there's a very big array which cannot be stored as one but only as 100 d
 ```c++
 double solve(const vector<int> &A, const vector<int> &B, int l, int r, int count)
 {
-    double ans = -1;
-    while (l <= r)
+    while (l < r)
     {
         int mid = l + (r-l)/2;
-        int c = (upper_bound(A.begin(), A.end(), mid) - A.begin()) +
+        int c = (upper_bound(A.begin(), A.end(), mid) - A.begin()) + 
             (upper_bound(B.begin(), B.end(), mid) - B.begin());
-        if (c > count) ans = mid, r = mid-1;
+        if (c > count) r = mid;
         else l = mid+1;
     }
-    return ans;
+    return l;
 }
 
 double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B)
@@ -423,7 +417,7 @@ double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> 
     else if (n == 0) l = B[0], r = B[m-1];
     else l = min(A[0], B[0]), r = max(A[n-1], B[m-1]);
 
-    if ((n+m) % 2 == 1) return solve(A, B, l, r, (n+m)/2);
+    if ((n+m)&1) return solve(A, B, l, r, (n+m)/2);
     else return (solve(A, B, l, r, (n+m)/2 - 1) + solve(A, B, l, r, (n+m)/2))/(double)2;
 }
 ```
@@ -505,28 +499,54 @@ low    mid   high
 apply binary search on low and mid
 */
 #define ll long long
-bool isPossible(const vector<int> &arr, ll n, ll val)
+bool isPossible(int painters, vector<int> &boards, int val)
 {
-    ll i = 0, sum = val, count = 1;
-    while (i < arr.size())
+    ll count = 1, sum = val, i = 0;
+    while (i < boards.size())
     {
-        if (sum - arr[i] < 0) sum = val, count++;
-        else sum -= arr[i++];
-        if (count > n) return false;
+        if (sum - boards[i] < 0) sum = val, count++;
+        else sum -= boards[i++];
+        if (count > painters) return false;
     }
     return true;
 }
+
 int Solution::paint(int A, int B, vector<int> &C)
 {
     ll l = 0, r = accumulate(C.begin(), C.end(), 0);
-    ll ans = INT_MAX;
-    while (l <= r)
+    while (l < r)
     {
-        ll mid = l + (r-l)/2;
-        if (isPossible(C, A, mid)) r = mid - 1, ans = min(ans, mid);
-        else l = mid + 1;
+        int mid = l + (r-l)/2;
+        if (isPossible(A, C, mid)) r = mid;
+        else l = mid+1;
     }
     return (l * B) % 10000003;
+}
+
+// Painter Partition
+bool isPossible(vector<int> &A, int B, int mid)
+{
+    int i = 0, sum = mid, count = 1;
+    while (i < A.size())
+    {
+        if (sum - A[i] < 0) sum = mid, count++;
+        else sum -= A[i++];
+        if (count > B) return false;
+    }
+    return true;
+}
+
+int Solution::books(vector<int> &A, int B)
+{
+    if (A.size() < B) return -1;
+    int l = 0, r = accumulate(A.begin(), A.end(), 0);
+    while (l < r)
+    {
+        int mid = l + (r-l)/2;
+        if (isPossible(A, B, mid)) r = mid;
+        else l = mid+1;
+    }
+    return l;
 }
 ```
 
@@ -1554,7 +1574,7 @@ int Solution::largestRectangleArea(vector<int> &A)
 {
     stack<int> st;
     int ans = 0;
-    A.push_back(-1);    //To avoid single bar in histogram wala case
+    A.push_back(-1);
     for (int i = 0; i < A.size(); ++i)
     {
         while (!st.empty() && A[i] <= A[st.top()])

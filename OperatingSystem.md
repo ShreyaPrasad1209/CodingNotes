@@ -136,3 +136,13 @@ Disadvantage: Here process with the smaller priority may starve for the CPU, No 
 Advantage: Perform best in terms of average response time, Works will in case of time sharing system, client server architecture and interactive system, kind of Shortest job implementation
 
 Disadvantage: Longer process may starve, performance depends heavily on time quantum, no idea of priority.
+
+## Deadlocks
+- In a multiprogramming system a number of procers compete for limited number of resources and if a resource is not available at that instance then process enters into waiting state.
+- If a process is unable to change its waiting state indefinitely because the resource requested by it are held by another waiting process then it system is said to be in deadlock
+
+Process resource ko request karta he then usse hold karta he and in the end release karta he. This is system model
+
+Deadlock lagta kyu he?
+- Mutual exclusion: At least one resource type in the system which can be used in non-sharable mode i.e. mutual exclusion (one at a time/one by one) eg. Printer
+- Hold & Wait: A process is currently holding at least one resource and requesting additional

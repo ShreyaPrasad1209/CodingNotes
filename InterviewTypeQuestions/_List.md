@@ -259,6 +259,8 @@ public:
 
 26) Fraction to Recurring Decimal: https://leetcode.com/problems/fraction-to-recurring-decimal/
 
+[Advance]<br>
+Square Root Decomposition https://www.geeksforgeeks.org/sqrt-square-root-decomposition-technique-set-1-introduction/
 
 # Level 2 (String, Linked List, Stacks, Queues, Heap, Map):
 ## Theory:
@@ -524,7 +526,7 @@ for (int i=0; i<v; ++i)
 ```
 Kosaraju Algorithm for strongly connected graph: Apply DFS to all unvisited nodes. As the node get's exit put it in a stack. Then find transpose of graph, transpose simply means reverse the graph arrows. Apply DFS again to the stack as per new visited set. DFS on nodes from stack.
 
-Shortest Path finding - BFS, Dijikstra O((E+V)logV) - if adjancey list otherwise O(V^2 + ElogV), A Star, Bellman Ford Algorithm. Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
+Shortest Path finding - BFS, Dijikstra O((E+V)logV) - if adjancey list otherwise O(V^2), A Star, Bellman Ford Algorithm (https://www.youtube.com/watch?v=FtN3BYH2Zes). Floyd Warshall Algorithm (https://www.youtube.com/watch?v=oNI0rf2P9gE)
 
 ```c++
 // Dijikstra algorithm using Adjancey list in O((E+V)logV) i.e O(ElogV) in worst case
@@ -572,8 +574,146 @@ int main()
     for (auto i : shortest_path) cout << i << " ";
     cout << endl;
     return 0;
+    /*
+    INPUT:
+    9 14
+    0 1 4
+    0 7 8
+    1 7 11
+    7 8 7
+    7 6 1
+    6 8 6
+    8 2 2
+    1 2 8
+    6 5 2
+    2 5 4
+    2 3 7
+    3 5 14
+    3 4 9
+    4 5 10
+    */
 }
 // In A star algorithm we use h value which can be heuristic value like eucledian distance and minimize sum of h and normal distance
+
+// Dijikstra doesn not work in negative edges, greedy approach he wo so use bellman ford algorithm it's a DP approach and works in O(VE)
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n, e, x, y, z;
+    cin >> n >> e;
+    struct weighted_edge{int x, y, weight;};
+    weighted_edge edges[e];
+    for (int i = 0; i < e; ++i)
+    {
+        cin >> x >> y >> z;
+        edges[i] = {x, y, z};
+    }
+
+    bool visited[n];
+    memset(visited, false, sizeof(visited));
+    int shortest_path[n];
+    shortest_path[0] = 0;
+    for (int i = 1; i < n; ++i) shortest_path[i] = INT_MAX;
+
+    // Relax Vertices-1 times
+    for (int i = 0; i < n-1; ++i)
+    {
+        for (auto edge : edges)
+        {
+            if (shortest_path[edge.x] != INT_MAX)
+                shortest_path[edge.y] = min(shortest_path[edge.y], shortest_path[edge.x] + edge.weight);
+        }
+    }
+
+    //Check for negative weight cycle, that won't work here
+    for (auto edge : edges)
+    {
+        if (shortest_path[edge.x] != INT_MAX && shortest_path[edge.x] + edge.weight < shortest_path[edge.y])
+        {
+            cout << "-1" << endl;
+            return 0;
+        }
+    }
+
+    for (auto i : shortest_path) cout << i << " ";
+    cout << endl;
+    return 0;
+    /*
+    INPUT:
+    5 8
+    0 1 -1
+    0 2 4
+    1 2 3
+    3 2 5
+    3 1 1
+    1 3 2
+    1 4 2
+    4 3 -3
+    */
+}
+
+//Floyd Warshall O(N^3): All pair shortest path DP
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n, e, x, y, z;
+    cin >> n >> e;
+    vector< pair<int, int> > adj[n];
+    int dp[n][n];
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+            dp[i][j] = INT_MAX;
+
+    for (int i = 0; i < n; ++i) dp[i][i] = 0;
+    for (int i = 0; i < e; ++i)
+    {
+        cin >> x >> y >> z;
+        adj[x].push_back({y, z});
+        dp[x][y] = z;
+    }
+
+    for (int k = 0; k < n; ++k)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            if (i == k) continue;
+            for (int j = 0; j < n; ++j)
+            {
+                if (j == k || i == j) continue;
+                if (dp[i][k] != INT_MAX && dp[k][j] != INT_MAX)
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]);
+            }
+        }
+    }
+
+    cout << setw(3);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            if (dp[i][j] == INT_MAX) cout << "IN" << setw(3);
+            else cout << dp[i][j] << setw(3);
+        }
+        cout << endl;
+    }
+    cout << endl;
+    return 0;
+    /*
+    INPUT:
+    4 7
+    0 1 3
+    1 0 8
+    1 2 2
+    2 0 5
+    2 3 1
+    3 0 2
+    0 3 7
+    */
+}
 ```
 
 ## Questions(42):
@@ -603,7 +743,7 @@ int main()
 19) 2 Sum Binary Tree: https://www.interviewbit.com/problems/2sum-binary-tree/
 20) Max Depth of binary tree: https://www.interviewbit.com/problems/max-depth-of-binary-tree
     - Min Depth of binary tree: https://www.interviewbit.com/problems/min-depth-of-binary-tree/
-21) Least Common Ancestor: https://www.interviewbit.com/problems/least-common-ancestor/
+21) Least Common Ancestor (LCA): https://www.interviewbit.com/problems/least-common-ancestor/
 22) Flatten Binary Tree to Linked List: https://www.interviewbit.com/problems/flatten-binary-tree-to-linked-list/
 23) BST Iterator: https://www.interviewbit.com/problems/bst-iterator/
 24) Recover Binary Search Tree: https://www.interviewbit.com/problems/recover-binary-search-tree/
@@ -619,6 +759,12 @@ int main()
 31) Black Shapes: https://www.interviewbit.com/problems/black-shapes/
 32) https://www.geeksforgeeks.org/find-maximum-path-sum-in-a-binary-tree/
 33) https://www.geeksforgeeks.org/minimum-number-of-given-operations-required-to-make-two-strings-equal/
+
+> A^K Power Of an adjancey matrix, means number of walks of length k between i & j
+
+> Walk: A walk is defined as a finite alternating sequence of vertices and edges, beginning and ending with vertices such that each edge is incident with the vertices preceding and following it. No edge appear more than one in a walk, a vertex however may appear more than once. When a walk begins and ends at same vertex it is closed walk.
+
+> Path: An open walk in which no vertex appears more than once is called a path.
 
 # Level 4 (Backtracking & Dynamic Programming):
 ## Theory(DP):
@@ -934,7 +1080,7 @@ bool isSubsetSum(ull n, ull arr[], ull sum)
     return isSubsetSum(n-1, arr, sum) || isSubsetSum(n-1, arr, sum-arr[n-1]);
 }
 ```
-<br>![](res/subsetsum.png)<br>
+<br>![](../res/subsetsum.png)<br>
 ```c++
 bool isSubsetSum(int n, int arr[], int sum)
 {
@@ -1041,16 +1187,35 @@ int main()
 
 13) **Egg Dropping Puzzle:**<br>
 Suppose that we need to find from how tall we can drop an egg from a building. We can reuse an egg if it survives the fall. We need to find worst number of steps it will take us to find that. So for only 1 egg we should start from 1st floor going up it will take n steps in worst.
-```
+```c++
+/*
                   (floors)
-            0   1   2   3   4   5   6
+            0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
 (eggs)    0
-          1     1   2   3   4   5   6
-          2     1   2   2   3   3   3
-
-dp[2, 2] means if we try to fall it from 1st floor if it works then 1 is ans otherwise we have 1 egg left and 1 floor to check so 1+dp[1, 1] we need to make max of both so 2. If we try to fall it from 2nd floor if it works then 1 is ans otherwise we have 1 egg left and 1 floor to check like before.
-
-dp[2, 3] means if we drop from 1 then max(1, 3). drop from 2 means max(1+1, 1+1) if it breaks then still we need to check for smaller floor which is 1 if it breaks there. Drop from 3 means max(1+2, 1). Minimum of all three [3, 2, 3] is 2
+          1     1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+          2     1   2   2   3   3   3   4   4   4   4   5   5   5   5   5
+          3     1   2   2   3   3   3   3   4   4   4   4   4   4   4   5
+*/
+int n, e;
+cin >> n >> e;
+int dp[e+1][n+1];
+for (int i = 0; i <= e; ++i) dp[i][0] = 0;
+for (int i = 0; i <= n; ++i) dp[0][i] = 0;
+for (int i = 1; i <= n; ++i) dp[1][i] = i;
+for (int i = 2; i <= e; ++i)
+{
+    for (int j = 1; j <= n; ++j)
+    {
+        dp[i][j] = INT_MAX;
+        //saare pechle floors pe fek ke dekho
+        for (int x = j; x >= 1; --x)
+            dp[i][j] = min(dp[i][j], 1 + max(dp[i-1][x-1], dp[i][j-x]));
+            //kisi ek instance pe se fekaa toh yaa toh egg tutega yaa nahi tutega
+            //tutega toh we have i-1 eggs left and x-1 floors to check (usse neece wale check karenge)
+            //nahi tuta toh we still have i eggs, now we will check for floors higher than x so we have j-x floors
+    }
+}
+cout << dp[e][n] << endl;
 ```
 
 14) **Matrix Chain Multiplication:**<br>
@@ -1081,7 +1246,7 @@ To find max such rectangle we will create histogram for each column and then kee
 So ans is 8
 In case of colmns are more then rows then we can sweep in column fashion instead of row so that space complexity reduces
 ```
-![](res/maxsubsqr.png)
+![](../res/maxsubsqr.png)
 ```
 Maximum Subsquare with sides X in matrix it doesn't matter what's filled inside the square
 
@@ -1126,10 +1291,6 @@ Given an array two players play optimally and pick from either side to maximize 
 2               (9, 0)      (9, 1)      (10, 1)
 3                           (1, 0)      (2, 1)
 4                                       (2, 0)
-
-Fill diagonals first
-dp[i][j].first = max(dp[i+1][j].second + val[i], dp[i][j-1].second + val[j])
-dp[i][j].second = max(dp[i+1][j].first + val[i], dp[i][j-1].first + val[j])
 ```
 
 19) **Text Justification: OPTIMIZATION PROBLEM**<br>
@@ -1195,7 +1356,7 @@ we will use bitmask to make it efficient. 000001 means out of all 6 cities 1st i
 using namespace std;
 
 int n = 4;
-int dist[10][10] =
+int dist[4][4] =
 {
     { 0,  20, 42, 25},
     { 20,  0, 30, 34},

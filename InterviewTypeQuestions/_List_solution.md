@@ -2366,12 +2366,12 @@ vector<int> Solution::solve(int A, vector<int> &B)
                 break;
             }
         }
-        if (j == B.size()) break;
         ans[i] = j;
         ++i;
     }
     return ans;
 }
+// DP+BFS solution also exists
 ```
 
 ## 16. Identical Binary Tree
@@ -2483,7 +2483,7 @@ int Solution::t2Sum(TreeNode* A, int B)
 }
 ```
 
-## 21. Least Common Ancestor
+## 21. Least Common Ancestor (LCA)
 ```c++
 bool find(TreeNode* root, int val)
 {

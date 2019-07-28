@@ -2,6 +2,8 @@
 
 ## Theory:
 Insertion Sort, Stable sort is the sort which keeps the relative ordering of equal elements bubble insertion are stable selection sort is unstable, Merge Sort, Merge Sort (Inplace) It degrades time to N square, Inversion count using merge sort, duplicate value problems in bit manipulation (one variation: https://www.geeksforgeeks.org/find-the-element-that-appears-once-in-a-sorted-array/)
+
+1 1 2 2 3 = logN
 ```c++
 int l = 0, r = n-1;
 while (l < r)
@@ -77,7 +79,7 @@ while(xors > 0)
 {
     if (xors&1) break;
     ++temp;
-    xors >>= 1;
+    xors = xors&(xors-1);
 }
 int mask = 1<<temp;
 
@@ -187,7 +189,7 @@ while (t--)
     cout << result << endl;
 }
 ```
-Difference Array
+Difference Array, Square Root Decomposition
 
 Ternary Search is also there which is same as binary search except instead of dividing in 2 parts we divide it in 3 parts.
 
@@ -291,6 +293,80 @@ while (!addit.empty()) st.push(addit.pop());
 
 // This above one is O(N square)
 // If we had infinite stacks then we could have used merge sort tab O(logN) hota complexity
+```
+
+```c++
+// GCD OF Strings https://leetcode.com/problems/greatest-common-divisor-of-strings/
+class Solution {
+public:
+    string gcdOfStrings(const string& s1, const string& s2)
+    {
+        return (s1 + s2 == s2 + s1) ? s1.substr(0, __gcd(s1.size(), s2.size())) : "";
+    }
+};
+```
+
+```c++
+// Given 4 coordinates x1, y1, x2, y2 of rectangle bottom left and top right and x3, y3... for other rec. Find if it intersect
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        int x1 = rec1[0], y1 = rec1[1], x2 = rec1[2], y2 = rec1[3];
+        int x3 = rec2[0], y3 = rec2[1], x4 = rec2[2], y4 = rec2[3];
+        return (min(x2, x4) > max(x3, x1)) && (min(y2, y4) > max(y3, y1));
+    }
+};
+```
+https://leetcode.com/problems/partition-labels/<br>
+https://leetcode.com/problems/custom-sort-string/
+```c++
+class Solution {
+public:
+    string customSortString(string S, string T) {
+        sort(T.begin(), T.end(), [&](char a, char b)
+             { return S.find(a) < S.find(b); });
+        return T;
+    }
+};
+```
+String find implementation (Pattern Matching)
+```c++
+// Brute force O(MN)
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        for (int i = 0; ; ++i)
+        {
+            for (int j = 0; ; ++j)
+            {
+                if (j == needle.size()) return i;
+                if (i + j == haystack.size()) return -1;
+                if (needle[j] != haystack[i+j]) break;
+            }
+        }
+    }
+};
+// https://www.youtube.com/watch?v=qQ8vS2btsxI      Rabin Karp
+// https://www.youtube.com/watch?v=V5-7GzOfADQ      KMP
+```
+
+```c++
+// Number is palindrome check
+bool isPalindrome(int x)
+{
+    if(x < 0) return false;
+    int div = 1;
+    while(x / div >= 10) div *= 10;
+    while(x != 0)
+    {
+        int l = x / div;
+        int r = x % 10;
+        if (l != r) return false;
+        x = (x % div) / 10;
+        div /= 100;
+    }
+    return true;
+}
 ```
 
 ## Questions(35):
@@ -1048,9 +1124,33 @@ Also in a different array maintain every time if it's possible to stack at i the
 */
 ```
 
-9) **Longest Palindromic Subsequence:**<br>
+9) **Longest Palindrom Partition & Longest Palindromic Subsequence:**<br>
 https://www.youtube.com/watch?v=lDYIvtBVmgo<br>
 https://www.youtube.com/watch?v=_nCsPn7_OgI
+
+```c++
+// Longest Palindromic Substring
+// O(N square) with O(N) space
+class Solution {
+public:
+    string longestPalindrome(string s)
+    {
+        if (s.size() <= 1) return s;
+        int L = 0, R = 0;
+        for (int i = 0; i < s.size(); ++i)
+        {
+            int len = max(expandAroundCenter(s, i, i), expandAroundCenter(s, i, i+1));
+            if (len > R-L) L = i - (len-1)/2, R = i + len/2;
+        }
+        return s.substr(L, R-L+1);
+    }
+    int expandAroundCenter(string s, int L, int R)
+    {
+        while (L >= 0 && R < s.size() && s[L] == s[R]) L--, R++;
+        return R - L - 1;
+    }
+};
+```
 
 ```
 https://www.geeksforgeeks.org/minimum-insertions-to-form-a-palindrome-dp-28/
@@ -1343,6 +1443,31 @@ We get this dp by moving i & j (j<i) if it's possible to do both jobs then do it
 * means any string of length 0 or more can come in between ?/. means only one character can come
 pattern: x?y*z          string to match: xaylmz
 ```
+```c++
+//https://leetcode.com/problems/regular-expression-matching
+class Solution {
+public:
+    bool isMatch(string s, string p)
+    {
+        int m = s.size(), n = p.size();
+        vector< vector<bool> > dp(m+1, vector<bool>(m+1, false));
+        dp[0][0] = true;
+        for (int i = 1; i <= m; ++i) dp[i][0] = false;
+        for (int j = 1; j <= n; ++j) dp[0][j] = (j > 1 && p[j-1] == '*' && dp[0][j-2]);
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (p[j-1] != '*')
+                    dp[i][j] = (dp[i-1][j-1] && (s[i-1] == p[j-1] || p[j-1] == '.'));
+                else
+                    dp[i][j] = (dp[i][j-2] || ((s[i-1] == p[j-2] || p[j-2] == '.') && dp[i-1][j]));
+            }
+        }
+        return dp[m][n];
+    }
+};
+```
 ![](res/Screenshot&#32;from&#32;2019-04-01&#32;22-03-09.png)<br>
 https://www.youtube.com/watch?v=3ZDZ-N0EPV0
 
@@ -1413,7 +1538,6 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
     - Best Time to Buy and Sell Stock III: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
 11) House Robber: https://leetcode.com/problems/house-robber/
     - House Robber II: https://leetcode.com/problems/house-robber-ii/
-12) Multiple Pattern Matching: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/<br>
 ----INCOMPLETE------
 
 # Puzzles:
@@ -1433,3 +1557,68 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 4) Read n characters given read4 (Asked in Google)
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4.html
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html
+
+
+```
+https://leetcode.com/problems/trips-and-users/submissions/
+
+SELECT request_at AS Day, ROUND(SUM(t.Status != "completed") / COUNT(*), 2) as "Cancellation Rate"
+FROM Trips t
+JOIN Users c ON t.Client_ID = c.Users_ID AND c.Banned = "NO"
+JOIN Users d ON t.Driver_ID = d.Users_ID AND d.Banned = "NO"
+WHERE Request_at BETWEEN "2013-10-01" AND "2013-10-03" GROUP BY Request_at;
+```
+
+```c++
+// SEGMENT TREE
+#include <bits/stdc++.h>
+using namespace std;
+
+int tree[900000];
+void buildTree(int arr[], int start, int end, int node = 1)
+{
+    if (start == end)
+    {
+        tree[node] = arr[end];
+        return;
+    }
+    int mid = (start + end) >> 1;
+    buildTree(arr, start, mid, node*2);
+    buildTree(arr, mid+1, end, node*2 + 1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+int queryTree(int start, int end, int l, int r, int node = 1)
+{
+    if (start > end || start > r || end < l) return 0; //No Overlap
+    if (start >= l && end <= r) return tree[node]; //Complete Overlap
+    //Partial Overlap
+    int mid = (start + end) >> 1;
+    int q1 = queryTree(start, mid, l, r, node*2);
+    int q2 = queryTree(mid+1, end, l, r, node*2 + 1);
+    return q1 + q2;
+}
+void updateTree(int start, int end, int i, int val, int node = 1)
+{
+    if (start > end || start > i || end < i) return; //No Overlap
+    if (start == end) //Complete Overlap
+    {
+        tree[node] = val;
+        return;
+    }
+    //Partial Overlap
+    int mid = (start + end) >> 1;
+    updateTree(start, mid, i, val, node*2);
+    updateTree(mid+1, end, i, val, node*2 + 1);
+    tree[node] = tree[node*2] + tree[node*2 + 1];
+}
+int main()
+{
+    int arr[] = {1, 3, 5, 7, 9, 11};
+    int n = sizeof(arr) / sizeof(int);
+    buildTree(arr, 0, n-1);
+    cout << queryTree(0, n-1, 2, 4) << endl;    //21
+    updateTree(0, n-1, 3, 19);
+    cout << queryTree(0, n-1, 2, 4) << endl;    //33
+    return 0;
+}
+```

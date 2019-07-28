@@ -313,11 +313,12 @@ int Solution::sqrt(int A)
     if (A == 0) return 0;
     if (A == 1 || A == 2 || A == 3) return 1;
     int l = 0, r = A, ans = -1;
+
     while (l < r)
     {
         int mid = l + (r-l)/2;
         if (mid <= A/mid) l = mid+1, ans = mid;
-        else ans = mid-1;
+        else r = mid;
     }
     return ans;
 }
@@ -394,7 +395,6 @@ int Solution::findMedian(vector<vector<int> > &A)
 Suppose there's a very big array which cannot be stored as one but only as 100 different arrays in sorted order each. find the median of it as one collective array. The answer is to treat it like a matrix and then simply do it.
 */
 ```
-
 ## 14. Median Of an Array
 ```c++
 double solve(const vector<int> &A, const vector<int> &B, int l, int r, int count)
@@ -402,7 +402,7 @@ double solve(const vector<int> &A, const vector<int> &B, int l, int r, int count
     while (l < r)
     {
         int mid = l + (r-l)/2;
-        int c = (upper_bound(A.begin(), A.end(), mid) - A.begin()) + 
+        int c = (upper_bound(A.begin(), A.end(), mid) - A.begin()) +
             (upper_bound(B.begin(), B.end(), mid) - B.begin());
         if (c > count) r = mid;
         else l = mid+1;
@@ -523,7 +523,7 @@ int Solution::paint(int A, int B, vector<int> &C)
     return (l * B) % 10000003;
 }
 
-// Painter Partition
+// Book Allocation
 bool isPossible(vector<int> &A, int B, int mid)
 {
     int i = 0, sum = mid, count = 1;
@@ -1177,31 +1177,33 @@ while (cur != NULL)
 // If reverse is clear, K reverse isn't difficult just one thing to mug up. Always create first k element reverse then rest in while loop because the first will give new head
 ListNode* Solution::reverseList(ListNode* A, int B)
 {
-    ListNode *cur = A, *next = NULL, *prev = NULL, *tempHead = A;
-    for (int i = 0; i < B; ++i)
+    if (!head || !(head->next)) return head;
+    ListNode *cur = head, *next = NULL, *prev = NULL, *tempHead = head;
+    for (int i = 0; i < 2; ++i)
     {
         next = cur->next;
         cur->next = prev;
         prev = cur;
         cur = next;
     }
-    ListNode *head = prev;
+    ListNode *newHead = prev;
     prev = NULL;
     while (cur)
     {
         ListNode *temp = cur;
-        for (int i = 0; i < B; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             next = cur->next;
             cur->next = prev;
             prev = cur;
             cur = next;
+            if (!cur) break;
         }
         tempHead->next = prev;
         tempHead = temp;
     }
     if (tempHead) tempHead->next = NULL;
-    return head;
+    return newHead;
 }
 
 // Reverse within a range
@@ -2921,6 +2923,38 @@ vector<string> Solution::letterCombinations(string A)
     backtrack(A, res);
     return res;
 }
+```
+
+```c++
+//BFS Approach
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        string keypad[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        queue< tuple<char, int, string> > q;
+        vector<string> res;
+        if (digits.size() == 0) return res;
+        for (char ch : keypad[digits[0] - '0'])
+            q.push({ch, 0, string(1, ch)});
+        while (!q.empty())
+        {
+            int cur_level = get<1>(q.front());
+            while (get<1>(q.front()) == cur_level)
+            {
+                auto cur = q.front();
+                q.pop();
+                if (cur_level+1 == digits.size())
+                {
+                    res.push_back(get<2>(cur));
+                    continue;
+                }
+                for (char ch : keypad[digits[cur_level+1] - '0'])
+                    q.push({ch, cur_level+1, get<2>(cur) + ch});
+            }
+        }
+        return res;
+    }
+};
 ```
 
 ## 4. Palindrome Partitioning

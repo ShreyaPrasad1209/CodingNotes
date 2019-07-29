@@ -1538,6 +1538,8 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
     - Best Time to Buy and Sell Stock III: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
 11) House Robber: https://leetcode.com/problems/house-robber/
     - House Robber II: https://leetcode.com/problems/house-robber-ii/
+12) Martian: https://www.spoj.com/problems/MARTIAN/
+    - https://www.youtube.com/watch?v=8fh8biqquUU
 ----INCOMPLETE------
 
 # Puzzles:

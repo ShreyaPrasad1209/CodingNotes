@@ -3232,7 +3232,7 @@ public:
 };
 ```
 
-# 11. House Robber
+## 11. House Robber
 ```c++
 class Solution {
 public:
@@ -3260,4 +3260,56 @@ public:
         return max(dp2[1], dp1[nums.size()-2]);
     }
 };
+```
+
+## 12. Martian
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+pair<ll, ll> p[501][501];
+ll dp[504][504];
+
+ll martian(ll i, ll j)
+{
+    if (dp[i][j] != -1) return dp[i][j];
+    if ((i == 0 && j != 0) || (i != 0 && j == 0)) return 0;
+    if (i == 1 && j == 1) return max(p[i-1][j-1].first, p[i-1][j-1].second);
+    ll sum1 = 0, sum2 = 0;
+    for (ll x = j-1; x >= 0; --x) sum1 += p[i-1][x].first;
+    for (ll x = i-1; x >= 0; --x) sum2 += p[x][j-1].second;
+    return dp[i][j] = max(martian(i-1, j) + sum1, martian(i, j-1) + sum2);
+}
+
+int main()
+{
+    ll n, m;
+    cin >> n >> m;
+    while (n != 0 && m != 0)
+    {
+        memset(dp, -1, sizeof(dp));
+        for (ll i = 0; i < n; ++i)
+        {
+            for (ll j = 0; j < m; ++j)
+            {
+                ll x;
+                cin >> x;
+                p[i][j].first = x;
+            }
+        }
+        for (ll i = 0; i < n; ++i)
+        {
+            for (ll j = 0; j < m; ++j)
+            {
+                ll x;
+                cin >> x;
+                p[i][j].second = x;
+            }
+        }
+        cout << martian(n, m) << endl;
+        cin >> n >> m;
+    }
+    return 0;
+}
 ```

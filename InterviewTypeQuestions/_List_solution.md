@@ -433,33 +433,23 @@ https://www.nayuki.io/page/next-lexicographical-permutation-algorithm<br>
 3 <b>1</b> <u>2</u><br>
 3 <b>2</b> <u>1</u><br>
 ```c++
-void Solution::nextPermutation(vector<int> &A)
-{
-    int i;
-    for (i = A.size()-1; i > 0; --i)
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums)
     {
-        if (A[i] > A[i-1])
-            break;
+        int i = nums.size()-1;
+        while (i > 0 && nums[i-1] >= nums[i]) i--;
+        if (i > 0)
+        {
+            int j = nums.size()-1;
+            while (nums[j] <= nums[i-1]) j--;
+            int temp = nums[i-1];
+            nums[i-1] = nums[j];
+            nums[j] = temp;
+        }
+        reverse(nums.begin() + i, nums.end());
     }
-    if (i == 0)
-    {
-        sort(A.begin(), A.end());
-        return;
-    }
-    int small = i-1;
-    int big = i;
-    int temp = big;
-    for (i = A.size()-1; i > big; --i)
-    {
-        if (A[i] > A[small] && A[i] < A[temp])
-            temp = i;
-    }
-    int t = A[temp];
-    A[temp] = A[small];
-    A[small] = t;
-    small++;
-    sort(A.begin()+small, A.end());
-}
+};
 ```
 
 ## 16. Painter's Partition Problem
@@ -827,6 +817,33 @@ int main()
     }
     return 0;
 }
+
+// O(1) space solution using 2 pointer
+class Solution {
+public:
+    int trap(vector<int>& height)
+    {
+        int left = 0, right = height.size() - 1;
+        int ans = 0;
+        int left_max = 0, right_max = 0;
+        while (left < right)
+        {
+            if (height[left] < height[right])
+            {
+                if (height[left] >= left_max) left_max = height[left];
+                else ans += (left_max - height[left]);
+                ++left;
+            }
+            else
+            {
+                if (height[right] >= right_max) right_max = height[right];
+                else ans += (right_max - height[right]);
+                --right;
+            }
+        }
+        return ans;
+    }
+};
 ```
 
 ## 21. Max Continuous 1s
@@ -1206,6 +1223,37 @@ ListNode* Solution::reverseList(ListNode* A, int B)
     return newHead;
 }
 
+https://leetcode.com/problems/reverse-nodes-in-k-group
+class Solution
+{
+public:
+    ListNode* reverse(ListNode* first, ListNode* last)
+    {
+        ListNode* prev = last;
+        while (first != last)
+        {
+            auto tmp = first->next;
+            first->next = prev;
+            prev = first;
+            first = tmp;
+        }
+        return prev;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k)
+    {
+        auto node = head;
+        for (int i = 0; i < k; ++i)
+        {
+            if (!node) return head; //nothing to do list too sort
+            node = node->next;
+        }
+        auto new_head = reverse(head, node);
+        head->next = reverseKGroup(node, k);
+        return new_head;
+    }
+};
+
+
 // Reverse within a range
 ListNode* Solution::reverseBetween(ListNode* A, int B, int C)
 {
@@ -1465,7 +1513,7 @@ ListNode* Solution::reorderList(ListNode* A)
     return ans;
 }
 
-// Second ques
+// Second ques Linked List Random Pointer
 Node *copyList(Node *start)
 {
     Node* curr = start, *temp;
@@ -3004,7 +3052,8 @@ vector<vector<string> > Solution::partition(string A)
 ```
 
 ## 5. Generate all parantheses II
-https://www.interviewbit.com/problems/generate-all-parentheses-ii/
+https://www.interviewbit.com/problems/generate-all-parentheses-ii/<br>
+https://leetcode.com/problems/generate-parentheses/
 ```c++
 void solve(vector<string> &res, int A, string val = "", int cur = 0)
 {
@@ -3024,6 +3073,28 @@ vector<string> Solution::generateParenthesis(int A)
     reverse(res.begin(), res.end());
     return res;
 }
+
+// Other solution
+class Solution {
+public:
+    vector<string> generateParenthesis(int n)
+    {
+        vector<string> res;
+        if (n == 0) res.push_back("");
+        else
+        {
+            for (int i = 0; i < n; ++i)
+            {
+                for (string left : generateParenthesis(i))
+                {
+                    for (string right : generateParenthesis(n-i-1))
+                        res.push_back("(" + left + ")" + right);
+                }
+            }
+        }
+        return res;
+    }
+};
 ```
 
 ## 6. Kth permutation sequence (FUCKING LOVED THIS QUESTION)
@@ -3312,4 +3383,32 @@ int main()
     }
     return 0;
 }
+```
+
+## 13. Longest Valid Paranthesis
+```c++
+// O(N) with O(N) space
+class Solution {
+public:
+    int longestValidParentheses(string s)
+    {
+        int n = s.size();
+        vector<int> dp(n, 0);
+        int ans = 0;
+        for (int i = 1; i < n; ++i)
+        {
+            if (s[i] == ')')
+            {
+                // ()
+                if (s[i-1] == '(')
+                    dp[i] = (i >= 2) ? dp[i-2] + 2 : 2;
+                // ()(())   =   020026
+                else if (i-dp[i-1]-1 >= 0 && s[i-dp[i-1]-1] == '(')
+                    dp[i] = (i-dp[i-1] >= 2) ? dp[i-1] + dp[i-dp[i-1]-2] + 2 : dp[i-1] + 2;
+            }
+            ans = max(ans, dp[i]);
+        }
+        return ans;
+    }
+};
 ```

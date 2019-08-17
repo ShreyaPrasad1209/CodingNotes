@@ -212,17 +212,18 @@ in binary search: 2log<sub>2</sub>n complexity while in ternary search: 4log<sub
 9) Array Rotation Problem: https://practice.geeksforgeeks.org/problems/rotate-array-by-n-elements/0
 10) Flip: https://www.interviewbit.com/problems/flip/
 11) Square root of number: https://www.interviewbit.com/problems/square-root-of-integer/
-    - First, Last occurence of a element using binary search
+    - First, Last occurence of a element using binary search: https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 12) Rotated Sorted array search: https://www.interviewbit.com/problems/rotated-sorted-array-search/
 13) Matrix Median OR Sort 100s of sorted array without combining: https://www.interviewbit.com/problems/matrix-median/
 14) Median Of Array: https://www.interviewbit.com/problems/median-of-array/
-15) Next Permutation: https://www.interviewbit.com/problems/next-permutation/
+15) Next Permutation: https://leetcode.com/problems/next-permutation/
 16) Painter Partition Problem: https://www.interviewbit.com/problems/painters-partition-problem/
     - Allocate Book: https://www.interviewbit.com/problems/allocate-books/
 17) Min XOR Value: https://www.interviewbit.com/problems/min-xor-value/
 18) Minimize problem: https://www.interviewbit.com/problems/minimize-the-absolute-difference/
     - Count Triplets: https://practice.geeksforgeeks.org/problems/count-the-triplets/0
     - 3 Sum: https://www.interviewbit.com/problems/3-sum/
+    - 4 Sum: https://leetcode.com/problems/4sum/
     - Array 3 Pointers: https://www.interviewbit.com/problems/array-3-pointers/
     - DiffK: https://www.interviewbit.com/problems/diffk/
     - Pythagorean Triplet: https://practice.geeksforgeeks.org/problems/pythagorean-triplet/0
@@ -260,6 +261,9 @@ public:
 ```
 
 26) Fraction to Recurring Decimal: https://leetcode.com/problems/fraction-to-recurring-decimal/
+27) https://leetcode.com/problems/zigzag-conversion/submissions/
+28) https://leetcode.com/problems/integer-to-roman/
+29) https://leetcode.com/problems/roman-to-integer/
 
 [Advance]<br>
 Square Root Decomposition https://www.geeksforgeeks.org/sqrt-square-root-decomposition-technique-set-1-introduction/
@@ -274,7 +278,8 @@ Implement Google spell-corrector. What data structure will you use and how will 
 (I suggested the first trie but later on made it more efficient by using suffix array data structure. They asked me to implement all operation of suffix array).(They liked my approach).
 ```
 
-Kth from last element (simply ek loop me linked list ka size pata karlo then dusre me n-k pe chale jaao BUT WHAT ARE OTHER WAYS? say size allowed naaho toh simply k element tak jaao then ek aur pointer lo jo head pe ho now dono ko chalao jabktak null naa hojaye pehla wala dusra wala pointer is the ans)
+Kth from last element (simply ek loop me linked list ka size pata karlo then dusre me n-k pe chale jaao BUT WHAT ARE OTHER WAYS? say size allowed naaho toh simply k element tak jaao then ek aur pointer lo jo head pe ho now dono ko chalao jabktak null naa hojaye pehla wala dusra wala pointer is the ans)<br>
+https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
 Sort Stack (WAP to sort a stack such that the smallest items are on the top. You can use additional temporary stack but not array or other data structure just stack)
 ```c++
@@ -373,6 +378,7 @@ bool isPalindrome(int x)
 1) [Trie] Hotel Reviews: https://www.interviewbit.com/problems/hotel-reviews/
     - Shortest Unique Prefix: https://www.interviewbit.com/problems/shortest-unique-prefix/
 2) [Trie] Palindrome Pair in array of word: https://www.geeksforgeeks.org/palindrome-pair-in-an-array-of-words-or-strings
+    - https://leetcode.com/problems/longest-common-prefix/
 3) Longest Distinct characters in string: https://practice.geeksforgeeks.org/problems/longest-distinct-characters-in-string/0
     - Longest Substring Without Repeat: https://www.interviewbit.com/problems/longest-substring-without-repeat/
 4) Reverse linked list: https://practice.geeksforgeeks.org/problems/reverse-a-linked-list/1
@@ -790,6 +796,7 @@ int main()
     0 3 7
     */
 }
+// Floyd can have negatie edge but dijikstra can't
 ```
 
 ## Questions(42):
@@ -835,6 +842,7 @@ int main()
 31) Black Shapes: https://www.interviewbit.com/problems/black-shapes/
 32) https://www.geeksforgeeks.org/find-maximum-path-sum-in-a-binary-tree/
 33) https://www.geeksforgeeks.org/minimum-number-of-given-operations-required-to-make-two-strings-equal/
+34) https://leetcode.com/problems/merge-two-binary-trees/description/
 
 > A^K Power Of an adjancey matrix, means number of walks of length k between i & j
 
@@ -1540,7 +1548,7 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
     - House Robber II: https://leetcode.com/problems/house-robber-ii/
 12) Martian: https://www.spoj.com/problems/MARTIAN/
     - https://www.youtube.com/watch?v=8fh8biqquUU
-----INCOMPLETE------
+13) Longest Valid Paranthesis: https://leetcode.com/problems/longest-valid-parentheses
 
 # Puzzles:
 - Josephous Problem: https://www.youtube.com/watch?v=uCsD3ZGzMgE
@@ -1560,9 +1568,41 @@ https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4.html
     - https://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html
 
+```
+LCP - Longest Common Prefix array it stores how many characters two sorted adjacent suffixes have in common.
+ABABBAB:    [5, 0, 2, 6, 4, 1, 3] (suffix array) = "AB", "ABABBAB", "ABBAB", "B", "BAB", "BABBAB", "BBAB"
+LCP Array:  [0, 2, 2, 0, 1, 3, 1]
+
+1) Counting unique substrings: Naive algorithm is O(N square) better approach is calculate LCP array
+    "AZAZA" = "A", "AZ", "AZA", "AZAZ", "AZAZA", "Z", "ZA", "ZAZ", "ZAZA", "A", "AZ", "AZA", "Z", "ZA", "A"
+    Total substrings: n*(n+1)/2     duplicates: Sigma LCP array     unique: total - duplicates
+
+2) Longest Common Substring: Suppose we have n strings and we want to find LCS such that it appears in atleast 2 <= k <= n strings.
+Using DP it will be O(n1 * n2 * n3...) but using suffix array it is only O(n1 + n2 + n3 + ...)
+Take all strings and concatenate them with deliminators in between such as # % $ (all these deliminators have ASCII less then a-z)
+```
+![](../res/Screenshot&#32;from&#32;2019-08-07&#32;15-19-42.png)
+```
+Use sliding window technique to find columns from table such that they have K different colors. take max of them as ans.
+
+https://www.youtube.com/watch?v=OptoHwC3D-Y
+```
 
 ```
-https://leetcode.com/problems/trips-and-users/submissions/
+https://leetcode.com/problems/second-highest-salary
+SELECT IFNULL((SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT 1, 1), NULL) AS SecondHighestSalary;
+
+https://leetcode.com/problems/nth-highest-salary
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+DECLARE M INT;
+SET M=N-1;
+  RETURN (
+      SELECT IFNULL((SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT M, 1), NULL) AS getNthHighestSalary
+  );
+END
+
+https://leetcode.com/problems/trips-and-users/
 
 SELECT request_at AS Day, ROUND(SUM(t.Status != "completed") / COUNT(*), 2) as "Cancellation Rate"
 FROM Trips t

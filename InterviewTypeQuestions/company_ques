@@ -1,5 +1,6 @@
 -----------------------------------------Google (214)-----------------------------------------
 
+535 Encode and Decode TinyURL
 388 Longest Absolute File Path
 683 K Empty Slots
 340 Longest Substring with At Most K Distinct Characters
@@ -188,6 +189,7 @@
 668 Kth Smallest Number in Multiplication Table
 667 Beautiful Arrangement II
 541 Reverse String II
+535 Encode and Decode TinyURL
 665 Non-decreasing Array
 533 Lonely Pixel II
 531 Lonely Pixel I
@@ -214,6 +216,7 @@
 687 Longest Univalue Path
 
 -----------------------------------------Facebook (111)-----------------------------------------
+535 Encode and Decode TinyURL
 283 Move Zeroes
 301 Remove Invalid Parentheses
 273 Integer to English Words
@@ -323,6 +326,7 @@
 642 Design Search Autocomplete System
 653 Two Sum IV – Input is a BST
 673 Number of Longest Increasing Subsequence
+535 Encode and Decode TinyURL
 
 -----------------------------------------Microsoft (92)-----------------------------------------
 138 Copy List with Random Pointer
@@ -419,6 +423,7 @@
 672 Bulb Switcher II
 
 ----------------------------------------Amazon (88)-----------------------------------------
+535 Encode and Decode TinyURL
 675 Cut Off Trees for Golf Event
 1 Two Sum
 20 Valid Parentheses
@@ -464,6 +469,7 @@
 167 Two Sum II – Input array is sorted
 15 3Sum
 78 Subsets
+535 Encode and Decode TinyURL
 73 Set Matrix Zeroes
 102 Binary Tree Level Order Traversal
 508 Most Frequent Subtree Sum
@@ -574,6 +580,7 @@
 146 LRU Cache
 249 Group Shifted Strings
 22 Generate Parentheses
+535 Encode and Decode TinyURL
 17 Letter Combinations of a Phone Number
 54 Spiral Matrix
 133 Clone Graph 2
@@ -605,6 +612,7 @@
 206 Reverse Linked List
 125 Valid Palindrome
 104 Maximum Depth of Binary Tree
+535 Encode and Decode TinyURL
 516 Longest Palindromic Subsequence
 373 Find K Pairs with Smallest Sums
 266 Palindrome Permutation

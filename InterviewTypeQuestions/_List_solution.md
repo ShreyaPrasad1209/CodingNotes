@@ -2886,67 +2886,63 @@ Above code is basically for topological sort using Kahn's algorithm
 
 # Level 4
 ## 1. Combination Sum
-https://www.interviewbit.com/problems/combination-sum/
+https://leetcode.com/problems/combination-sum/
 ```c++
-void backtracking(int start, vector<int>& row, int sum, vector<vector<int> >& res, vector<int>& A, int B)
-{
-    if (sum >= B)
+class Solution {
+public:
+    void solve(vector< vector<int> > &res, vector<int> &temp, vector<int> &candidates, int target, int cur = 0)
     {
-        if (sum==B) res.emplace_back(row);
-        return;
+        if (target == 0)
+        {
+            res.push_back(temp);
+            return;
+        }
+        if (cur == candidates.size() || target - candidates[cur] < 0) return;
+        temp.push_back(candidates[cur]);
+        solve(res, temp, candidates, target - candidates[cur], cur);
+        temp.pop_back();
+        solve(res, temp, candidates, target, cur+1);
     }
-
-    if (start == A.size()) return;
-    row.emplace_back(A[start]);
-    sum += A[start];
-    backtracking(start, row, sum, res, A, B);
-    sum -= row[row.size()-1];
-    row.pop_back();
-    backtracking(start+1, row, sum, res, A, B);
-}
-vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
-{
-    vector<vector<int> > res;
-    vector<int> row, a;
-    sort(A.begin(), A.end());
-
-    a.emplace_back(A[0]);
-    for (auto i = 1; i<A.size(); ++i)
-        if (A[i-1] != A[i])
-            a.emplace_back(A[i]);
-
-    backtracking(0, row, 0, res, a, B);
-    return res;
-}
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target)
+    {
+        vector< vector<int> > res;
+        sort(candidates.begin(), candidates.end());
+        vector<int> temp;
+        solve(res, temp, candidates, target);
+        return res;
+    }
+};
 ```
 
 ## 2. Combination Sum II
-https://www.interviewbit.com/problems/combination-sum-ii/
+https://leetcode.com/problems/combination-sum-ii/
 ```c++
-void backtrack(vector< vector<int> > &res, vector<int> &A, int B, vector<int> &temp,
-    int cur_sum = 0, int cur = 0)
-{
-    if (cur_sum >= B)
+class Solution {
+public:
+    void solve(vector< vector<int> > &res, vector<int> &temp, vector<int> &candidates, int target, int cur = 0)
     {
-        if (cur_sum == B) res.push_back(temp);
-        return;
+        if (target == 0)
+        {
+            res.push_back(temp);
+            return;
+        }
+        if (cur == candidates.size() || target - candidates[cur] < 0) return;
+        temp.push_back(candidates[cur]);
+        solve(res, temp, candidates, target - candidates[cur], cur+1);
+        temp.pop_back();
+        solve(res, temp, candidates, target, cur+1);
     }
-    if (cur >= A.size()) return;
-    temp.push_back(A[cur]);
-    backtrack(res, A, B, temp, cur_sum + A[cur], cur + 1);
-    temp.pop_back();
-    backtrack(res, A, B, temp, cur_sum, cur + 1);
-}
-
-vector<vector<int> > Solution::combinationSum(vector<int> &A, int B)
-{
-    vector< vector<int> > res;
-    vector<int> temp;
-    sort(A.begin(), A.end());
-    backtrack(res, A, B, temp);
-    res.erase(unique(res.begin(), res.end()), res.end());
-    return res;
-}
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target)
+    {
+        vector< vector<int> > res;
+        sort(candidates.begin(), candidates.end());
+        vector<int> temp;
+        solve(res, temp, candidates, target);
+        sort(res.begin(), res.end());
+        res.erase(unique(res.begin(), res.end()), res.end());
+        return res;
+    }
+};
 ```
 
 ## 3. Letter Phone

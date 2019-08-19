@@ -264,6 +264,7 @@ public:
 27) https://leetcode.com/problems/zigzag-conversion/submissions/
 28) https://leetcode.com/problems/integer-to-roman/
 29) https://leetcode.com/problems/roman-to-integer/
+30) https://leetcode.com/problems/multiply-strings
 
 [Advance]<br>
 Square Root Decomposition https://www.geeksforgeeks.org/sqrt-square-root-decomposition-technique-set-1-introduction/
@@ -1452,6 +1453,27 @@ We get this dp by moving i & j (j<i) if it's possible to do both jobs then do it
 pattern: x?y*z          string to match: xaylmz
 ```
 ```c++
+//https://leetcode.com/problems/wildcard-matching/
+class Solution {
+public:
+    bool isMatch(string s, string p)
+    {
+        bool dp[s.size()+1][p.size()+1] {};
+        dp[0][0] = 1;
+        for (int i = 1; i <= s.size(); ++i) dp[i][0] = 0;
+        for (int i = 1; i <= p.size(); ++i) dp[0][i] = (p[i-1] == '*') ? dp[0][i-1] : 0;
+        for (int i = 1; i <= s.size(); ++i)
+        {
+            for (int j = 1; j <= p.size(); ++j)
+            {
+                if (p[j-1] == '?') dp[i][j] = dp[i-1][j-1];
+                else if (p[j-1] == '*') dp[i][j] = dp[i-1][j] || dp[i][j-1] || dp[i-1][j-1];
+                else dp[i][j] = (s[i-1] == p[j-1]) ? dp[i-1][j-1] : false;
+            }
+        }
+        return dp[s.size()][p.size()];
+    }
+};
 //https://leetcode.com/problems/regular-expression-matching
 class Solution {
 public:
@@ -1531,6 +1553,8 @@ https://medium.com/basecs/speeding-up-the-traveling-salesman-using-dynamic-progr
 https://www.youtube.com/watch?v=g8bSdXCG-lA&t=86s<br>
 
 ## Questions():
+- permutation: https://leetcode.com/problems/permutations
+
 1) Combination Sum: https://www.interviewbit.com/problems/combination-sum/
 2) Combination Sum II: https://www.interviewbit.com/problems/combination-sum-ii/
 3) Letter Phone: https://www.interviewbit.com/problems/letter-phone/
